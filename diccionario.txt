@@ -1,0 +1,9 @@
+guardarFechas.php - Guarda todas las fechas segun la etapa que le pases.
+-Etapa = 1 - Guarda las fechas de la solicitud de titulo
+-Etapa = 2 - Guarda las fechas de la resolucion CD junto con el numero de resolucion
+-Etapa = 3 - Guarda las fechas de la nota de envio a rectorado junto con el numero de nota
+-Etapa = 4 - Guarda las fechas de la resolucion CS junto con el numero de resolucion
+-Etapa = 5 - Guarda las fechas del ingreso del diploma
+-Etapa = 6 - Guarda las fechas del ingreso del analitico
+-Etapa = 7 - Guarda las fechas del retiro del diploma por parte del alumno
+-Etapa = 8 - Guarda las fechas del retiro del analitico por parte del alumno
