@@ -18,6 +18,7 @@ var nombreEtapa;
 var numeroEtapa;
 var redireccion;
 var fechaEtapa;
+var fechaPasar;
 var addNumero = "";
 var addArchivo = "";
 var prevHtml;
@@ -143,6 +144,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 		
 		fecha = (day<10 ? '0' : '') + day + '/' + (month<10 ? '0' : '') + month + '/' + d.getFullYear();
 	}
+	fechaPasar = fecha;
 	fechaEtapa = "Fecha "+nombreEtapa+": "+fecha;
 	htmlConfRet = '<center><input type="submit" value="Confirmar"/>&nbsp;&nbsp;<a href="'+redireccion+'"><input type="button" value="Atr&aacute;s"></a></center>';
 	/*
