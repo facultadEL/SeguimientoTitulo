@@ -1,6 +1,6 @@
 <html>
 <head>
-<title> Resolucion CD</title>
+<title> Resolucion CS</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!--script src="jquery-latest.js"></script-->
@@ -27,7 +27,7 @@ jQuery(function($){
 });
 */
 
-var etapa = 2;
+var etapa = 4;
 var fechaIngreso = "";
 var nroResolucion = "";
 var alumnosSeleccionados = [];
@@ -35,7 +35,7 @@ var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Consejo Directivo</l1></td>';
+prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Consejo Superior</l1></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>N° de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
@@ -235,7 +235,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_nota_envio_rec IS NOT NULL AND fecha_rescs IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -250,7 +250,6 @@ while($row = pg_fetch_array($val)){
 
 if($controlR == 1)
 {
-
 	$alumnosRecibidos = $_REQUEST['alumnosPasar'];
 	echo '<script>setNumeroRedireccion("'.$_REQUEST['nroResNot'].'");setFechaRedireccion("'.$_REQUEST['fecha'].'");setAlumnoSelectRedireccion("'.$alumnosRecibidos.'")</script>';
 	//Cargar alumnos seleccionados en caso de que vuelva
