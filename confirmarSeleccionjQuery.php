@@ -1,3 +1,8 @@
+<?php
+error_reporting(E_ALL);
+include_once 'libreriaPhp.php';
+include_once 'conexion.php';
+?>
 <html>
 <head>
 <title> Confirmar Seleccion </title>
@@ -18,13 +23,14 @@ var nombreEtapa;
 var numeroEtapa;
 var redireccion;
 var fechaEtapa;
-var fechaPasar;
+var stringPasar;
 var addNumero = "";
 var addArchivo = "";
 var prevHtml;
 var htmlConfRet;
 var contador = 0;
 var tieneArchivo = "";
+var controlArchivo = 0;
 
 function cargarAlumnos(stringAlumnos)
 {
@@ -43,9 +49,11 @@ function cargarTieneArchivo(control, direccion, textoAgregar)
 	if(control == 0)
 	{
 		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>'+textoAgregar+'  <input type="file" name="archivoPdf" /></l1></td>';
+		controlArchivo = 0;
 	}
 	else
 	{
+		controlArchivo = 1;
 		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>La '+textoAgregar+' ya cuenta con un archivo digital. <a href="'+direccion+'" target="_blank">Ver archivo</a></l1></td>';
 	}
 }
@@ -106,7 +114,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			addArchivo = '<tr bgcolor="#FFFFFF">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
-			//redireccion = "resolucionCd-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			redireccion = "notaEnvioRectorado-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
 			break;
 		case 4:
 			nombreEtapa = "Consejo Superior";
@@ -116,7 +124,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			addArchivo = '<tr bgcolor="#FFFFFF">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
-			//redireccion = "resolucionCd-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			redireccion = "resolucionCs-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
 			break;
 		case 5:
 			nombreEtapa = "Ingreso Diploma";
@@ -147,22 +155,36 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 	fechaPasar = fecha;
 	fechaEtapa = "Fecha "+nombreEtapa+": "+fecha;
 	htmlConfRet = '<center><input type="submit" value="Confirmar"/>&nbsp;&nbsp;<a href="'+redireccion+'"><input type="button" value="Atr&aacute;s"></a></center>';
+	stringPasar = 'guardarFechas.php?etapa='+etapa+'&fecha='+fecha;
 	/*
 	Control para cambiar la action del form - Ver si se le agrega un id al form para identificarlo
 	<form action="foo">
 	  <button name="action" value="bar">Go</button>
 	</form>
 	*/
-	//<script type="text/javascript">
-	  $('#form').attr('action', 'guardarFechas.php?etapa='+etapa); //this fails silently
-	  //$('form').get(0).setAttribute('action', 'baz'); //this works
-	/*</script>
-	*/
+	//$('#form').attr('action', 'guardarFechas.php?etapa='+etapa+'&feha='+fecha); //this fails silently
+	//$('form').get(0).setAttribute('action', 'guardarFechas.php?etapa='+etapa+'&feha='+fecha); //this works
 }
 
 function cargarConfirmData()
 {
-	valAction = $('#form').attr('action').val();
+	//valAction = $('#form').attr('action');
+	//Aca seteo los datos del stringPasar. Ya viene la etapa y la fecha
+	//Hay que agregar si tiene un archivo y el string de todos los alumnos
+
+	stringPasar += "controlArchivo="+controlArchivo;
+	stringAlumnosToSend = "";
+	sep = '/--/';
+	//Aca van todos los alumnos que vienen y se pasa el id
+	for(var i=0;i<alumnosSeleccionados.length;i++)
+	{
+		vAlumno = alumnosSeleccionados[i].split('/--/');
+		stringAlumnosToSend += vAlumno[0]+sep;
+	}
+
+	stringPasar += "&alumnosPasar="+stringAlumnosToSend;
+	$('#form').attr('action', stringPasar); //this fails silently
+	//$('form').get(0).setAttribute('action', stringPasar); //this works
 }
 
 $(document).ready(function(){
@@ -176,14 +198,14 @@ $(document).ready(function(){
 include_once 'conexion.php';
 include_once 'libreriaPhp.php';
 
-function controlArchivoPhp($etapaLocal)
+function controlArchivoPhp($etapaLocal,$nroRecibido)
 {
 	$controlTieneArchivo = 0;
 	$nombreArchivo = "";
 	$direccionArchivo = "";
 	switch ($etapaLocal) {
 		case 2:
-			$condicion = "numero_res ='rec-".$nroResolucion."'";
+			$condicion = "numero_res ='rec-".$nroRecibido."'";
 			$cantidad = contarRegistro('id_numero_resolucion','numero_resolucion',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
@@ -193,11 +215,11 @@ function controlArchivoPhp($etapaLocal)
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
-				$direcionArchivo = $rowIdNumeroRes['direccion_res'];
+				$direccionArchivo = $rowIdNumeroRes['direccion_res'];
 			}
 			break;
 		case 3:
-			$condicion = "numero_nota ='".$nroNota."'";
+			$condicion = "numero_nota ='".$nroRecibido."'";
 			$cantidad = contarRegistro('id_numero_nota_rectorado','numero_nota_rectorado',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
@@ -211,7 +233,7 @@ function controlArchivoPhp($etapaLocal)
 			}
 			break;
 		case 4:
-			$condicion = "numero_res ='res-".$nroResolucion."'";
+			$condicion = "numero_res ='res-".$nroRecibido."'";
 			$cantidad = contarRegistro('id_numero_resolucion','numero_resolucion',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
@@ -221,10 +243,13 @@ function controlArchivoPhp($etapaLocal)
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
-				$direcionArchivo = $rowIdNumeroRes['direccion_res'];
+				$direccionArchivo = $rowIdNumeroRes['direccion_res'];
 			}
 			break;
 	}
+	//echo $direcionArchivo;
+	//echo $nombreArchivo;
+	//echo $controlTieneArchivo;
 	echo '<script>cargarTieneArchivo('.$controlTieneArchivo.',"'.$direccionArchivo.'","'.$nombreArchivo.'")</script>';
 }
 
@@ -235,6 +260,7 @@ $nroResNot = $_REQUEST['nroResNot'];
 $etapa = $_REQUEST['etapa'];
 $alumnosPasar = $_REQUEST['alumnosPasar'];
 $fecha = $_REQUEST['fecha'];
+controlArchivoPhp($etapa,$nroResNot);
 if($fecha == '')
 {
 	$fecha = date('d').'/'.date('m').'/'.date('Y');
@@ -242,7 +268,7 @@ if($fecha == '')
 
 echo '<script>cargarAlumnos("'.$alumnosPasar.'")</script>';
 echo '<script>cargarDatosEtapa('.$etapa.',"'.$fecha.'","'.$alumnosPasar.'","'.$nroResNot.'")</script>';
-controlTienePhp();
+
 ?>
 <body link="#000000" vlink="#000000" alink="#FFFFFF">
 <form class="formSolTit" id="form" name="solicitud_titulo" action="guardarFechas.php" method="post" enctype="multipart/form-data">
