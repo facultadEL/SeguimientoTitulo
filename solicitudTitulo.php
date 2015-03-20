@@ -182,7 +182,7 @@ function confirmSeleccion()
 		{
 			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
 		}
-		document.location.href = "confirmarSeleccionjQuery.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso;
+		document.location.href = "confirmarSeleccion.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso;
 	}
 	return false;
 }

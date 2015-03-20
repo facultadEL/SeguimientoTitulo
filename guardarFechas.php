@@ -124,7 +124,7 @@ switch ($etapa){
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
-			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_analitico='$fechaFecha' WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_analitico='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
 		$redireccion = 'ingresoAnalitico.php';
 		break;
