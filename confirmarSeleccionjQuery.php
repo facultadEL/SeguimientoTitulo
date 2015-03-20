@@ -23,7 +23,6 @@ var nombreEtapa;
 var numeroEtapa;
 var redireccion;
 var fechaEtapa;
-var stringPasar;
 var addNumero = "";
 var addArchivo = "";
 var prevHtml;
@@ -31,6 +30,7 @@ var htmlConfRet;
 var contador = 0;
 var tieneArchivo = "";
 var controlArchivo = 0;
+stringPasar = "guardarFechas.php?";
 
 function cargarAlumnos(stringAlumnos)
 {
@@ -115,6 +115,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "notaEnvioRectorado-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			stringPasar += "nroNotORes="+numeroRecibido;
 			break;
 		case 4:
 			nombreEtapa = "Consejo Superior";
@@ -125,6 +126,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "resolucionCs-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			stringPasar += "nroNotORes="+numeroRecibido;
 			break;
 		case 5:
 			nombreEtapa = "Ingreso Diploma";
@@ -136,7 +138,14 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			break;
 		case 7:
 			nombreEtapa = "Entrega Diploma";
-			redireccion = "entregaDiploma-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn;
+			addNumero = '<tr bgcolor="#FFFFFF">';
+ 			addNumero += '<td id="titulo3" colspan="5" align="center"><l1>Numero Acta:  '+numeroRecibido+'</l1></td>';
+ 			addNumero += '</tr>';
+			addArchivo = '<tr bgcolor="#FFFFFF">';
+			addArchivo += tieneArchivo;
+			addArchivo += '</tr>';
+			redireccion = "entregaDiploma-jQuery.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			stringPasar += "nroNotORes="+numeroRecibido;
 			break;
 		case 8:
 			nombreEtapa = "Entrega Analítico";
@@ -155,7 +164,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 	fechaPasar = fecha;
 	fechaEtapa = "Fecha "+nombreEtapa+": "+fecha;
 	htmlConfRet = '<center><input type="submit" value="Confirmar"/>&nbsp;&nbsp;<a href="'+redireccion+'"><input type="button" value="Atr&aacute;s"></a></center>';
-	stringPasar = 'guardarFechas.php?etapa='+etapa+'&fecha='+fecha;
+	stringPasar += '&etapa='+etapa+'&fecha='+fecha;
 	/*
 	Control para cambiar la action del form - Ver si se le agrega un id al form para identificarlo
 	<form action="foo">
@@ -172,7 +181,7 @@ function cargarConfirmData()
 	//Aca seteo los datos del stringPasar. Ya viene la etapa y la fecha
 	//Hay que agregar si tiene un archivo y el string de todos los alumnos
 
-	stringPasar += "controlArchivo="+controlArchivo;
+	stringPasar += "&controlArchivo="+controlArchivo;
 	stringAlumnosToSend = "";
 	sep = '/--/';
 	//Aca van todos los alumnos que vienen y se pasa el id
@@ -211,7 +220,7 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
-			}else{
+			}elseif ($cantidad == 1){
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
@@ -225,7 +234,7 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Nota ";
 				$direccionArchivo = "";
-			}else{
+			}elseif ($cantidad == 1){
 				$rowIdNumeroNota = pg_fetch_array(traerSqlCondicion('id_numero_nota_rectorado,direccion_nota','numero_nota_rectorado',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "nota";
@@ -239,17 +248,30 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
-			}else{
+			}elseif ($cantidad == 1){
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
 				$direccionArchivo = $rowIdNumeroRes['direccion_res'];
 			}
 			break;
+		case 7:
+			//Numero acta tiene un = a d y el numero de acta, en caso de que tambien se quiera agregar el analitico a eso, en ese caso se agregaria una a
+			$condicion = "numero_acta = 'd-".$nroRecibido."'";
+			$cantidad = contarRegistro('id_numero_acta','numero_acta', $condicion);
+			if($cantidad == 0)
+			{
+				$controlTieneArchivo = 0;
+				$nombreArchivo = "Acta: ";
+				$direccionArchivo = "";
+			}elseif ($cantidad == 1){
+				$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id_numero_acta,direccion_acta','numero_aca',$condicion));
+				$controlTieneArchivo = 1;
+				$nombreArchivo = "acta";
+				$direccionArchivo = $rowIdNumeroActa['direccion_acta'];
+			}
+			break;
 	}
-	//echo $direcionArchivo;
-	//echo $nombreArchivo;
-	//echo $controlTieneArchivo;
 	echo '<script>cargarTieneArchivo('.$controlTieneArchivo.',"'.$direccionArchivo.'","'.$nombreArchivo.'")</script>';
 }
 

@@ -29,12 +29,16 @@ jQuery(function($){
 
 var etapa = 7;
 var fechaIngreso = "";
+var nroResolucion = "";
 var alumnosSeleccionados = [];
 var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Entrega Diploma</l1></td>';
+prevHtml += '</tr>';
+prevHtml += '<tr bgcolor="#FFFFFF">';
+prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>N° de Acta:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Fecha de Entrega Diploma:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
@@ -72,6 +76,12 @@ function setFechaRedireccion(fechaRecibida)
 	fechaIngreso = fechaRecibida;
 }
 
+
+function setNumeroRedireccion(numeroRecibido)
+{
+	nroResolucion = numeroRecibido;
+}
+
 function cargarAlumno(id, stringAlumno)
 {
 	alumnosDiccionario[id] = stringAlumno;
@@ -80,7 +90,11 @@ function cargarAlumno(id, stringAlumno)
 function setFecha()
 {
 	fechaIngreso = $('#date').val();
+}
 
+function setNumero()
+{
+	nroResolucion = $('#nroRes').val();
 }
 
 function setAlumnoSelect(idAlumno)
@@ -166,6 +180,7 @@ function mostrarAlumnos(busqueda)
 	htmlToAdd = prevHtml + alumnosToAdd;
 	$('#tabla').html(htmlToAdd);
 	$('#date').val(fechaIngreso);
+	$('#nroRes').val(nroResolucion);
 }
 
 function confirmSeleccion()
@@ -178,7 +193,7 @@ function confirmSeleccion()
 		{
 			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
 		}
-		document.location.href = "confirmarSeleccionjQuery.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso;
+		document.location.href = "confirmarSeleccionjQuery.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso+ "&nroResNot="+nroResolucion;
 	}
 	return false;
 }
@@ -186,6 +201,7 @@ function confirmSeleccion()
 $(document).ready(function(){
 	//$('#tabla').html(prevHtml);
 	$('.date').mask('00/00/0000');
+	$('.resolution').mask('0000/00');
 	$('.fallback').mask("d0rm0ra000", {
       translation: {
         'r': {
@@ -236,7 +252,7 @@ while($row = pg_fetch_array($val)){
 if($controlR == 1)
 {
 	$alumnosRecibidos = $_REQUEST['alumnosPasar'];
-	echo '<script>setFechaRedireccion("'.$_REQUEST['fecha'].'");setAlumnoSelectRedireccion("'.$alumnosRecibidos.'")</script>';
+	echo '<script>setNumeroRedireccion("'.$_REQUEST['nroResNot'].'");setFechaRedireccion("'.$_REQUEST['fecha'].'");setAlumnoSelectRedireccion("'.$alumnosRecibidos.'")</script>';
 	//Cargar alumnos seleccionados en caso de que vuelva
 }
 
