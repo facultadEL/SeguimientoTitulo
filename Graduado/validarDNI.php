@@ -2,45 +2,120 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="jquery-latest.js"></script>
-<script type="text/javascript" src="jquery.validate.js"></script>
+<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="jquery.mask.js" type="text/javascript"></script>
 	<title>Registro de Graduado</title>
 	<style type="text/css">
-		{font-family: Cambria }
-			form {padding: 20px; border: 1px Solid #D8D8D8;background: #F2F2F2;}
-			label {color: #336699; font-family: Cambria; padding-left: .5em;}
-			label.error {font-family: Cambria;float: none;vertical-align: top;color: #08298A;padding-left: .5em;}
+		body {
+			background: #e1e1e1 url('img/ruido.png') repeat; 
+			color: #000;
+			font-family: "Varela Round", Arial, Helvetica, sans-serif;
+			font-size: 14px;
+			line-height: 1em;
+		}
+		form {
+			width: 960px;
+			margin: 50px auto; /* margen superior */
+			padding: 20px;
+			border: 1px Solid #D8D8D8;
+			background: #F2F2F2;
+			-webkit-border-radius: 10px 10px 10px 10px;
+			-moz-border-radius: 10px 10px 10px 10px;
+			border-radius: 10px 10px 10px 10px;
+			box-shadow:0px 0px 20px 4px  #ccc;  /*3 nro. Es el difuminado. 4 nro. es el tamaño*/
+		}
+		label {
+			color: #336699;
+			font-family: Calibri;
+			padding-left: .5em;
+		}
+		legend{
+			font-family: Calibri;
+			font-size: 18px;
+			font-weight: bold;
+			color: #6E6E6E;
+		}
+		fieldset {
+			padding: 30px 30px 15px 30px;
+		}
+		.nrodni{
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			color: #424242;
+			padding: 5px;
+			width: 300px;
+			height: 15px;
+			font-size: 17px;
+			font-weight: bold;
+			text-align: center;
+			font-family: courier new;
+			position:relative;
+			border: none;
+			box-shadow:0px 0px 10px 1px  #ccc;
+		}
+		input[type="submit"] {
+			border: none;
+			color: #fff;
+			display: block;
+			margin-top: 20px;
+			text-align: center;
+			cursor: pointer;
+			width: 100px;
+			height: 30px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
+			background-color: #086A87;
+			box-shadow:0px 0px 10px 1px  #ccc;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #0489B1;
+			box-shadow:0px 0px 20px 0px  #02BAF2;
+		}
     </style>
-	<script>
-		$(document).ready(function(){		
-			$('form').validate();
+    <script>
+		function maskDni()
+		{
+			valDni = $('#DNI').val();
+			switch(valDni.length)
+			{
+				case 7:
+					//mascara = "0.000.000";
+					break;
+				case 8:
+					mascara = "00.000.000";
+					break;
 			}
-		);
+			$('#DNI').mask(mascara);
+		}
 	</script>
 </head>
 <body>
-<form class="formDNI" id="form" name="validarDNI" action="validarDNIgraduado.php" method="post">
-<fieldset id="tabla">
-<legend><FONT face="Cambria" size="4" color="#6E6E6E">Verificar DNI</FONT></legend>
-<table align="center" cellpadding="2" cellspacing="2" width="100%">
-	<tr align="center">
+<form id="form" name="validarDNI" action="validarDNIgraduado.php" method="post">
+	<fieldset id="tabla">
+		<legend>Verificar DNI</legend>
+			<table align="center" cellpadding="2" cellspacing="2" width="100%">
+				<tr align="center">
 		<!-- <td align="right" width="35%">
 			<label for="Msj">Escribir msj de bienvenida: </label>
 		</td> -->
-		<td align="right" width="35%">
-			<label for="cDNI">DNI: </label>
-		</td>
-		<td align="left" width="65%">
-			<input id="cDNI" type="text" name="numDNI" value="" size="40" maxlength="8" class="required number"/>
-		</td>
-	</tr>
-	<tr align="center">
-		<td colspan="2" align="center">
-			<input type="submit" name="validar" value="Siguiente"/>
-		</td>
-	</tr>
-</table>
-</fieldset>
+					<!--<td align="right" width="35%">
+						<label for="cDNI">N&deg; DNI: </label>
+					</td> -->
+					<td align="center" width="100%">
+						<!-- <input id="DNI" class="nrodni" type="text" pattern="[0-9]{7,8}" placeholder="N&uacute;mero de DNI" onclick="this.value = '';" onblur="maskDni()" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." required/> -->
+						<input id="DNI" class="nrodni" type="text" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" placeholder="N&uacute;mero de DNI" onblur="maskDni()" name="numDNI" value="" maxlength="8" title="Ingrese su documento correctamente." autofocus required/>
+					</td>
+				</tr>
+				<tr align="center">
+					<td colspan="2" align="center">
+						<input type="submit" name="validar" value="Siguiente"/>
+					</td>
+				</tr>
+			</table>
+	</fieldset>
 </form>
 </body>
 </html>

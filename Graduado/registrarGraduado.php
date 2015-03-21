@@ -7,57 +7,17 @@
 <script src="jquery.maskedinput.js" type="text/javascript"></script>
 	<title>Registro de Graduado</title>
 	<style type="text/css">
-		{font-family: Cambria }
-			/*#tablaGeneral {padding: 20px; border: 1px Solid #D8D8D8;background: #F2F2F2;}*/
-			/*#form2 {background: #F2F2F2; }*/
-			label { color: #336699; font-family: Cambria;}
-			/*label {width: 10em;color: #336699; float: left;margin-right: 30px; font-family: Cambria; padding-left: .5em;}*/
-			label.error {font-family: Cambria;float: none;vertical-align: top;color: red;padding-left: .5em;}
-			#tabla {background: #F2F2F2;}
-			#tablaGeneral {padding: 20px; border: 1px Solid #D8D8D8;background: #F2F2F2;}
-			#tabla1 {background: #F2F2F2; align: center}
-			l1 {text-transform: capitalize;}
+		label {
+			color: #336699;
+			font-family: Calibri;
+		}
+		/*label {width: 10em;color: #336699; float: left;margin-right: 30px; font-family: Cambria; padding-left: .5em;}*/
+		label.error {font-family: Cambria;float: none;vertical-align: top;color: red;padding-left: .5em;}
+		#tabla {background: #F2F2F2;}
+		#tablaGeneral {padding: 20px; border: 1px Solid #D8D8D8;background: #F2F2F2;}
+		#tabla1 {background: #F2F2F2; align: center}
+		l1 {text-transform: capitalize;}
     </style>
-    <script type="text/javascript">
-        jQuery(function($){
-            $("#numero1").mask("9,99", {
-
-                // Generamos un evento en el momento que se rellena
-                completed:function(){
-                    $("#numero1").addClass("ok")
-                }
-            });
-            
-            // Definimos las mascaras para cada input
-            $("#date").mask("99/99/9999");
-            $("#movil").mask("999 99 99 99");
-            $("#letras").mask("aaa");
-            $("#resolucion").mask("9999/9");
-            $("#fechaNacimiento").mask("39/19/2999");
-            $("#fechaUltMat").mask("39/19/2999");
-            $("#comodines").mask("?");
-        });
-
-			$(document).ready(function(){
-			
-			$.validator.addClassRules("rango", {range:[0,6]});
-			$.validator.addClassRules("min", {minlength: 8});
-			$.validator.addClassRules("minimo", {minlength: 2});
-			$.validator.addClassRules("numCuil", {minlength: 7});
-			$.validator.addClassRules("digitoCuil", {minlength: 1});
-			$.validator.addClassRules("anio", {minlength: 4});
-			$.validator.addClassRules("caracteristica", {minlength: 3});
-			$.validator.addClassRules("telFijo", {minlength: 6});
-			
-			$("#form2").validate();
-			
-			
-		});
-		
-		function evaluaring(academico){
-			document.f1.submit();
-		}		
-		</script>
 </head>
 <body>
 <?php
