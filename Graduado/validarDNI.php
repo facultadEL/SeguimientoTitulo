@@ -112,7 +112,7 @@
 					</td> -->
 					<td align="center" width="100%">
 						<!-- <input id="DNI" class="nrodni" type="text" pattern="[0-9]{7,8}" placeholder="N&uacute;mero de DNI" onclick="this.value = '';" onblur="maskDni()" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." required/> -->
-						<input id="DNI" class="nrodni" type="text" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" placeholder="N&uacute;mero de DNI" onkeyup="maskDni()" name="numDNI" value="" maxlength="8" title="Ingrese su documento correctamente." autocomplete="off" autofocus required/>
+						<input id="DNI" class="nrodni" type="text" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" placeholder="N&uacute;mero de DNI" onkeyup="maskDni()" onfocus="this.value = '';" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." autocomplete="off" autofocus required/>
 					</td>
 				</tr>
 				<tr align="center">
