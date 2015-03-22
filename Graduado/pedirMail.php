@@ -112,7 +112,7 @@ $id_Alumno = $_REQUEST['idAlumno'];
 					<label for="cMail">Mail: </label>
 				</td> -->
 				<td width="100%">
-					<input id="mail" type="email" name="mail" value="<?php echo $correo; ?>" autocomplete="off" autofocus required/>
+					<input id="mail" type="email" name="mail" value="<?php echo $correo; ?>" placeholder="mail" autocomplete="off" autofocus required/>
 				</td>
 			</tr>
 			<tr align="center">
