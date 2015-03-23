@@ -1,0 +1,1 @@
+ALTER TABLE seguimiento ADD column num_acta_fk integer references numero_acta(id_numero_acta);

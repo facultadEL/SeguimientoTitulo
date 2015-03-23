@@ -3,6 +3,33 @@ error_reporting(E_ALL);
 include_once 'libreriaPhp.php';
 include_once 'conexion.php';
 
+function getDataAlumno($idAlumno)
+{
+	//Carrera alumno, ver
+	$sqlMandar = "";
+	$sqlAlumnos = traerSqlCondicion('*','alumno','id_alumno='.$idAlumno);
+	$rowAlumno = pg_fetch_array(traerSqlCondicion('*','alumno','id_alumno='.$idAlumno));
+	//Nombre_alumno, apellido_alumno, mail_alumno, facebook_alumno, numerodni_alumno, tipodni_alumno
+	//calle_alumno, perfilacademico_alumno, foto_alumno, carrera_alumno, ancho_final, alto_final
+	//fechanacimiento_alumno,numerocalle_alumno, mail_alumno2,twitter_alumno,provincia_nac_alumno,localidad_nac_alumno,
+	//provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno, perfil_laboral_alumno
+	$sqlMandar "INSERT INTO alumno(nombre_alumno,apellido_alumno,mail_alumno,facebook_alumno,numerodni_alumno,
+		tipodni_alumno,calle_alumno,foto_alumno,aca carrera,ancho_final,alto_final,numerocalle_alumno, mail_alumno2,
+		twitter_alumno, provincia_trabajo_alumno, localidad_trabajo_alumno, provincia_viviendo_alumno, localidad_viviendo_alumno,
+		perfil_laboral_alumno, 
+		) VALUES('$rowAlumno['nombre_alumno']','$rowAlumno['apellido_alumno']','$rowAlumno['mail_alumno']','$rowAlumno['facebook_alumno']',
+		'$rowAlumno['numerodni_alumno']','$rowAlumno['tipodni_alumno']','$rowAlumno['calle_alumno']',null,
+		'$rowAlumno['foto_alumno']',carrera,'$rowAlumno['ancho_final']','$rowAlumno['alto_final']','$rowAlumno['fechanacimiento_alumno']',
+		'$rowAlumno['numerocalle_alumno']','$rowAlumno['mail_alumno2']','$rowAlumno['twitter_alumno']','$rowAlumno['provincia_trabajo_alumno']',
+		'$rowAlumno['localidad_trabajo_alumno']','$rowAlumno['provincia_viviendo_alumno']','$rowAlumno['localidad_viviendo_alumno']',
+		'$rowAlumno['perfil_laboral_alumno']','$rowAlumno['nro_legajo']','$rowAlumno['password_alumno']',
+		'$rowAlumno['numerodni_alumno']','$rowAlumno['fechanacimiento_alumno']','$rowAlumno['cp_alumno']',
+		'$rowAlumno['dpto_alumno']','$rowAlumno['caracteristicaf_alumno']','$rowAlumno['telefono_alumno']',
+		'$rowAlumno['caracteristicac_alumno']','$rowAlumno['celular_alumno']','$rowAlumno['cp_alumno2']',
+		'$rowAlumno['empresa_trabaja_alumno']','$rowAlumno['piso_alumno']','$rowAlumno['localidad_nacimiento_alumno']',
+		'$rowAlumno['ultima_materia_alumno']','$rowAlumno['fecha_ultima_mat_alumno']);";
+}
+
 //El separador para el explode siempre es /--/
 $etapa = $_REQUEST['etapa'];
 $alumnosPasar = $_REQUEST['alumnosPasar'];
@@ -84,6 +111,7 @@ switch ($etapa){
 		
 		break;
 	case 4:
+		$sqlSincronizacion = "";
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
 			
@@ -107,6 +135,7 @@ switch ($etapa){
 		{
 			$idAlumno = $vAlumnosPasar[$i];
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_rescs='$fecha',num_res_cs_fk='$idNumeroRes' WHERE id_seguimiento='$idAlumno';";
+			
 		}
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
 		$redireccion = 'resolucionCs.php?';
