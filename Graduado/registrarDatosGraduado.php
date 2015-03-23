@@ -144,6 +144,11 @@ $id_Alumno = $_REQUEST['idAlumno'];
 		//guardo la nueva foto (nuevaFoto, destino, calidad)
 		imagepng( $imagen_destino,$destinoImagen,9 );
 		}
+
+		$consultaNivel = pg_query("SELECT nivel_carrera_fk FROM carrera WHERE id_carrera = $carrera_alumno");
+		$rowNivCar = pg_fetch_array($consultaNivel);
+		$nivel_carrera_fk = $rowNivCar['nivel_carrera_fk'];
+
 		$consultaMax = pg_query("SELECT max(id_alumno) FROM alumno");
 		$rowMax = pg_fetch_array($consultaMax);
 		$maximoAlumno = $rowMax['max'];
@@ -157,7 +162,7 @@ $id_Alumno = $_REQUEST['idAlumno'];
 
 
 		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno');";
-		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk) VALUES('$maxId','$id_Alumno','$carrera_alumno',1,1,1);";
+		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL);";
 							 
 		$sql = $newAlumno.$nuevoSeguimiento;
 			$error=0;
@@ -174,7 +179,16 @@ $id_Alumno = $_REQUEST['idAlumno'];
 			echo '<script language="JavaScript"> 			alert("Los datos no se guardaron correctamente. Pongase en contacto con el administrador");</script>';
 			//echo $errorpg;
 		}else{
-			echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado.php?idAlumno='.$id_Alumno.'";</script>';
+			// if ($nivel_carrera_fk == 1) {//carrera de grado
+			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado1.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			// if ($nivel_carrera_fk == 2) {//carrera de posgrado
+			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado2.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			// if ($nivel_carrera_fk == 3) {//carrera de pregrado
+			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado3.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "verAlumno.php?idAlumno='.$id_Alumno.'&titulo_alumno='.$carrera_alumno.'";</script>';
 		}
 	}else{
 		//aca va el update
@@ -327,6 +341,11 @@ $id_Alumno = $_REQUEST['idAlumno'];
 		
 		}
 		//update
+		$consultaNivel = pg_query("SELECT nivel_carrera_fk FROM carrera WHERE id_carrera = $carrera_alumno");
+		$rowNivCar = pg_fetch_array($consultaNivel);
+		$nivel_carrera_fk = $rowNivCar['nivel_carrera_fk'];
+
+
 		$sqlMaxId = pg_query("SELECT max(id_seguimiento) FROM seguimiento");
 		$rowMaxId = pg_fetch_array($sqlMaxId);
 			$maxId = $rowMaxId['max'] + 1;
@@ -342,7 +361,7 @@ $id_Alumno = $_REQUEST['idAlumno'];
 		}
 		$modAlumno="UPDATE alumno SET nombre_alumno='$nombre_alumno', apellido_alumno='$apellido_alumno', nro_legajo='$nro_legajo', tipodni_alumno='$tipodni_alumno', numerodni_alumno='$numerodni_alumno', fechanacimiento_alumno='$fechanacimiento_alumno',localidad_nacimiento_alumno='$localidad_nacimiento_alumno', localidad_viviendo_alumno='$localidad_viviendo_alumno', provincia_viviendo_alumno='$provincia_viviendo_alumno', cp_alumno='$cp_alumno', calle_alumno='$calle_alumno', numerocalle_alumno='$numerocalle_alumno', piso_alumno='$piso_alumno', dpto_alumno='$dpto_alumno', foto_alumno='$destinoImagen', caracteristicaf_alumno='$caracteristicaF_alumno', telefono_alumno='$telefono_alumno', caracteristicac_alumno='$caracteristicaC_alumno', celular_alumno='$celular_alumno', mail_alumno='$mail_alumno', mail_alumno2='$mail_alumno2', facebook_alumno='$facebook_alumno', twitter_alumno='$twitter_alumno', password_alumno='$password_alumno', localidad_trabajo_alumno='$localidad_trabajo_alumno', provincia_trabajo_alumno='$provincia_trabajo_alumno', cp_alumno2='$cp_alumno2', empresa_trabaja_alumno='$empresa_trabaja_alumno', perfil_laboral_alumno='$perfil_laboral_alumno', ancho_final='$ancho_final', alto_final='$alto_final', ultima_materia_alumno='$ultima_materia_alumno', fecha_ultima_mat_alumno='$fecha_ultima_mat_alumno' WHERE id_alumno = $id_Alumno;";
 		if($cont == 0){
-			$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk) VALUES('$maxId','$id_Alumno','$carrera_alumno',1,1,1);";
+			$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL);";
 			$sql = $modAlumno.$nuevoSeguimiento;
 		}else{
 			$sql= $modAlumno;
@@ -361,7 +380,16 @@ $id_Alumno = $_REQUEST['idAlumno'];
 		if ($error==1){
 			echo '<script language="JavaScript"> alert("Los datos no se modificaron correctamente. Pongase en contacto con el administrador");</script>';
 		}else{
-			echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado.php?idAlumno='.$id_Alumno.'";</script>';
+			// if ($nivel_carrera_fk == 1) {//carrera de grado
+			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado1.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			// if ($nivel_carrera_fk == 2) {//carrera de posgrado
+			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado2.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			// if ($nivel_carrera_fk == 3) {//carrera de pregrado
+			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado3.php?idAlumno='.$id_Alumno.'";</script>';
+			// }
+			echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "verAlumno.php?idAlumno='.$id_Alumno.'&titulo_alumno='.$carrera_alumno.'";</script>';
 		}
 }
 ?>
