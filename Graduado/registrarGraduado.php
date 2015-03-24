@@ -465,9 +465,9 @@ include_once "conexion.php";
 							<td colspan="5">
 								<?php
 									if ($numerodni_alumno == ""){
-										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numDNI.'" maxlength="8" required/>';
+										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numDNI.'" maxlength="10" required/>';
 									}else{
-										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numerodni_alumno.'" maxlength="8" required/>';
+										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numerodni_alumno.'" maxlength="10" required/>';
 									}
 								?>
 							</td>
