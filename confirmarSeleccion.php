@@ -48,7 +48,7 @@ function cargarTieneArchivo(control, direccion, textoAgregar)
 {
 	if(control == 0)
 	{
-		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>'+textoAgregar+'  <input type="file" name="archivoPdf" /></l1></td>';
+		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>'+textoAgregar+'  <input type="file" id="archivoPdf" name="archivoPdf" /></l1></td>';
 		controlArchivo = 0;
 	}
 	else
@@ -161,6 +161,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 		
 		fecha = (day<10 ? '0' : '') + day + '/' + (month<10 ? '0' : '') + month + '/' + d.getFullYear();
 	}
+	numeroEtapa = etapa;
 	fechaPasar = fecha;
 	fechaEtapa = "Fecha "+nombreEtapa+": "+fecha;
 	htmlConfRet = '<center><input type="submit" value="Confirmar"/>&nbsp;&nbsp;<a href="'+redireccion+'"><input type="button" value="Atr&aacute;s"></a></center>';
@@ -186,6 +187,27 @@ function cargarConfirmData()
 	stringPasar += "&alumnosPasar="+stringAlumnosToSend;
 	$('#form').attr('action', stringPasar); //this fails silently
 	//$('form').get(0).setAttribute('action', stringPasar); //this works
+}
+
+function validarForm()
+{
+	if(numeroEtapa == 2 || numeroEtapa == 3 || numeroEtapa == 4 || numeroEtapa == 7)
+	{
+		if(controlArchivo == 0)
+		{
+			nombreArchivoValidar = $('#archivoPdf').val();
+			if(nombreArchivoValidar != "")
+			{
+				vNombreArchivoValidar = nombreArchivoValidar.split('.');
+				extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
+				if(extension == "doc" || extension == "pdf" || extension == "docx")
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
 }
 
 $(document).ready(function(){
@@ -285,7 +307,7 @@ echo '<script>cargarDatosEtapa('.$etapa.',"'.$fecha.'","'.$alumnosPasar.'","'.$n
 
 ?>
 <body link="#000000" vlink="#000000" alink="#FFFFFF">
-<form class="formSolTit" id="form" name="solicitud_titulo" action="guardarFechas.php" method="post" enctype="multipart/form-data">
+<form class="formSolTit" id="form" name="solicitud_titulo" action="guardarFechas.php"  onsubmit="return validarForm()" method="post" enctype="multipart/form-data">
 <table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">
 </table>
 <p id="returnId">
