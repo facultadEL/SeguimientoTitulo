@@ -11,7 +11,7 @@ $vAlumnosPasar = explode('/-/-/', $alumnosPasar);
 for($i = 0; $i < count($vAlumnosPasar) - 1; $i++)
 {
 	$vAlumnoEspecifico = explode('/--/',$vAlumnosPasar[$i]);
-	$sqlUpdateNoResolucion .= "UPDATE seguimiento SET noresolucion_seguimiento=1 WHERE id_seguimiento=$vAlumnoEspecifico[0];";
+	$sqlUpdateNoResolucion .= "UPDATE seguimiento SET noresolucion_seguimiento='true' WHERE id_seguimiento=$vAlumnoEspecifico[0];";
 }
 
 $sqlGuardar = $sqlUpdateNoResolucion;

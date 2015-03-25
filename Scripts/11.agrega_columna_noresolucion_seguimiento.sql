@@ -1,0 +1,1 @@
+ALTER TABLE seguimiento ADD column noresolucion_seguimiento boolean default false;
