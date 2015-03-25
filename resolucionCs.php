@@ -44,7 +44,7 @@ prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Fecha de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
+prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Sin Resolución" onmouseup="confirmNoResolucion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
@@ -193,6 +193,20 @@ function confirmSeleccion()
 			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
 		}
 		document.location.href = "confirmarSeleccion.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso+ "&nroResNot="+nroResolucion;
+	}
+	return false;
+}
+function confirmNoResolucion()
+{
+	separadorAlumnos = '/-/-/';
+	alumnosPasar = "";
+	if(alumnosSeleccionados.length > 0)
+	{
+		for(var i = 0; i < alumnosSeleccionados.length; i++)
+		{
+			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
+		}
+		document.location.href = "confirmarNoResolucion.php?alumnosPasar=" + alumnosPasar;
 	}
 	return false;
 }
