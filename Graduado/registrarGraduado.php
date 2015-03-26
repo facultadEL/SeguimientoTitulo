@@ -263,6 +263,7 @@ $volver = $_REQUEST['volver'];
 $numDNI = $_REQUEST['numDNI'];
 //echo 'numDNI '.$numDNI.'<br>';
 $dniExistente = $_REQUEST['dniExistente'];
+//$numerodni_alumno = $numDNI;
 //echo 'dniExistente '.$dniExistente.'<br>';
 include_once "conexion.php";
 	if ($volver == 1){
@@ -531,7 +532,7 @@ include_once "conexion.php";
 								<label for="piso_alumno">Piso: </label>
 							</td>
 							<td colspan="1" width="10%">
-								<input id="piso_alumno" name="piso_alumno" type="text" pattern="[0-9]{2}" class="campoNro" size="4" value="<?php echo $piso_alumno; ?>"/>
+								<input id="piso_alumno" name="piso_alumno" type="text" pattern="[0-9]{0,2}" class="campoNro" size="4" value="<?php echo $piso_alumno; ?>"/>
 							</td>
 							<td colspan="1" width="10%" align="right">
 								<label for="dpto_alumno">Dpto: </label>

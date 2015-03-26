@@ -161,10 +161,11 @@ $id_Alumno = $_REQUEST['idAlumno'];
 			$fechaSolicitud = date('Y').'-'.date('m').'-'.date('d');
 
 
-		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno');";
+		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fecha_nacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno');";
 		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL);";
 							 
 		$sql = $newAlumno.$nuevoSeguimiento;
+		echo $sql;
 			$error=0;
 			if (!pg_query($conn, $sql)){
 				$errorpg = pg_last_error($conn);
@@ -367,7 +368,7 @@ $id_Alumno = $_REQUEST['idAlumno'];
 			$sql= $modAlumno;
 		}
 			$error=0;
-
+		echo $sql;
 			if (!pg_query($conn, $sql)){
 				$errorpg = pg_last_error($conn);
 				$termino = "ROLLBACK";

@@ -1,0 +1,1 @@
+<a href="Graduado/validarDNI.php">Registrar</a>
