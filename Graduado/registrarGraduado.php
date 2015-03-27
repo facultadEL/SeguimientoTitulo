@@ -7,14 +7,14 @@
 	<title>Registro de Graduado</title>
 	<style type="text/css">
 		body {
-			background: #e1e1e1 url('img/ruido.png') repeat; 
+			background: #fff; 
 			color: #000;
 			font-family: "Varela Round", Arial, Helvetica, sans-serif;
 			font-size: 14px;
 			line-height: 1em;
 		}
 		.formNuevoGraduado {
-			width: 960px;
+			width: 840px;
 			margin: 50px auto; /* margen superior */
 			padding: 20px;
 			border: 1px Solid #D8D8D8;
