@@ -106,10 +106,10 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 ?>
 <table width="100%" height="90%">
 	<tr width="100%">
-		<td width="100%" align="right"><label><?php echo 'Villa María, '.$diaActual.' de '.$mesActual.' de '.$anioActual; ?></label></td>
+		<td width="100%" align="right"><label><?php echo 'Villa María, &nbsp;&nbsp;&nbsp;&nbsp; de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de &nbsp;&nbsp;&nbsp;&nbsp;'; ?></label></td>
 	</tr>
 	<tr>
-		<td width="100%"><label for="Texto">Se&ntilde;or<br>Decano de la<br>Facultad Regional Villa Mar&iacute;a de la<br>UNIVERSIDAD TECNOL&Oacute;GICA NACIONAL<br>Ing. Pablo Andr&aacute;s ROSSO<br>S._______________/_______________D.<br><br></label></td>
+		<td width="100%"><label for="Texto">Se&ntilde;or<br>Decano de la<br>Facultad Regional Villa Mar&iacute;a de la<br>UNIVERSIDAD TECNOL&Oacute;GICA NACIONAL<br>Ing. Pablo Andr&eacute;s ROSSO<br>S._______________/_______________D.<br><br></label></td>
 	</tr>
 	<tr>
 		<?php
