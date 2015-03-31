@@ -6,6 +6,7 @@ include_once 'conexion.php';
 function getDataAlumno($idSeguimiento)
 {
 	//Creo la conexion para usarla aca sola y para poder hacer consultas sobre esa
+	/*
 	$sqlAlumnoCarrera = traerSqlCondicion('alumno_fk,carrera_fk','seguimiento','id_seguimiento='.$idSeguimiento);
 	$rowAlumnoCarrera = pg_fetch_array($sqlAlumnoCarrera);
 	$idAlumno = $rowAlumnoCarrera['alumno_fk'];
@@ -30,7 +31,7 @@ function getDataAlumno($idSeguimiento)
 
 	$sqlMandar .= $sqlTelefonos;
 	return $sqlMandar;
-
+	*/
 }
 
 //El separador para el explode siempre es /--/
@@ -55,7 +56,7 @@ switch ($etapa){
 			$idAlumno = $vAlumnosPasar[$i];
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_solicitud='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
-		$redireccion = 'solicitudTitulo.php';
+		$redireccion = 'solicitudTitulo.php?controlR=0';
 		break;
 	case 2:
 		//Traigo el control para ver si el archivo ya se encuentra en el sistema
@@ -86,7 +87,7 @@ switch ($etapa){
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_rescd='$fecha',num_res_cd_fk='$idNumeroRes' WHERE id_seguimiento='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
-		$redireccion = 'resolucionCd.php';
+		$redireccion = 'resolucionCd.php?controlR=0';
 		break;
 	case 3:
 		$controlArchivo = $_REQUEST['controlArchivo'];
@@ -112,7 +113,7 @@ switch ($etapa){
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_nota_envio_rec='$fecha',num_nota_fk='$idNumeroNota' WHERE id_seguimiento='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroNota.$sqlGuardar;
-		$redireccion = 'notaEnvioRectorado.php';
+		$redireccion = 'notaEnvioRectorado.php?controlR=0';
 		
 		break;
 	case 4:
@@ -145,7 +146,7 @@ switch ($etapa){
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
 		$controlSincronizar = 1;
 		$sqlSincronizar = getDataAlumno($idAlumno);
-		$redireccion = 'resolucionCs.php?';
+		$redireccion = 'resolucionCs.php?controlR=0';
 		break;
 	case 5:
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
@@ -153,7 +154,7 @@ switch ($etapa){
 			$idAlumno = $vAlumnosPasar[$i];
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_diploma='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
-		$redireccion = 'ingresoDiploma.php';
+		$redireccion = 'ingresoDiploma.php?controlR=0';
 		break;
 	case 6:
 	
@@ -162,7 +163,7 @@ switch ($etapa){
 			$idAlumno = $vAlumnosPasar[$i];
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_analitico='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
-		$redireccion = 'ingresoAnalitico.php';
+		$redireccion = 'ingresoAnalitico.php?controlR=0';
 		break;
 	case 7:
 		$controlArchivo = $_REQUEST['controlArchivo'];
@@ -190,7 +191,7 @@ switch ($etapa){
 			$sqlGuardar .= "UPDATE seguimiento SET fecha_retiro_diploma='$fecha',num_acta_d_fk='$idNumeroActa' WHERE id_seguimiento='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroActa.$sqlGuardar;
-		$redireccion = 'entregaDiploma.php';
+		$redireccion = 'entregaDiploma.php?controlR=0';
 		break;
 	case 8:
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
@@ -198,7 +199,7 @@ switch ($etapa){
 			$idAlumno = $vAlumnosPasar[$i];
 			$sqlGuardar = $sqlGuardar."UPDATE seguimiento SET fecha_retiro_analitico='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
-		$redireccion = 'entregaDiploma.php';
+		$redireccion = 'entregaDiploma.php?controlR=0';
 		break;
 }
 

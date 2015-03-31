@@ -48,7 +48,7 @@ function cargarTieneArchivo(control, direccion, textoAgregar)
 {
 	if(control == 0)
 	{
-		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>'+textoAgregar+'  <input type="file" id="archivoPdf" name="archivoPdf" /></l1></td>';
+		tieneArchivo = '<td id="titulo3" colspan="5" align="center"><l1>'+textoAgregar+'  <input type="file" id="archivoPdf" name="archivoPdf" onchange="validarArchivo();" /></l1></td>';
 		controlArchivo = 0;
 	}
 	else
@@ -105,6 +105,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "resolucionCd.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
+			stringPasar += "nroNotORes="+numeroRecibido;
 			break;
 		case 3:
 			nombreEtapa = "Nota Envio a Rectorado";
@@ -200,15 +201,31 @@ function validarForm()
 			{
 				vNombreArchivoValidar = nombreArchivoValidar.split('.');
 				extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
-				if(extension == "doc" || extension == "pdf" || extension == "docx")
+				if(extension != "doc" && extension != "pdf" && extension != "docx")
 				{
-					return true;
+					return false;
 				}
+			}
+			else
+			{
+				return false;
 			}
 		}
 	}
-	return false;
+	return true;
 }
+
+function validarArchivo(){
+		nombreArchivoValidar = $('#archivoPdf').val();
+		if(nombreArchivoValidar != ""){
+			vNombreArchivoValidar = nombreArchivoValidar.split('.');
+			extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
+			if(extension != "pdf" && extension != "doc" && extension != "docx"){
+				alert("Debe ingresar un archivo pdf o doc!");
+				$('#archivoPdf').val("");
+			}
+		}
+	}
 
 $(document).ready(function(){
 	mostrarAlumnos();
@@ -291,9 +308,15 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 
 //Traigo los datos de la ventana anterior(etapa,longVector,textPasar).
 //Luego con la etapa, defino que muestro y donde vuelvo.
-$numeroResNot = "";
-$nroResNot = $_REQUEST['nroResNot'];
+$nroResNot = "";
+
 $etapa = $_REQUEST['etapa'];
+
+if($etapa == 2 || $etapa == 3 || $etapa == 4 || $etapa == 7)
+{
+	$nroResNot = $_REQUEST['nroResNot'];
+}
+
 $alumnosPasar = $_REQUEST['alumnosPasar'];
 $fecha = $_REQUEST['fecha'];
 controlArchivoPhp($etapa,$nroResNot);
