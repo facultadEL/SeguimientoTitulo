@@ -15,7 +15,7 @@
 		}
 		.formNuevoGraduado {
 			width: 840px;
-			margin: 50px auto; /* margen superior */
+			margin: 50px auto;  margen superior 
 			padding: 20px;
 			border: 1px Solid #D8D8D8;
 			background: #F2F2F2;
@@ -363,6 +363,7 @@ include_once "conexion.php";
 		}
 	}
 ?>
+<center>
 <form class="formNuevoGraduado" name="f1" id="form2" action="registrarDatosGraduado.php?idAlumno=<?php echo $id_Alumno ?>" method="post" enctype="multipart/form-data">
 <table align="center" width="100%">
 	<tr width="100%">
@@ -683,5 +684,6 @@ include_once "conexion.php";
 </table>
 </form>
 </fieldset>
+</center>
 </body>
 </html>
