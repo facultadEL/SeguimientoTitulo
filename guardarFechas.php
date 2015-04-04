@@ -93,7 +93,7 @@ switch ($etapa){
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
 			
-			$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
+			//$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
 			
 		}
 		$numeroNota = $_REQUEST['nroNotORes'];		
@@ -121,7 +121,7 @@ switch ($etapa){
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
 			
-			$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
+			//$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
 			
 		}
 		$numeroResolucion = $_REQUEST['nroNotORes'];

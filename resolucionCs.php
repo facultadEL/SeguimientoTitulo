@@ -140,7 +140,16 @@ function mostrarAlumnos(busqueda)
 				checked = 'checked';
 			}
 			nombreCheck = "checkbox"+key;
-			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			var color = "";
+			if(vStringAlumno[6] == "t")
+			{
+				color = 'red';
+			}
+			else
+			{
+				color = 'black';
+			}
+			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -172,7 +181,15 @@ function mostrarAlumnos(busqueda)
 				{
 					checked = 'checked';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				if(vStringAlumno[6] == "t")
+				{
+					color = 'red';
+				}
+				else
+				{
+					color = 'black';
+				}
+				alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}
@@ -249,7 +266,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_nota_envio_rec IS NOT NULL AND fecha_rescs IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,noresolucion_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_nota_envio_rec IS NOT NULL AND fecha_rescs IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -258,7 +275,7 @@ $controlR = $_REQUEST['controlR'];
 
 while($row = pg_fetch_array($val)){
 	$contador += 1;
-	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'];
+	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$row['noresolucion_seguimiento'];
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
 

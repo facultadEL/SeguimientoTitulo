@@ -203,11 +203,15 @@ function validarForm()
 				extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
 				if(extension != "doc" && extension != "pdf" && extension != "docx")
 				{
+					alert("Debe ingresar un archivo .pdf o .doc");
+					$('#archivoPdf').focus();
 					return false;
 				}
 			}
 			else
 			{
+				alert("Debe ingresar un archivo .pdf o .doc");
+				$('#archivoPdf').focus();
 				return false;
 			}
 		}
@@ -263,7 +267,7 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 			$cantidad = contarRegistro('id_numero_nota_rectorado','numero_nota_rectorado',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
-				$nombreArchivo = "Nota ";
+				$nombreArchivo = "Nota: ";
 				$direccionArchivo = "";
 			}elseif ($cantidad == 1){
 				$rowIdNumeroNota = pg_fetch_array(traerSqlCondicion('id_numero_nota_rectorado,direccion_nota','numero_nota_rectorado',$condicion));

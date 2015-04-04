@@ -223,6 +223,14 @@ include_once "conexion.php";
 			</td>
 		</tr>
 		<?php if($titulo != NULL AND $titulo != 0){ ?>
+		<table id="tablaBtn" align="center" cellpadding="0" cellspacing="0">
+		<tr width="100%">
+			<td width="100%">
+				<?php echo '<a href="../seguimientoAlumno.php?titulo_alumno='.$titulo.'&idAlumno='.$id_Alumno.'"><input type="button" id="btn_editar" value="Ver Seguiimento" /></a>';?>
+			</td>
+		</tr>
+		</table>
+		
 	<!-- </table> -->
 	<tr width="100%">
 		<td width="100%">
@@ -283,7 +291,6 @@ include_once "conexion.php";
 					 	}
 					}
 			</script>
-
 
 
 				<fieldset id="tabla">

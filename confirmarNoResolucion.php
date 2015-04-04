@@ -4,7 +4,7 @@ include_once 'libreriaPhp.php';
 include_once 'conexion.php';
 
 $sqlUpdateNoResolucion = "";
-
+$redireccion = "resolucionCs.php?controlR=0";
 $alumnosPasar = $_REQUEST['alumnosPasar'];
 
 $vAlumnosPasar = explode('/-/-/', $alumnosPasar);
