@@ -254,6 +254,30 @@
 			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 		}
     </style>
+    <script>
+
+    function addTwitter()
+	{
+		var valTwitter;
+
+		valTwitter = $('#twitter_alumno').val();
+		
+		if(valTwitter != "")
+		{
+			if(valTwitter[0] != '@')
+			{
+				$('#twitter_alumno').val('@'+valTwitter);
+				$('#twitter_alumno').focus();
+			}
+		}
+		else
+		{
+			$('#twitter_alumno').val('@');
+			$('#twitter_alumno').focus();
+		}
+	}
+
+    </script>
 </head>
 <body>
 <?php
@@ -605,7 +629,7 @@ include_once "conexion.php";
 								<label for="twitter_alumno">Twitter: </label>
 							</td>
 							<td colspan="2">
-								<input id="twitter_alumno" name="twitter_alumno" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>"/>
+								<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitter();" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>"/>
 							</td>
 						</tr>
 					</table>

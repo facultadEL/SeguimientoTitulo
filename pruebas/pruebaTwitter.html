@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prueba Twitter</title>
+	<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script>
+
+	function addTwitter()
+	{
+		var valTwitter;
+
+		valTwitter = $('#twitter_alumno').val();
+		
+		if(valTwitter != "")
+		{
+			if(valTwitter[0] != '@')
+			{
+				$('#twitter_alumno').val('@'+valTwitter);
+				$('#twitter_alumno').focus();
+			}
+		}
+		else
+		{
+			$('#twitter_alumno').val('@');
+			$('#twitter_alumno').focus();
+		}
+	}
+
+	</script>
+</head>
+<body>
+	<table>
+	<tr width="100%">
+		<td colspan="1" align="right">
+			<label for="twitter_alumno">Twitter: </label>
+		</td>
+		<td colspan="2">
+			<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitter();" type="text" class="campoText" value=""/>
+		</td>
+	</tr>
+	</table>
+</body>
+</html>
