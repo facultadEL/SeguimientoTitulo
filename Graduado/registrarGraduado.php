@@ -277,6 +277,31 @@
 		}
 	}
 
+	function addTwitterBlur()
+	{
+		var valTwitter;
+
+		valTwitter = $('#twitter_alumno').val();
+		
+		if(valTwitter != "")
+		{
+			if(valTwitter.length == 1)
+			{
+				if(valTwitter[0] == '@')
+				{
+					$('#twitter_alumno').val('');	
+				}
+			}
+			else if(valTwitter.length > 1)
+			{
+				if(valTwitter[0] != '@')
+				{
+					$('#twitter_alumno').val('@'+valTwitter);
+				}
+			}
+		}
+	}
+
     </script>
 </head>
 <body>
@@ -629,7 +654,7 @@ include_once "conexion.php";
 								<label for="twitter_alumno">Twitter: </label>
 							</td>
 							<td colspan="2">
-								<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitter();" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>"/>
+								<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitterBlur();" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>"/>
 							</td>
 						</tr>
 					</table>
