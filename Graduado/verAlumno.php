@@ -11,11 +11,13 @@
 			font-family: "Varela Round", Arial, Helvetica, sans-serif;
 			font-size: 14px;
 			line-height: 1em;
+			width: 100%;
 		}
 		.formTitulo {
-			width: 840px;
-			margin: 50px auto; /* margen superior */
-			padding: 20px;
+			width: 80%;
+			margin: 1% auto; /* margen superior */
+			margin-top: 5%;
+			padding: 1.5%;
 			border: 1px Solid #D8D8D8;
 			background: #F2F2F2;
 			-webkit-border-radius: 10px 10px 10px 10px;
@@ -24,9 +26,9 @@
 			box-shadow:0px 0px 20px 4px  #ccc;  /*3 nro. Es el difuminado. 4 nro. es el tamaño*/
 		}
 		.formVerGraduado {
-			width: 960px;
-			margin: 0px auto; /* margen superior */
-			padding: 20px 20px 20px 20px;
+			width: 80%;
+			margin: 0% auto; /* margen superior */
+			padding: 1.5%;;
 			border: 1px Solid #D8D8D8;
 			background: #F2F2F2;
 			-webkit-border-radius: 10px 10px 10px 10px;
@@ -49,18 +51,18 @@
 			font-weight: bold;
 			color: #336699;
 			text-transform: capitalize;
-			padding-right: 5px;
+			padding-right: 0.6%;
 		}
 		l1 {
 			font-family: Calibri;
 			color: #424242;
 			text-transform: capitalize;
-			padding-left: 5px;
+			padding-left: 0.6%;
 		}
 		l2 {
 			font-family: Calibri;
 			color: #424242;
-			padding-left: 5px;
+			padding-left: 0.6%;
 		}
 		#tablaCar{
 			padding: 15px 0px 15px 0px;
@@ -71,7 +73,7 @@
 		select{
 			font-family: Calibri;
 			font-size: 16px;
-			padding: 3px;
+			padding: 0.3%;
 			color: #424242;
 			letter-spacing: 1px;
 			text-shadow:0px 1px 0px #FAFAFA;
@@ -79,7 +81,7 @@
 			-moz-border-radius: 3px 3px 3px 3px;
 			border-radius: 3px 3px 3px 3px;
 			border: 0;
-			padding: 3px;
+			padding: 0.5%;
 			-webkit-font-smoothing: antialiased;
 			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 		}
@@ -88,7 +90,7 @@
 		}
 		option{
 			font-family: Calibri;
-			padding: 3px;
+			padding: 0.5%;
 			color: #424242;
 			letter-spacing: 1px;
 			text-shadow:0px 1px 0px #FAFAFA;
@@ -104,24 +106,43 @@
 			border-radius: 10px;
 			background-color: #489785;
 			color: #fff;
-			display: block;
-			margin: 10px auto;
 			cursor: pointer;
-			width: 120px;
+			width: 100%;
 			height: 40px;
 			border: none;
 			background-image: url('img/modificar.png');
 			background-repeat: no-repeat;
-			background-position: 12px;
-			padding-left: 40px;
+			background-position: 15%;
+			padding-left: 50px;
 			-webkit-background-size: 30px 30px;           /* Safari 3.0 */
 		    -moz-background-size: 30px 30px;           /* Gecko 1.9.2 (Firefox 3.6) */
 		    -o-background-size: 30px 30px;           /* Opera 9.5 */
 		    background-size: 30px 30px;           /* Gecko 2.0 (Firefox 4.0) and other CSS3-compliant browsers */
-		    margin-right: 5px;
 		}
 		#btn_editar:hover {
 			box-shadow:0px 0px 15px 0px  #04B486;
+		}
+		#btn_seg{
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			background-color: #7a6a6a;
+			color: #fff;
+			cursor: pointer;
+			width: 100%;
+			height: 40px;
+			border: none;
+			background-image: url('img/Chart.png');
+			background-repeat: no-repeat;
+			background-position: 10%;
+			padding-left: 50px;
+			-webkit-background-size: 30px 30px;           /* Safari 3.0 */
+		    -moz-background-size: 30px 30px;           /* Gecko 1.9.2 (Firefox 3.6) */
+		    -o-background-size: 30px 30px;           /* Opera 9.5 */
+		    background-size: 30px 30px;           /* Gecko 2.0 (Firefox 4.0) and other CSS3-compliant browsers */
+		}
+		#btn_seg:hover {
+			box-shadow:0px 0px 15px 0px  #8A0808;
 		}
 		#btn_print{
 			-webkit-border-radius: 10px;
@@ -129,21 +150,18 @@
 			border-radius: 10px;
 			background-color: #086A87;
 			color: #fff;
-			display: block;
-			margin: 10px auto;
 			cursor: pointer;
-			width: 120px;
+			width: 100%;
 			height: 40px;
 			border: none;
 			background-image: url('img/print3.png');
 			background-repeat: no-repeat;
-			background-position: 12px;
-			padding-left: 40px;
+			background-position: 15%;
+			padding-left: 50px;
 			-webkit-background-size: 30px 30px;           /* Safari 3.0 */
 		    -moz-background-size: 30px 30px;           /* Gecko 1.9.2 (Firefox 3.6) */
 		    -o-background-size: 30px 30px;           /* Opera 9.5 */
 		    background-size: 30px 30px;           /* Gecko 2.0 (Firefox 4.0) and other CSS3-compliant browsers */
-		    margin-left: 5px;
 		}
 		#btn_print:hover {
 			box-shadow:0px 0px 15px 0px  #0489B1;
@@ -173,8 +191,24 @@
 			box-shadow:0px 0px 15px 0px  #DF0101;
 		}
 		#tablaBtn{
-			margin-bottom: 50px;
+			margin-top: 2%;
+			margin-bottom: 5%;
+			display: block;
+			text-align: center;
 		}
+		#tr{
+			width: 100%;
+			text-align: center;
+			display: inline-table;
+		}
+		#td{
+			width: 10%;
+			text-align: center;
+			display: inline-table;
+			margin-right: 1%;
+			margin-left: 1%;
+		}
+
     </style>
     <script type="text/javascript">
     	function evaluaring(academico){
@@ -223,6 +257,9 @@ include_once "conexion.php";
 			</td>
 		</tr>
 		<?php if($titulo != NULL AND $titulo != 0){ ?>
+<<<<<<< HEAD
+		
+=======
 		<table id="tablaBtn" align="center" cellpadding="0" cellspacing="0">
 		<tr width="100%">
 			<td width="100%">
@@ -230,6 +267,7 @@ include_once "conexion.php";
 			</td>
 		</tr>
 		</table>
+>>>>>>> 95e1127561054a2b5e74d5818ada40d4dc96e8e0
 		
 	<!-- </table> -->
 	<tr width="100%">
@@ -523,17 +561,17 @@ include_once "conexion.php";
 							</table>
 			</form>
 			</fieldset>
-			<table id="tablaBtn" align="center">
-				<tr width="100%">
-					<td width="100%" colspan="2">
-						&nbsp;
-					</td>
-				</tr>
-				<tr width="100%">
-					<td width="50%" align="rigth">
+			<!-- <table id="tablaBtn" align="center" border="1"> -->
+			<div id="tablaBtn">
+				<!-- <tr width="100%"> -->
+				<div id="tr">
+					<!-- <td width="25%" align="rigth"> -->
+					<div id="td">
 						<?php echo '<a href="registrarGraduado.php?carrera_fk='.$titulo.'&idAlumno='.$id_Alumno.'"><input type="button" id="btn_editar" value="Modificar" /></a>';?>
-					</td>
-					<td width="50%" align="left">
+					<!-- </td> -->
+					</div>
+					<!-- <td width="25%" align="center"> -->
+					<div id="td">
 						<?php
 							if ($nivel_carrera == 1) {//carrera de grado
 								echo '<a href="imprimirGraduado1.php?idAlumno='.$id_Alumno.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
@@ -545,14 +583,26 @@ include_once "conexion.php";
 								echo '<a href="imprimirGraduado3.php?idAlumno='.$id_Alumno.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
 							}
 						?>
-					</td>
-				</tr>
-				<tr width="100%">
-					<td width="100%" align="center" colspan="2">
+					<!-- </td> -->
+					</div>
+					<!-- <td width="25%" align="rigth"> -->
+					<div id="td">
+						<?php echo '<a href="seguimientoAlumno.php?titulo_alumno='.$titulo.'&idAlumno='.$id_Alumno.'"><input type="button" id="btn_seg" value="Ver Seguimiento" /></a>';?>
+					<!-- </td> -->
+					</div>
+				<!-- </tr> -->
+				</div>
+				<div id="tr">
+				<!-- <tr width="100%"> -->
+					<!-- <td width="100%" align="center" colspan="3"> -->
+					<div id="td">
 						<a href="validarDNI.php"><input type="button" id="btn_salir" value="Salir"></a>
-					</td>
-				</tr>
-			</table>
+					<!-- </td> -->
+					</div>
+				<!-- </tr> -->
+				</div>
+			</div>
+			<!-- </table> -->
 			<?php } ?>
 		</td>
 	</tr>
