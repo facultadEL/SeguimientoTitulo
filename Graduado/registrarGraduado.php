@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="../codeLibrary.js" type="text/javascript"></script>
+<script type='text/javascript' src="jquery.min-1.9.1.js"></script>
 <script src="jquery.mask.js" type="text/javascript"></script>
 	<title>Registro de Graduado</title>
 	<style type="text/css">
@@ -302,6 +303,13 @@
 		}
 	}
 
+	$(document).ready(function(){
+
+	$('#hidden1').val(getCode(30,1));
+	$('#hidden2').val(getCode(30,1));
+
+	});
+
     </script>
 </head>
 <body>
@@ -356,6 +364,9 @@ include_once "conexion.php";
 			$localidad_nacimiento_alumno = $mostrar[29];
 			$ultima_materia_alumno = $mostrar[30];
 			$fecha_ultima_mat_alumno = $mostrar[31];
+			$hidden1 = $mostrar[32];
+			$hidden2 = $mostrar[33];
+			$fecreg = $mostrar[34];
 			// $ancho_final = $mostrar[29];
 			// $alto_final = $mostrar[30];	
 	}else{
@@ -477,6 +488,8 @@ include_once "conexion.php";
 								<label for="nombre_alumno">Nombre: </label>
 							</td>
 							<td width="30%">
+								<input type="hidden" id="hidden1" name="hidden1" value="" />
+								<input type="hidden" id="hidden2" name="hidden2" value="" />
 								<input id="nombre_alumno" name="nombre_alumno" type="text" class="campoText" value="<?php echo $nombre_alumno; ?>" required/>
 							</td>
 							<td width="10%" align="right">

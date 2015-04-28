@@ -56,6 +56,9 @@ $id_Alumno = $_REQUEST['idAlumno'];
 		$alto_final = $rowAlumno['alto_final'];
 		$ultima_materia_alumno = $rowAlumno['ultima_materia_alumno'];
 		$fechaUltimaMatAlumno = $rowAlumno['fecha_ultima_mat_alumno'];
+
+		$codigo_impresion = $rowAlumno['codigo_impresion'];
+
 			$mostrar = explode('-',$fechaUltimaMatAlumno);
 					$anio = $mostrar[0];
 					$mes = $mostrar[1];
@@ -171,6 +174,9 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
 		<tr><td width="100%"><TextoFin>Toda notificaci&oacute;n oficial se realizar&aacute; &uacute;nicamente a los datos consignados en la presente, quedando el solicitante comprometido a notificar cambios.</TextoFin></td></tr>
 	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
+	<tr width="100%">
+		<td width="100%" align="center"><?php echo $codigo_impresion;?></td>
+	</tr>
 </table>
 </body>
 </html>
