@@ -9,6 +9,8 @@
 			TextoFin {font-family: Arial; color: #000000;font-weight:bold; font-size: 1.2em;}
 			label1 {font-family: Arial; color: #000000;text-decoration: underline;font-weight:bold; font-size: 1.3em;}
 			l1 {font-family: Arial; color: #2E2E2E; font-size: 1em;}
+			l2{font-size: 20px;}
+			l3{font-weight: bold;}
     </style>		
 </head>
 <body onload=print()>
@@ -124,7 +126,7 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 					}
 			}
 		?>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;El/La  que  suscribe, <?php echo $apellido_alumno.', '.$nombre_alumno.', '; ?>alumno/a de esta Casa de Altos Estudios, tiene el agrado de dirigirse al Sr. Decano y, por su intermedio ante quien corresponda a los efectos de solicitar se me extienda el t&iacute;tulo de <?php echo $carrera; ?>, por haber cumplido las exigencias del respectivo Plan de Estudios.<br><br></label></td>
+		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;El/La  que  suscribe, <?php echo $apellido_alumno.', '.$nombre_alumno.', '; ?>alumno/a de esta Casa de Altos Estudios, tiene el agrado de dirigirse al Sr. Decano y, por su intermedio ante quien corresponda a los efectos de solicitar <l3>se me extienda el t&iacute;tulo de <strong><l2><?php echo $carrera; ?></l2></strong></l3>, por haber cumplido las exigencias del respectivo Plan de Estudios.<br><br></label></td>
 	</tr>
 	<tr>
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acompa&ntilde;a al presente, los datos complementarios correspondientes.<br><br></label></td>
