@@ -232,7 +232,7 @@ include_once "conexion.php";
 						<table align="center" id="tablaCar" width="100%">
 							<tr width="100%">
 								<td width="40%" align="right">
-									<label for="titulo_alumno">Carrera: </label>
+									<label for="titulo_alumno">T&iacute;tulo: </label>
 								</td>
 								<td width="60%" align="left">
 	            					<select name="titulo_alumno" size="1" class="required" onChange="evaluaring()"  onkeyup=fn(this.form,this)>
