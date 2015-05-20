@@ -433,7 +433,7 @@ include_once "conexion.php";
 					<table align="center" id="tit_sol">	
 						<tr width="100%">
 							<td class="tdLblCar">
-								<label for="carrera_alumno">Carrera: </label>
+								<label for="carrera_alumno">T&iacute;tulo a Solicitar: </label>
 							</td>
 							<td class="tdLabel">
 								<label for="ultima_materia_alumno">&Uacute;ltima materia rendida: </label>
@@ -614,7 +614,7 @@ include_once "conexion.php";
 								<label for="fotoAlumno">Foto: </label>
 							</td>
 							<td colspan="7">
-								<input id="fotoAlumno" type="file" name="fotoAlumno"/>
+								<input id="fotoAlumno" type="file" name="fotoAlumno" required/>
 							</td>
 						</tr>
 					</table>
