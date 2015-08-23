@@ -61,9 +61,11 @@ switch ($etapa){
 	case 2:
 		//Traigo el control para ver si el archivo ya se encuentra en el sistema
 		$controlArchivo = $_REQUEST['controlArchivo'];
+		$controlArchivo = 1;
 		
 		if($controlArchivo==0){
-			$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
+			//$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
+			$getDestinoPdf = 'null';
 		}
 		
 		//Traigo el numero de resolucion y busco si no esta guardado. En caso de que
@@ -94,7 +96,7 @@ switch ($etapa){
 		if($controlArchivo==0){
 			
 			//$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
-			
+			$getDestinoPdf = 'null';
 		}
 		$numeroNota = $_REQUEST['nroNotORes'];		
 		$condicion = "numero_nota ='".$numeroNota."'";
@@ -122,7 +124,7 @@ switch ($etapa){
 		if($controlArchivo==0){
 			
 			//$getDestinoPdf = loadFileToServer("SeguimientoTitulo");
-			
+			$getDestinoPdf = 'null';
 		}
 		$numeroResolucion = $_REQUEST['nroNotORes'];
 		$condicion = "numero_res ='res-".$numeroResolucion."'";

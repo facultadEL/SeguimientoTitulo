@@ -192,6 +192,7 @@ function cargarConfirmData()
 
 function validarForm()
 {
+	/*
 	if(numeroEtapa == 2 || numeroEtapa == 3 || numeroEtapa == 4 || numeroEtapa == 7)
 	{
 		if(controlArchivo == 0)
@@ -215,7 +216,7 @@ function validarForm()
 				return false;
 			}
 		}
-	}
+	}*/
 	return true;
 }
 

@@ -446,7 +446,7 @@ include_once "conexion.php";
 							<td class="tdCarrera">
 								<?php 	if($id_Alumno == NULL){ ?>
 									<select id="carrera_alumno" name="carrera_alumno" size="1" required>
-									<option value="0">Seleccione carrera</option>
+									<option value="0">Seleccione t&iacute;tulo</option>
 										<?php
 											$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){

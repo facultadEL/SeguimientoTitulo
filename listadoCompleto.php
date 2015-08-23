@@ -88,7 +88,7 @@ if($control==1){
 		case 1:
 			if($palabra==NULL){
 				$controlCant = contarRegistro('id_seguimiento','seguimiento','fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL');
-				$consulta = 'SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud AS "fecha"  '."FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+				$consulta = 'SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud AS "fecha"  '."FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL ORDER BY fecha,apellido_alumno,nombre_alumno";
 			}else{
 				if ($palabra == "grado" || $palabra == "Grado"){
 					$controlCant = contarRegistro('id_seguimiento','alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera)',"fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL AND seguimiento.carrera_fk = id_carrera AND  
@@ -102,7 +102,7 @@ if($control==1){
 						or UPPER(apellido_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
 						or UPPER(nombre_carrera)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
 						or UPPER(nombre_nivel_carrera) LIKE UPPER('{$_REQUEST['palabra']}')
-						or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+						or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')) ORDER BY fecha,apellido_alumno,nombre_alumno";
 				}else{
 					$controlCant = contarRegistro('id_seguimiento','alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera)',"fecha_solicitud IS NOT NULL AND fecha_rescd IS NULL AND seguimiento.carrera_fk = id_carrera AND  
 					   (UPPER(nombre_alumno)        LIKE UPPER('%{$_REQUEST['palabra']}%')
@@ -115,7 +115,7 @@ if($control==1){
 					or UPPER(apellido_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
 					or UPPER(nombre_carrera)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
 					or UPPER(nombre_nivel_carrera) LIKE UPPER('%{$_REQUEST['palabra']}%')
-					or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+					or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%')) ORDER BY fecha,apellido_alumno,nombre_alumno";
 				}
 			}
 			break;

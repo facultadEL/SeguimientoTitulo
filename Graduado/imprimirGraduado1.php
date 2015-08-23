@@ -13,7 +13,7 @@
 			l3{font-weight: bold;}
     </style>		
 </head>
-<body onload=print()>
+<body onload="print()">
 <?php
 include_once "conexion.php";
 $id_Alumno = $_REQUEST['idAlumno'];
@@ -174,7 +174,7 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<td width="100%"><label for="Datos">Legajo Personal U.T.N. Fac. Reg. Villa María: Nº 17: </label><l1><?php echo $nro_legajo?></l1><br><br></td>
 	</tr>
 	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
-		<tr><td width="100%"><TextoFin>Toda notificaci&oacute;n oficial se realizar&aacute; &uacute;nicamente a los datos consignados en la presente, quedando el solicitante comprometido a notificar cambios.</TextoFin></td></tr>
+		<tr><td width="100%"><TextoFin>Toda notificaci&oacute;n oficial se realizar&aacute; &uacute;nicamente a los datos consignados en la presente, quedando el solicitante comprometido a notificar cambios. Este documento tiene caracter de <b><u>DECLARACI&Oacute;N JURADA</u></b></TextoFin></td></tr>
 	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
 	<tr width="100%">
 		<td width="100%" align="center"><?php echo $codigo_impresion;?></td>
