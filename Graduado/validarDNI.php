@@ -17,12 +17,7 @@
 			width: 840px;
 			margin: 50px auto; /* margen superior */
 			padding: 20px;
-			border: 1px Solid #D8D8D8;
-			background: #F2F2F2;
-			-webkit-border-radius: 10px 10px 10px 10px;
-			-moz-border-radius: 10px 10px 10px 10px;
-			border-radius: 10px 10px 10px 10px;
-			box-shadow:0px 0px 20px 4px  #ccc;  /*3 nro. Es el difuminado. 4 nro. es el tamaño*/
+			background: #FaFbFc;
 		}
 		label {
 			color: #336699;
@@ -55,9 +50,9 @@
 			box-shadow:0px 0px 10px 1px  #ccc;
 		}
 		input[type="submit"] {
-			-webkit-border-radius: 10px;
-			-moz-border-radius: 10px;
-			border-radius: 10px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			border-radius: 5px;
 			background-color: #086A87;
 			color: #fff;
 			display: block;
@@ -112,7 +107,7 @@
 					</td> -->
 					<td align="center" width="100%">
 						<!-- <input id="DNI" class="nrodni" type="text" pattern="[0-9]{7,8}" placeholder="N&uacute;mero de DNI" onclick="this.value = '';" onblur="maskDni()" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." required/> -->
-						<input id="DNI" class="nrodni" type="text" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" placeholder="N&uacute;mero de DNI" onkeyup="maskDni()" onfocus="this.value = '';" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." autocomplete="off" autofocus required/>
+						<input id="DNI" class="nrodni" type="text" pattern="([0-9]{1}.|[0-9]{2}.)[0-9]{3}.[0-9]{3}" placeholder="N&uacute;mero de DNI" onkeyup="maskDni()" onfocus="this.value = '';" name="numDNI" value="" maxlength="10" title="Ingrese su documento correctamente." autocomplete="off" autofocus required/>
 					</td>
 				</tr>
 				<tr align="center">

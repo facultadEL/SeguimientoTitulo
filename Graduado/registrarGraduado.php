@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script src="../codeLibrary.js" type="text/javascript"></script>
@@ -18,12 +18,7 @@
 			width: 840px;
 			margin: 50px auto;  margen superior 
 			padding: 20px;
-			border: 1px Solid #D8D8D8;
-			background: #F2F2F2;
-			-webkit-border-radius: 10px 10px 10px 10px;
-			-moz-border-radius: 10px 10px 10px 10px;
-			border-radius: 10px 10px 10px 10px;
-			box-shadow:0px 0px 20px 4px  #ccc;  /*3 nro. Es el difuminado. 4 nro. es el tamaño*/
+			background: #FaFbFc;
 		}
 		legend{
 			font-family: Calibri;
@@ -241,6 +236,7 @@
 			-webkit-font-smoothing: antialiased;
 			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 			font-weight: normal;
+			box-shadow:0px 0px 10px 1px  #ccc;
 		}
 		option{
 			font-family: Calibri;
@@ -255,74 +251,167 @@
 			-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 		}
     </style>
-    <script>
+    <script defer>
 
-    function addTwitter()
-	{
-		var valTwitter;
-
-		valTwitter = $('#twitter_alumno').val();
-		
-		if(valTwitter != "")
+	    function addTwitter()
 		{
-			if(valTwitter[0] != '@')
-			{
-				$('#twitter_alumno').val('@'+valTwitter);
-				$('#twitter_alumno').focus();
-			}
-		}
-		else
-		{
-			$('#twitter_alumno').val('@');
-			$('#twitter_alumno').focus();
-		}
-	}
+			var valTwitter;
 
-	function addTwitterBlur()
-	{
-		var valTwitter;
-
-		valTwitter = $('#twitter_alumno').val();
-		
-		if(valTwitter != "")
-		{
-			if(valTwitter.length == 1)
-			{
-				if(valTwitter[0] == '@')
-				{
-					$('#twitter_alumno').val('');	
-				}
-			}
-			else if(valTwitter.length > 1)
+			valTwitter = $('#twitter_alumno').val();
+			
+			if(valTwitter != "")
 			{
 				if(valTwitter[0] != '@')
 				{
 					$('#twitter_alumno').val('@'+valTwitter);
+					$('#twitter_alumno').focus();
+				}
+			}
+			else
+			{
+				$('#twitter_alumno').val('@');
+				$('#twitter_alumno').focus();
+			}
+		}
+
+		function addTwitterBlur()
+		{
+			var valTwitter;
+
+			valTwitter = $('#twitter_alumno').val();
+			
+			if(valTwitter != "")
+			{
+				if(valTwitter.length == 1)
+				{
+					if(valTwitter[0] == '@')
+					{
+						$('#twitter_alumno').val('');	
+					}
+				}
+				else if(valTwitter.length > 1)
+				{
+					if(valTwitter[0] != '@')
+					{
+						$('#twitter_alumno').val('@'+valTwitter);
+					}
 				}
 			}
 		}
-	}
 
-	$(document).ready(function(){
+		$(document).ready(function(){
 
-	$('#hidden1').val(getCode(30,1));
-	$('#hidden2').val(getCode(30,1));
+		$('#hidden1').val(getCode(30,1));
+		$('#hidden2').val(getCode(30,1));
 
-	});
+		});
+
+
+		function pedirFoto(){
+			var htmlToAdd = '';
+
+			if (($('#carrera_alumno').val() > 5) || ($('#carrera_alumno').val() > 6 && $('#carrera_alumno').val() < 11)) {
+				htmlToAdd = '<input id="fotoAlumno" type="file" name="fotoAlumno" />';
+			}else{
+				htmlToAdd = '<input id="fotoAlumno" type="file" name="fotoAlumno" required />';
+			};
+			$("#foto_nr").html(htmlToAdd);
+		}
+
+		function checkMail2(){
+			var mail1 = $('#mail_alumno').val();
+			var mail2 = $('#mail_alumno2').val();
+			if(mail1 == mail2){
+				alert("No se puede utilizar el mismo mail");
+				$('#mail_alumno2').val("");
+				$('#mail_alumno2').focus();
+			}
+		}
+
+		function validar(idFuncion){
+
+			var parametros = {
+                "nro_dni" : $('#numerodni_alumno').val(),
+                "mail_alumno" : $('#mail_alumno').val()
+        	};
+
+   			//var pasa;
+			$.ajax({
+				type: "POST",
+				url: "validaciones.php",
+				data: parametros,
+				//async: false, //para que no se siga ejecutando sin la respuesta del ajax
+				success:  function (response) { //Funcion que ejecuta si todo pasa bien. El response es los datos que manda el otro archivo
+                        if(response == '1'){
+                        	if (idFuncion == '1') {
+                        		$('#control_form').val('2');
+                        		alert("Este DNI ya se ha registrado anteriormente.");
+                				$('#numerodni_alumno').val('');
+                				$('#numerodni_alumno').focus();
+                				//return false;
+                        	};
+                        	if (idFuncion == '2') {
+                        		$('#control_form').val('2');
+                        		alert("Este mail ya se ha registrado anteriormente.");
+                				$('#mail_alumno').val('');
+                				$('#mail_alumno').focus();
+                				//return false;
+                        	};
+                        }else{
+                        	$('#control_form').val('');
+                        	//return true;
+                        }
+                },
+				error: function (msg) {
+					alert("No se pudo validar el n&uacute;mero de DNI. Contactarse con Secretar&iacute;a de Extensi&oacute;n");
+				}
+			});
+		}
+
+		function validarDNI(){
+			if ($('#numerodni_alumno').val() != '') {
+				validar('1');
+			};
+		}
+
+		function validarMail(){
+			if ($('#mail_alumno').val() != '') {
+				validar('2');
+			};
+		}
+
+		function control(){
+			if ($('#control_form').val() == 2){
+				alert("Ya se ha registrado anteriormente.");
+				return false;
+			}else{
+				return true;
+			}
+		}
+
+		function validarCarrera(){
+			if ($('#carrera_alumno').val() == 0) {
+				alert("Debe seleccionar una carrera.");
+				$('#carrera_alumno').focus();
+			};
+		}
 
     </script>
 </head>
 <body>
 <?php
-$id_Alumno = $_REQUEST['idAlumno'];
+
+$id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 //echo 'idAlumno '.$id_Alumno.'<br>';
 $volver = $_REQUEST['volver'];
-$numDNI = $_REQUEST['numDNI'];
+$numDNI = (empty($_REQUEST['numDNI'])) ? '' : $_REQUEST['numDNI'];
 //echo 'numDNI '.$numDNI.'<br>';
 $dniExistente = $_REQUEST['dniExistente'];
 //$numerodni_alumno = $numDNI;
 //echo 'dniExistente '.$dniExistente.'<br>';
 include_once "conexion.php";
+include_once "libreria.php";
+
 	if ($volver == 1){
 		$sep = '/-/';
 		$datosPasar = $_REQUEST['verDatos'];
@@ -370,7 +459,7 @@ include_once "conexion.php";
 			// $ancho_final = $mostrar[29];
 			// $alto_final = $mostrar[30];	
 	}else{
-		if ($id_Alumno != NULL) {		
+		if ($id_Alumno != 0) {		
 			$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
 			$rowAlumno = pg_fetch_array($sqlAlumno);
 				$id_Alumno = $rowAlumno['id_alumno'];
@@ -424,7 +513,7 @@ include_once "conexion.php";
 	}
 ?>
 <center>
-<form class="formNuevoGraduado" name="f1" id="form2" action="registrarDatosGraduado.php?idAlumno=<?php echo $id_Alumno ?>" method="post" enctype="multipart/form-data">
+<form class="formNuevoGraduado" name="f1" id="form2" action="registrarDatosGraduado.php?idAlumno=<?php echo $id_Alumno ?>" method="post" onsubmit="return control();" enctype="multipart/form-data">
 <table align="center" width="100%">
 	<tr width="100%">
 		<td width="100%">
@@ -444,11 +533,12 @@ include_once "conexion.php";
 						</tr>
 						<tr width="100%">
 							<td class="tdCarrera">
-								<?php 	if($id_Alumno == NULL){ ?>
-									<select id="carrera_alumno" name="carrera_alumno" size="1" required>
+								<?php 	if($id_Alumno == 0){ ?>
+									<select id="carrera_alumno" name="carrera_alumno" onchange="pedirFoto();" onblur="validarCarrera();" size="1" autofocus required>
 									<option value="0">Seleccione t&iacute;tulo</option>
 										<?php
-											$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
+											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
+											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
 												if($carrera_alumno == $rowCarrera['id_carrera']){						
 													echo '<option value="'.$rowCarrera['id_carrera'].'" selected>'.$rowCarrera['nombre_carrera'].'</option>';
@@ -459,7 +549,8 @@ include_once "conexion.php";
 										?>
 									</select>
 								<?php 	}else{
-											$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
+											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
+											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
 												if ($carrera_alumno == $rowCarrera['id_carrera']){
 													echo '<l1>'.$rowCarrera['nombre_carrera'].'</l1>';
@@ -471,11 +562,11 @@ include_once "conexion.php";
 							</td>
 							
 							<td class="tdCampo">
-								<input id="ultima_materia_alumno" name="ultima_materia_alumno" class="campoTextTit" type="text" value="<?php echo $ultima_materia_alumno; ?>" required/>
+								<input id="ultima_materia_alumno" name="ultima_materia_alumno" class="campoTextTit" type="text" maxlength="60" title="Ingrese el nombre de la &uacute;ltima materia rendida" value="<?php echo $ultima_materia_alumno; ?>" required />
 							</td>
 							
 							<td class="tdCampo">
-								<input id="fecha_ultima_mat_alumno" name="fecha_ultima_mat_alumno" type="date" class="campoDateTit" pattern="[0-9]{2}+[/|-]{1}[0-1]{1}+[0-9]{1}+[/|-]{1}[0-9]{4}" value="<?php echo $fecha_ultima_mat_alumno; ?>" placeholder="dd/mm/aaaa" maxlength="10" size="6" required/>
+								<input id="fecha_ultima_mat_alumno" name="fecha_ultima_mat_alumno" type="date" class="campoDateTit" value="<?php echo $fecha_ultima_mat_alumno; ?>" maxlength="10" size="6" required title="Ingrese la fecha en la que rindi&oacute; la &uacute;ltima materia" />
 							</td>
 						</tr>
 					</table>
@@ -488,21 +579,22 @@ include_once "conexion.php";
 								<label for="nombre_alumno">Nombre: </label>
 							</td>
 							<td width="30%">
+								<input type="hidden" id="control_form" name="hidden1" value="" />
 								<input type="hidden" id="hidden1" name="hidden1" value="" />
 								<input type="hidden" id="hidden2" name="hidden2" value="" />
-								<input id="nombre_alumno" name="nombre_alumno" type="text" class="campoText" value="<?php echo $nombre_alumno; ?>" required/>
+								<input id="nombre_alumno" name="nombre_alumno" type="text" class="campoText" maxlength="20" value="<?php echo $nombre_alumno; ?>" title="Ingrese su nombre" required/>
 							</td>
 							<td width="10%" align="right">
 								<label for="apellido_alumno">Apellido: </label>
 							</td>
 							<td width="30%">
-								<input id="apellido_alumno" name="apellido_alumno" type="text" class="campoText" value="<?php echo $apellido_alumno; ?>" required/>
+								<input id="apellido_alumno" name="apellido_alumno" type="text" class="campoText" maxlength="30" value="<?php echo $apellido_alumno; ?>" title="Ingrese su apellido" required/>
 							</td>
 							<td width="10%" align="right">
 								<label for="nro_legajo">N&deg; Legajo: </label>
 							</td>
 							<td width="10%" colspan="3">
-								<input id="nro_legajo" name="nro_legajo" pattern="[0-9]{4,5}" type="text" class="campoNro" value="<?php echo $nro_legajo; ?>" size="4" maxlength="5" required/>
+								<input id="nro_legajo" name="nro_legajo" pattern="[0-9]{4,6}" type="text" class="campoNro" value="<?php echo $nro_legajo; ?>" size="4" minlength="4" maxlength="6" title="Ingrese su legajo" required/>
 							</td>
 						</tr>
 						<tr width="100%">
@@ -512,7 +604,8 @@ include_once "conexion.php";
 							<td colspan="1">
 								<select id="tipodni_alumno" name="tipodni_alumno" size="1">
 									<?php
-										$consultaTipoDNI=pg_query("select * FROM tipo_dni");
+										//$consultaTipoDNI=pg_query("select * FROM tipo_dni");
+										$consultaTipoDNI=traerSql('*', 'tipo_dni', '');
 										while($rowTipoDNI=pg_fetch_array($consultaTipoDNI)){
 										if ($tipo_dni_alumno == $rowTipoDNI['id_tipo_dni']){
 					                        echo "<option value=".$rowTipoDNI['id_tipo_dni']." selected>".$rowTipoDNI['nombre_tipo_dni']."</option>";
@@ -528,10 +621,10 @@ include_once "conexion.php";
 							</td>
 							<td colspan="5">
 								<?php
-									if ($numerodni_alumno == ""){
-										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numDNI.'" maxlength="10" required/>';
+									if ($numerodni_alumno == ''){
+										echo '<input id="numerodni_alumno" name="numerodni_alumno" onblur="validarDNI();" type="text" class="campoText" pattern="([0-9]{1}.|[0-9]{2}.)[0-9]{3}.[0-9]{3}" value="'.$numDNI.'" maxlength="10" title="Ingrese su n&uacute;mero de DNI con separador de miles, ejemplo: ##.###.###" required/>';
 									}else{
-										echo '<input id="numerodni_alumno" name="numerodni_alumno" type="text" class="campoText" pattern="[0-9]{2}+[.]{1}[0-9]{3}+[.]{1}[0-9]{3}" value="'.$numerodni_alumno.'" maxlength="10" required/>';
+										echo '<input id="numerodni_alumno" name="numerodni_alumno" onblur="validarDNI();" type="text" class="campoText" pattern="([0-9]{1}.|[0-9]{2}.)[0-9]{3}.[0-9]{3}" value="'.$numerodni_alumno.'" maxlength="10" title="Ingrese su n&uacute;mero de DNI con separador de miles, ejemplo: ##.###.###" required/>';
 									}
 								?>
 							</td>
@@ -541,13 +634,13 @@ include_once "conexion.php";
 								<label for="fechanacimiento_alumno">Fecha Nac.: </label>
 							</td>
 							<td colspan="1">
-								<input id="fechanacimiento_alumno" name="fechanacimiento_alumno" type="date" class="campoDate"  value="<?php echo $fecha_nacimiento_alumno; ?>" placeholder="dd/mm/aaaa" maxlength="10" required/>
+								<input id="fechanacimiento_alumno" name="fechanacimiento_alumno" type="date" class="campoDate"  value="<?php echo $fecha_nacimiento_alumno; ?>" maxlength="10" title="Ingrese la fecha de su nacimiento" required/>
 							</td>
 							<td colspan="1" align="right">
 								<label for="localidad_nacimiento_alumno">Lugar Nac.: </label>
 							</td>
 							<td colspan="5">
-								<input id="localidad_nacimiento_alumno" name="localidad_nacimiento_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $localidad_nacimiento_alumno; ?>" required/>
+								<input id="localidad_nacimiento_alumno" name="localidad_nacimiento_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $localidad_nacimiento_alumno; ?>" maxlength="50" title="Ingrese la localidad donde naci&oacute;" required/>
 							</td>
 						</tr>
 						<tr width="100%">
@@ -563,19 +656,19 @@ include_once "conexion.php";
 								<label for="localidad_viviendo_alumno">Localidad:</label>
 							</td>
 							<td colspan="1">
-								<input id="localidad_viviendo_alumno" name="localidad_viviendo_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $localidad_viviendo_alumno; ?>" required/>
+								<input id="localidad_viviendo_alumno" name="localidad_viviendo_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $localidad_viviendo_alumno; ?>" maxlength="50" title="Ingrese la localidad donde vive" required/>
 							</td>
 							<td colspan="1" align="right">
 								<label for="provincia_viviendo_alumno">Provincia:</label>
 							</td>
 							<td colspan="1">
-								<input id="provincia_viviendo_alumno" name="provincia_viviendo_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $provincia_viviendo_alumno; ?>" required/>
+								<input id="provincia_viviendo_alumno" name="provincia_viviendo_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $provincia_viviendo_alumno; ?>" maxlength="50" title="Ingrese la provincia donde naci&oacute;" required/>
 							</td>
 							<td colspan="1" align="right">
 								<label for="cp_alumno">C.P.:</label>
 							</td>
 							<td colspan="3">
-								<input id="cp_alumno" name="cp_alumno" type="text" class="campoNro" pattern="[0-9]{4}" value="<?php echo $cp_alumno; ?>" required maxlength="4" size="4"/>
+								<input id="cp_alumno" name="cp_alumno" type="text" class="campoNro" pattern="[0-9]{4,5}" value="<?php echo $cp_alumno; ?>" required maxlength="5" size="4" title="Ingrese el c&oacute;digo postal de la localidad donde vive" />
 							</td>
 						</tr>
 						<tr width="100%">
@@ -583,25 +676,25 @@ include_once "conexion.php";
 								<label for="calle_alumno">Calle: </label>
 							</td>
 							<td colspan="1" width="30%">
-								<input id="calle_alumno" name="calle_alumno" type="text" class="campoText" value="<?php echo $calle_alumno; ?>" required/>
+								<input id="calle_alumno" name="calle_alumno" type="text" class="campoText" value="<?php echo $calle_alumno; ?>" maxlength="50" title="Ingrese la calle de su domicilio" required/>
 							</td>
 							<td colspan="1" width="10%" align="right">
 								<label for="numerocalle_alumno">N&deg;: </label>
 							</td>
 							<td colspan="1" width="10%">
-								<input id="numerocalle_alumno" name="numerocalle_alumno" pattern="[0-9]{2,6}" type="text" class="campoNro" size="4" value="<?php echo $numerocalle_alumno; ?>" required/>
+								<input id="numerocalle_alumno" name="numerocalle_alumno" pattern="[0-9]{2,6}" type="text" class="campoNro" size="4" value="<?php echo $numerocalle_alumno; ?>" required title="Ingrese la altura de su domicilio" />
 							</td>
 							<td colspan="1" width="10%" align="right">
 								<label for="piso_alumno">Piso: </label>
 							</td>
 							<td colspan="1" width="10%">
-								<input id="piso_alumno" name="piso_alumno" type="text" pattern="[0-9]{0,2}" class="campoNro" size="4" value="<?php echo $piso_alumno; ?>"/>
+								<input id="piso_alumno" name="piso_alumno" type="text" pattern="[0-9]{0,2}" class="campoNro" size="4" value="<?php echo $piso_alumno; ?>" title="Ingrese el piso de su domicilio"/>
 							</td>
 							<td colspan="1" width="10%" align="right">
 								<label for="dpto_alumno">Dpto: </label>
 							</td>
 							<td colspan="1" width="10%">
-								<input id="dpto_alumno" name="dpto_alumno" type="text" size="1" class="campoNro" value="<?php echo $dpto_alumno; ?>"/>
+								<input id="dpto_alumno" name="dpto_alumno" type="text" size="1" class="campoNro" value="<?php echo $dpto_alumno; ?>" maxlength="3" title="Ingrese el identificador de su departamento" />
 							</td>
 						</tr>
 						<tr width="100%">
@@ -614,7 +707,10 @@ include_once "conexion.php";
 								<label for="fotoAlumno">Foto: </label>
 							</td>
 							<td colspan="7">
-								<input id="fotoAlumno" type="file" name="fotoAlumno" required/>
+								<div id="foto_nr">
+									
+								</div>
+								<!-- <input id="fotoAlumno" type="file" name="fotoAlumno" required /> -->
 							</td>
 						</tr>
 					</table>
@@ -627,19 +723,19 @@ include_once "conexion.php";
 								<label for="caracteristicaF_alumno">Tel&eacute;fono Fijo: </label>
 							</td>
 							<td width="5%">
-								<input id="caracteristicaF_alumno" name="caracteristicaF_alumno" type="text" class="campoNro" pattern="[1-9]{2,4}" placeholder="Sin 0" value="<?php echo $caracteristicaF_alumno; ?>" size="3" maxlength="5"/>
+								<input id="caracteristicaF_alumno" name="caracteristicaF_alumno" type="text" class="campoNro" pattern="[1-9]{2,4}" placeholder="Sin 0" value="<?php echo $caracteristicaF_alumno; ?>" size="3" maxlength="5" title="Ingrese la caracter&iacute;stica de su nro. de tel&eacute;fono" />
 							</td>
 							<td width="35%">
-								<input id="telefono_alumno" name="telefono_alumno" type="text" class="campoText" value="<?php echo $telefono_alumno; ?>"/>
+								<input id="telefono_alumno" name="telefono_alumno" type="text" class="campoText" value="<?php echo $telefono_alumno; ?>"  title="Ingrese el nro. de su tel&eacute;fono" />
 							</td>
 							<td width="10%" align="right">
 								<label for="caracteristicaC_alumno">Celular: </label>
 							</td>
 							<td width="5%">
-								<input id="caracteristicaC_alumno" name="caracteristicaC_alumno" type="text" class="campoNro" pattern="[1-9]{2,4}" placeholder="Sin 0" value="<?php echo $caracteristicaC_alumno; ?>" size="3" maxlength="5" required/>
+								<input id="caracteristicaC_alumno" name="caracteristicaC_alumno" type="text" class="campoNro" pattern="[1-9]{2,4}" placeholder="Sin 0" value="<?php echo $caracteristicaC_alumno; ?>" size="3" maxlength="5" title="Ingrese la caracter&iacute;stica de su nro. de celular" required/>
 							</td>
 							<td width="35%">
-								<input id="celular_alumno" name="celular_alumno" type="text" class="campoText" pattern="[0-9]{6,8}" placeholder="Sin 15" value="<?php echo $celular_alumno; ?>" required/>
+								<input id="celular_alumno" name="celular_alumno" type="text" class="campoText" pattern="[0-9]{6,8}" placeholder="Sin 15" value="<?php echo $celular_alumno; ?>" title="Ingrese su nro. de celular" required/>
 							</td>
 						</tr>
 						<tr width="100%">
@@ -647,13 +743,13 @@ include_once "conexion.php";
 								<label for="mail_alumno">Mail 1: </label>
 							</td>
 							<td colspan="2">
-								<input id="mail_alumno" name="mail_alumno" type="email" class="campoText" value="<?php echo $mail_alumno; ?>" required/>
+								<input id="mail_alumno" name="mail_alumno" onblur="validarMail();" type="email" class="campoText" value="<?php echo $mail_alumno; ?>" title="Ingrese su mail" maxlength="60" required/>
 							</td>
 							<td colspan="1" align="right">
 								<label for="mail_alumno2">Mail 2: </label>
 							</td>
 							<td colspan="2">
-								<input id="mail_alumno2" name="mail_alumno2" type="email" class="campoText" value="<?php echo $mail_alumno2; ?>"/>
+								<input id="mail_alumno2" name="mail_alumno2" type="email" onchange="checkMail2();" class="campoText" value="<?php echo $mail_alumno2; ?>"  title="Ingrese un mail secundario" maxlength="60" />
 							</td>
 						</tr>
 						<tr width="100%">
@@ -661,13 +757,13 @@ include_once "conexion.php";
 								<label for="facebook_alumno">Facebook: </label>
 							</td>
 							<td colspan="2">
-								<input id="facebook_alumno" name="facebook_alumno" type="text" class="campoText" placeholder="&iquest;Como te encuentro?" value="<?php echo $facebook_alumno; ?>"/>
+								<input id="facebook_alumno" name="facebook_alumno" type="text" class="campoText" placeholder="&iquest;C&oacute;mo te encuentro&quest;" value="<?php echo $facebook_alumno; ?>"  maxlength="40" title="&iquest;C&oacute;mo te encontramos&quest;" />
 							</td>
 							<td colspan="1" align="right">
 								<label for="twitter_alumno">Twitter: </label>
 							</td>
 							<td colspan="2">
-								<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitterBlur();" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>"/>
+								<input id="twitter_alumno" name="twitter_alumno" onfocus="addTwitter();" onblur="addTwitterBlur();" type="text" class="campoText" value="<?php echo $twitter_alumno; ?>" maxlength="40" title="Ingrese su twitter" />
 							</td>
 						</tr>
 					</table>
@@ -680,19 +776,19 @@ include_once "conexion.php";
 								<label for="localidad_trabajo_alumno">Localidad:</label>
 							</td>
 							<td width="30%">
-								<input id="localidad_trabajo_alumno" name="localidad_trabajo_alumno" type="text" class="campoText" spellcheck="true" value="<?php echo $localidad_trabajo_alumno; ?>"/>
+								<input id="localidad_trabajo_alumno" name="localidad_trabajo_alumno" type="text" class="campoText" spellcheck="true" value="<?php echo $localidad_trabajo_alumno; ?>" maxlength="60" title="Ingrese la localidad d&oacute;nde trabaja" />
 							</td>
 							<td width="10%" align="right">
 								<label for="provincia_trabajo_alumno">Provincia:</label>
 							</td>
 							<td width="30%">
-								<input id="provincia_trabajo_alumno" name="provincia_trabajo_alumno" type="text" class="campoText" spellcheck="true" value="<?php echo $provincia_trabajo_alumno; ?>"/>
+								<input id="provincia_trabajo_alumno" name="provincia_trabajo_alumno" type="text" class="campoText" spellcheck="true" value="<?php echo $provincia_trabajo_alumno; ?>" maxlength="40" title="Ingrese la provincia d&oacute;nde trabaja" />
 							</td>
 							<td width="10%" align="right">
 								<label for="cp_alumno2">C.P.:</label>
 							</td>
 							<td width="10%">
-								<input id="cp_alumno2" name="cp_alumno2" type="text" class="campoNro" pattern="[0-9]{4}" value="<?php echo $cp_alumno2; ?>" maxlength="4" size="2"/>
+								<input id="cp_alumno2" name="cp_alumno2" type="text" class="campoNro" pattern="[0-9]{4,5}" value="<?php echo $cp_alumno2; ?>" maxlength="5" size="2" title="Ingrese el c&oacute;digo postal de la localidad d&oacute;nde trabaja" />
 							</td>
 						</tr>
 						<tr width="100%">
@@ -700,7 +796,7 @@ include_once "conexion.php";
 								<label for="empresa_trabaja_alumno">Empresa: </label>
 							</td>
 							<td colspan="5">
-								<input id="empresa_trabaja_alumno" name="empresa_trabaja_alumno" type="text" class="campoText" value="<?php echo $empresa_trabaja_alumno; ?>"/>
+								<input id="empresa_trabaja_alumno" name="empresa_trabaja_alumno" type="text" class="campoText" value="<?php echo $empresa_trabaja_alumno; ?>" maxlength="30" title="Ingrese el nombre de la empresa d&oacute;nde trabaja" />
 							</td>
 						</tr>
 						<tr width="100%">
@@ -708,7 +804,7 @@ include_once "conexion.php";
 								<label for="perfil_laboral_alumno">Perfil Laboral: </label>
 							</td>
 							<td colspan="5">
-								<textarea id="perfil_laboral_alumno" name="perfil_laboral_alumno" class="campoArea" value="" spellcheck="true" ><?php echo $perfil_laboral_alumno; ?></textarea>
+								<textarea id="perfil_laboral_alumno" name="perfil_laboral_alumno" class="campoArea" value="" maxlength="300" title="Ingrese una breve descripci&oacute;n de su perfil laboral" spellcheck="true" ><?php echo $perfil_laboral_alumno; ?></textarea>
 							</td>
 						</tr>
 					</table>
@@ -724,7 +820,7 @@ include_once "conexion.php";
 					<label for="password_alumno">Contrase&ntilde;a: </label>
 				</td>
 				<td width="90%">
-					<input id="password_alumno" name="password_alumno" type="password" pattern=".{6,}" title="M&iacute;nimo seis caracteres" class="campoText" value="<?php echo $password_alumno; ?>" required/>
+					<input id="password_alumno" name="password_alumno" type="password" pattern=".{6,}" title="M&iacute;nimo seis caracteres" minlength="6" maxlength="20" class="campoText" value="<?php echo $password_alumno; ?>" required/>
 				</td>
 			</tr>
 		</table>
@@ -733,7 +829,7 @@ include_once "conexion.php";
 <table id="tablaBtn" align="center">
 	<tr width="100%">
 		<td width="50%" align="right">
-			<?php if($id_Alumno != NULL){?>
+			<?php if($id_Alumno != 0){?>
 				<a href="verAlumno.php?idAlumno=<?php echo $id_Alumno;?>&titulo_alumno=<?php echo $carrera_alumno;?>"><input type="button" id="btn_cancelar" value="Cancelar"></a>
 			<?php }else{?>
 				<a href="validarDNI.php"><input type="button" id="btn_cancelar" value="Cancelar"></a>
