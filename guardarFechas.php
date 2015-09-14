@@ -51,10 +51,20 @@ $errorPdf = 0;
 
 switch ($etapa){
 	case 1:
+		$columna = "";
+		$origen = empty($_REQUEST['origen']) ? '' : $_REQUEST['origen'];
+		if($origen == "ra")
+		{
+			$columna = "fecha_resp_alumno";
+		}
+		else
+		{
+			$columna = "fecha_solicitud";
+		}
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
-			$sqlGuardar .= "UPDATE seguimiento SET fecha_solicitud='$fecha' WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= "UPDATE seguimiento SET $columna='$fecha' WHERE id_seguimiento='$idAlumno';";
 		}
 		$redireccion = 'solicitudTitulo.php?controlR=0';
 		break;

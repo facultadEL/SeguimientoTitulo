@@ -182,8 +182,7 @@ function confirmSeleccion()
 		{
 			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
 		}
-		//Origen puede ser me (Mesa de entrada) o ra (Responsable de alumnos)
-		document.location.href = "confirmarSeleccion.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso + "&origen=me";
+		document.location.href = "confirmarSeleccion.php?alumnosPasar=" + alumnosPasar + "&etapa=" + etapa + "&fecha=" + fechaIngreso + "&origen=ra";
 	}
 	return false;
 }

@@ -1,0 +1,1 @@
+ALTER TABLE seguimiento ADD column fecha_resp_alumno date default null;

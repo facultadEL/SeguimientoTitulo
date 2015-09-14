@@ -1,0 +1,1 @@
+ALTER TABLE seguimiento ADD column nro_expediente character varying default null;

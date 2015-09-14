@@ -30,7 +30,13 @@ var htmlConfRet;
 var contador = 0;
 var tieneArchivo = "";
 var controlArchivo = 0;
+var origen = "";
 stringPasar = "guardarFechas.php?";
+
+function setOrigen(s)
+{
+	origen = s;
+}
 
 function cargarAlumnos(stringAlumnos)
 {
@@ -186,6 +192,7 @@ function cargarConfirmData()
 	}
 
 	stringPasar += "&alumnosPasar="+stringAlumnosToSend;
+	stringPasar += "&origen="+origen;
 	$('#form').attr('action', stringPasar); //this fails silently
 	//$('form').get(0).setAttribute('action', stringPasar); //this works
 }
@@ -316,6 +323,7 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 $nroResNot = "";
 
 $etapa = $_REQUEST['etapa'];
+$origen = empty($_REQUEST['origen']) ? '' : $_REQUEST['origen'];
 
 if($etapa == 2 || $etapa == 3 || $etapa == 4 || $etapa == 7)
 {
@@ -332,6 +340,7 @@ if($fecha == '')
 
 echo '<script>cargarAlumnos("'.$alumnosPasar.'")</script>';
 echo '<script>cargarDatosEtapa('.$etapa.',"'.$fecha.'","'.$alumnosPasar.'","'.$nroResNot.'")</script>';
+echo '<script>setOrigen("'.$origen.'")</script>';
 
 ?>
 <body link="#000000" vlink="#000000" alink="#FFFFFF">

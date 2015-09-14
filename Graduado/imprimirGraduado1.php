@@ -177,7 +177,7 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<tr><td width="100%"><TextoFin>Toda notificaci&oacute;n oficial se realizar&aacute; &uacute;nicamente a los datos consignados en la presente, quedando el solicitante comprometido a notificar cambios. Este documento tiene caracter de <b><u>DECLARACI&Oacute;N JURADA</u></b></TextoFin></td></tr>
 	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
 	<tr width="100%">
-		<td width="100%" align="center"><?php echo $codigo_impresion;?></td>
+		<td width="100%" align="center"><b>Codigo de control interno:</b><?php echo $codigo_impresion;?></td>
 	</tr>
 </table>
 </body>
