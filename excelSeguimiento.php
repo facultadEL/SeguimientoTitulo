@@ -57,7 +57,7 @@ if($control==1){
 		or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%') ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 	}
 }else{
-	$consulta = "SELECT id_alumno,nro_legajo,nombre_alumno,apellido_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,calle_alumno,numerocalle_alumno FROM alumno ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+	$consulta = "SELECT id_seguimiento,id_alumno,nro_legajo,nombre_alumno,apellido_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,calle_alumno,numerocalle_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 }
 include_once 'conexion.php';
 echo '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
