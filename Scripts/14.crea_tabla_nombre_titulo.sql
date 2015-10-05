@@ -13,7 +13,7 @@ INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('2','Ingeniero/a Electrónic
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('3','Ingeniero/a Química',3);
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('4','Ingeniero/a Mecánica',4);
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('5','Licenciado/a en Administración Rural',5);
-INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('6','Mecatrónica',6);
+INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('6','Técnico/a en Mecatronica',6);
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('7','Analista en Sistemas de Información',7);
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('8','Técnico/a en Administración Rural',8);
 INSERT INTO nombre_titulo(id,nombre,carrera) VALUES('9','Técnico/a Electrónico',9);

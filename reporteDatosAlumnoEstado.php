@@ -98,6 +98,7 @@ function getHtml(vDatos,c,etapa)
 		html += '<td>'+vDatos[0]+'</td>';
 		html += '<td>'+vDatos[1]+'</td>';
 		html += '<td>'+vDatos[2]+'</td>';
+		html += '<td>'+vDatos[3]+'</td>';
 		html += '<td>'+etapa+'</td>';
 	html += '</tr>';
 	return html;
@@ -397,7 +398,7 @@ function getEtapa($row)
 
 include_once 'conexion.php';
 //$control = $_REQUEST['control'];
-$consulta = "SELECT id_alumno,nombre_alumno,apellido_alumno,numerodni_alumno,carrera.nombre_carrera,nombre_nivel_carrera,seguimiento.* FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) ORDER BY apellido_alumno ASC,nombre_alumno ASC";
+$consulta = "SELECT id_alumno,nombre_alumno,apellido_alumno,numerodni_alumno,carrera.nombre_carrera,nombre_nivel_carrera,seguimiento.* FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) ORDER BY id_nivel_carrera ASC,nombre_carrera ASC,apellido_alumno ASC,nombre_alumno ASC";
 $sep = '/--/';
 
 //echo $consulta;
@@ -410,9 +411,10 @@ while($rowConsulta = pg_fetch_array($sqlConsulta))
 	$nombreA = ucwords(strtolower($rowConsulta['nombre_alumno']));
 	$apellidoA = ucwords(strtolower($rowConsulta['apellido_alumno']));
 	$dniA = $rowConsulta['numerodni_alumno'];
+	$carreraA = $rowConsulta['nombre_carrera'];
 	$etapaA = getEtapa($rowConsulta);
 	
-	$datosAlumno = $apellidoA.$sep.$nombreA.$sep.$dniA;
+	$datosAlumno = $apellidoA.$sep.$nombreA.$sep.$dniA.$sep.$carreraA;
 
 	echo '<script>setAlumno("'.$datosAlumno.'","'.$etapaA.'");</script>';
 }
@@ -444,7 +446,7 @@ while($rowConsulta = pg_fetch_array($sqlConsulta))
 		<table class="table table-striped table-responsive">
 			<thead>
 				<tr>
-					<th colspan="5">
+					<th colspan="6">
 						Listado de Alumnos
 					</th>
 				</tr>
@@ -453,6 +455,7 @@ while($rowConsulta = pg_fetch_array($sqlConsulta))
 					<th>Apellido</th>
 					<th>Nombre</th>
 					<th>DNI</th>
+					<th>Carrera</th>
 					<th>Etapa</th>
 				</tr>
 			</thead>
