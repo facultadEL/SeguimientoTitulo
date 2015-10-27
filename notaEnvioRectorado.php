@@ -6,26 +6,6 @@
 <!--script src="jquery-latest.js"></script-->
 <script src="jquery.mask.js" type="text/javascript"></script>
 <script>
-/*
-jQuery(function($){
-	$("#numero1").mask("9,99", {
-
-		// Generamos un evento en el momento que se rellena
-		completed:function(){
-			$("#numero1").addClass("ok")
-		}
-	});
-	
-	// Definimos las mascaras para cada input
-	$("#date").mask("39/19/2999");
-	$("#movil").mask("999 99 99 99");
-	$("#letras").mask("aaa");
-	*/
-	//$("#resolucion").mask("****/**");
-	/*
-	$("#comodines").mask("?");
-});
-*/
 
 var etapa = 3;
 var fechaIngreso = "";
@@ -50,6 +30,8 @@ prevHtml += '<tr bgcolor="#000000">';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Carrera</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Nivel</label></strong></td>';
+prevHtml += '<td align="center"><strong><label>Fecha</label></strong></td>';
+prevHtml += '<td align="center"><strong><label>N&uacute;mero de Nota</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Selecci&oacute;n</label></strong></td>';
 prevHtml += '</tr>';
 finHtml = '</table>';
@@ -140,7 +122,7 @@ function mostrarAlumnos(busqueda)
 				checked = 'checked';
 			}
 			nombreCheck = "checkbox"+key;
-			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -172,7 +154,7 @@ function mostrarAlumnos(busqueda)
 				{
 					checked = 'checked';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}
@@ -186,7 +168,7 @@ function confirmSeleccion()
 {
 	separadorAlumnos = '/-/-/';
 	alumnosPasar = "";
-	if((nroResolucion != "") &&(fechaIngreso != "") && (alumnosSeleccionados.length > 0))
+	if(((nroResolucion != "") || (fechaIngreso != "")) && (alumnosSeleccionados.length > 0))
 	{
 		for(var i = 0; i < alumnosSeleccionados.length; i++)
 		{
@@ -235,7 +217,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_rescd IS NOT NULL AND fecha_nota_envio_rec IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_nota_envio_rec,numero_nota FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN numero_nota_rectorado ON(seguimiento.num_nota_fk = numero_nota_rectorado.id_numero_nota_rectorado) WHERE (fecha_rescd IS NOT NULL AND num_res_cd_fk IS NOT NULL) AND (fecha_nota_envio_rec IS NULL OR num_nota_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -244,7 +226,11 @@ $controlR = $_REQUEST['controlR'];
 
 while($row = pg_fetch_array($val)){
 	$contador += 1;
-	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'];
+
+	$fechaNota = (empty($row['fecha_nota_envio_rec'])) ? '' : $row['fecha_nota_envio_rec'];
+	$numeroNota = (empty($row['numero_nota'])) ? '' : $row['numero_nota'];
+
+	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaNota.$sep.$numeroNota;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
 
