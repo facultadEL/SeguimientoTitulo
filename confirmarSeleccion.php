@@ -199,7 +199,7 @@ function cargarConfirmData()
 
 function validarForm()
 {
-	/*
+	
 	if(numeroEtapa == 2 || numeroEtapa == 3 || numeroEtapa == 4 || numeroEtapa == 7)
 	{
 		if(controlArchivo == 0)
@@ -207,23 +207,16 @@ function validarForm()
 			nombreArchivoValidar = $('#archivoPdf').val();
 			if(nombreArchivoValidar != "")
 			{
-				vNombreArchivoValidar = nombreArchivoValidar.split('.');
-				extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
-				if(extension != "doc" && extension != "pdf" && extension != "docx")
-				{
-					alert("Debe ingresar un archivo .pdf o .doc");
-					$('#archivoPdf').focus();
-					return false;
-				}
+				//No tenia ningun archivo cargado y cargo uno
+				$('#controlArchivoHidden').val(1);
 			}
 			else
 			{
-				alert("Debe ingresar un archivo .pdf o .doc");
-				$('#archivoPdf').focus();
-				return false;
+				//No tenia ningun archivo y no cargo nada
+				$('#controlArchivoHidden').val(0);
 			}
 		}
-	}*/
+	}
 	return true;
 }
 
@@ -256,62 +249,62 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 	$nombreArchivo = "";
 	$direccionArchivo = "";
 	switch ($etapaLocal) {
-		case 2:
-			$condicion = "numero_res ='rec-".$nroRecibido."'";
-			$cantidad = contarRegistro('id_numero_resolucion','numero_resolucion',$condicion);
+		case 2: //Consejo directivo
+			$condicion = "nombre='".$nroRecibido."' AND tipo=1";
+			$cantidad = contarRegistro('id','archivo',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
 			}elseif ($cantidad == 1){
-				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
+				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
-				$direccionArchivo = $rowIdNumeroRes['direccion_res'];
+				$direccionArchivo = $rowIdNumeroRes['url'];
 			}
 			break;
 		case 3:
-			$condicion = "numero_nota ='".$nroRecibido."'";
-			$cantidad = contarRegistro('id_numero_nota_rectorado','numero_nota_rectorado',$condicion);
+			$condicion = "nombre='".$nroRecibido."' AND tipo=2";
+			$cantidad = contarRegistro('id','archivo',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Nota: ";
 				$direccionArchivo = "";
 			}elseif ($cantidad == 1){
-				$rowIdNumeroNota = pg_fetch_array(traerSqlCondicion('id_numero_nota_rectorado,direccion_nota','numero_nota_rectorado',$condicion));
+				$rowIdNumeroNota = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "nota";
-				$direcionArchivo = $rowIdNumeroNota['direccion_nota'];
+				$direcionArchivo = $rowIdNumeroNota['url'];
 			}
 			break;
-		case 4:
-			$condicion = "numero_res ='res-".$nroRecibido."'";
-			$cantidad = contarRegistro('id_numero_resolucion','numero_resolucion',$condicion);
+		case 4: //Consejo superior
+			$condicion = "nombre='".$nroRecibido."' AND tipo=3";
+			$cantidad = contarRegistro('id','archivo',$condicion);
 			if($cantidad == 0){
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
 			}elseif ($cantidad == 1){
-				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id_numero_resolucion,direccion_res','numero_resolucion',$condicion));
+				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
-				$direccionArchivo = $rowIdNumeroRes['direccion_res'];
+				$direccionArchivo = $rowIdNumeroRes['url'];
 			}
 			break;
 		case 7:
 			//Numero acta tiene un = a d y el numero de acta, en caso de que tambien se quiera agregar el analitico a eso, en ese caso se agregaria una a
-			$condicion = "numero_acta = 'd-".$nroRecibido."'";
-			$cantidad = contarRegistro('id_numero_acta','numero_acta', $condicion);
+			$condicion = "nombre='".$nroRecibido."' AND tipo=4";
+			$cantidad = contarRegistro('id','archivo', $condicion);
 			if($cantidad == 0)
 			{
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Acta: ";
 				$direccionArchivo = "";
 			}elseif ($cantidad == 1){
-				$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id_numero_acta,direccion_acta','numero_aca',$condicion));
+				$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "acta";
-				$direccionArchivo = $rowIdNumeroActa['direccion_acta'];
+				$direccionArchivo = $rowIdNumeroActa['url'];
 			}
 			break;
 	}
@@ -328,11 +321,12 @@ $origen = empty($_REQUEST['origen']) ? '' : $_REQUEST['origen'];
 if($etapa == 2 || $etapa == 3 || $etapa == 4 || $etapa == 7)
 {
 	$nroResNot = $_REQUEST['nroResNot'];
+	controlArchivoPhp($etapa,$nroResNot);
 }
 
 $alumnosPasar = $_REQUEST['alumnosPasar'];
 $fecha = $_REQUEST['fecha'];
-controlArchivoPhp($etapa,$nroResNot);
+
 if($fecha == '')
 {
 	$fecha = date('d').'/'.date('m').'/'.date('Y');
@@ -345,6 +339,7 @@ echo '<script>setOrigen("'.$origen.'")</script>';
 ?>
 <body link="#000000" vlink="#000000" alink="#FFFFFF">
 <form class="formSolTit" id="form" name="solicitud_titulo" action="guardarFechas.php"  onsubmit="return validarForm()" method="post" enctype="multipart/form-data">
+<input type="hidden" id="controlArchivoHidden" value="" name="controlArchivoHidden" />
 <table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">
 </table>
 <p id="returnId">
