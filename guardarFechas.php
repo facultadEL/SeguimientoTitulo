@@ -68,6 +68,7 @@ switch ($etapa){
 		}
 		$redireccion = 'solicitudTitulo.php?controlR=0';
 		break;
+
 	case 2:
 		//Traigo el control para ver si el archivo ya se encuentra en el sistema
 		$controlArchivo = $_REQUEST['controlArchivo'];
@@ -101,7 +102,9 @@ switch ($etapa){
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
 		$redireccion = 'resolucionCd.php?controlR=0';
 		break;
+
 	case 3:
+
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
 			
@@ -128,7 +131,9 @@ switch ($etapa){
 		$redireccion = 'notaEnvioRectorado.php?controlR=0';
 		
 		break;
+
 	case 4:
+	
 		$sqlSincronizacion = "";
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
@@ -160,6 +165,7 @@ switch ($etapa){
 		$sqlSincronizar = getDataAlumno($idAlumno);
 		$redireccion = 'resolucionCs.php?controlR=0';
 		break;
+
 	case 5:
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
@@ -177,6 +183,7 @@ switch ($etapa){
 		}
 		$redireccion = 'ingresoAnalitico.php?controlR=0';
 		break;
+
 	case 7:
 		$controlArchivo = $_REQUEST['controlArchivo'];
 		if($controlArchivo==0){
@@ -205,6 +212,7 @@ switch ($etapa){
 		$sqlGuardar = $sqlNuevoNroActa.$sqlGuardar;
 		$redireccion = 'entregaDiploma.php?controlR=0';
 		break;
+
 	case 8:
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{

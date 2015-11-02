@@ -217,7 +217,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_rescd,numero_res FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN numero_resolucion ON(seguimiento.num_res_cd_fk = numero_resolucion.id_numero_resolucion) WHERE fecha_solicitud IS NOT NULL AND (fecha_rescd IS NULL OR num_res_cd_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_rescd,numero_res FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN numero_resolucion ON(seguimiento.num_res_cd_fk = numero_resolucion.id_numero_resolucion) WHERE fecha_solicitud IS NOT NULL AND fecha_resp_alumno IS NOT NULL AND (fecha_rescd IS NULL OR num_res_cd_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
