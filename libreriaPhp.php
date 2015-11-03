@@ -49,6 +49,14 @@ function traerId($tabla){
 	return $maxId;
 }
 
+function traerIdST($tabla)
+{
+    $sqlId = pg_query('SELECT max(id) FROM '.$tabla);
+    $rowId = pg_fetch_array($sqlId);
+    $maxId = $rowId['max'] + 1;
+    return $maxId;   
+}
+
 //Muestra el mensaje javascript y redirecciona a los lugares que le mandemos
 function mostrarMensaje($msg,$redireccion){
     echo '<script type="text/javascript">alert("'.$msg.'")
@@ -99,20 +107,30 @@ function loadFileToServer($placeToLoad,$nombre)
 	$tamano_archivo = $_FILES['archivoPdf']['size'];
 	$filePdf = $_FILES['archivoPdf']['tmp_name'];
 
+    $nombre_archivoPdf = explode('.', $nombre_archivoPdf);
+
+    $nombre .= '.'.$nombre_archivoPdf[(count($nombre_archivoPdf) - 1)];
+
+    $nombre = str_replace('/', '-', $nombre);
+
 	$ftp_server = "190.114.198.126";
 	$ftp_user_name = "fernandoserassioextension";
 	$ftp_user_pass = "fernando2013";
-	$destino_Pdf = "web/".$placeToLoad."/archivos/".$nombre;
+	$destino_Pdf = "web/seguimientoPrueba/archivos/".$nombre;
 	$destinoPdf = "archivos/".$nombre;
 	$vacio = "archivos/";
+
+    echo $destinoPdf.'<br>';
+    echo $destino_Pdf.'<br>';
 
 	//conexión
 	$conn_id = ftp_connect($ftp_server); 
 	// logeo
 	$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass); 
 
+    ftp_pasv($conn_id, true);
 	//probando conexion
-	/*
+	
 	if ((!$conn_id) || (!$login_result)){ 
 	   echo "Conexión al FTP con errores!";
 	   echo "Intentando conectar a $ftp_server for user $ftp_user_name"; 
@@ -120,11 +138,21 @@ function loadFileToServer($placeToLoad,$nombre)
 	}else{
 	   echo "Conectado a $ftp_server, for user $ftp_user_name";
 	}
-	*/
+	
 
-	if ($nombre_archivoPdf <> NULL){
-		$uploadPdf = ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY);
+	if ($nombre != NULL){
+        //$uploadPdf = ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY);
+        echo 'Entro';
+		if(ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY))
+        {
+            echo 'Si';
+        }
+        else
+        {
+            echo 'No';
+        }
 	}
+
 	return $destinoPdf;
 }
 

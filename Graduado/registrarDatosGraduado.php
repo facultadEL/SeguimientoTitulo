@@ -53,12 +53,15 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		$sep = '/-/';
 		$datosPasar = $nombre_alumno.$sep.$apellido_alumno.$sep.$nro_legajo.$sep.$tipodni_alumno.$sep.$numerodni_alumno.$sep.$fecha_nacimiento_alumno.$sep.$provincia_viviendo_alumno.$sep.$localidad_viviendo_alumno.$sep.$cp_alumno.$sep.$calle_alumno.$sep.$numerocalle_alumno.$sep.$piso_alumno.$sep.$dpto_alumno.$sep.$carrera_alumno.$sep.$caracteristicaF_alumno.$sep.$telefono_alumno.$sep.$caracteristicaC_alumno.$sep.$celular_alumno.$sep.$mail_alumno.$sep.$mail_alumno2.$sep.$facebook_alumno.$sep.$twitter_alumno.$sep.$password_alumno.$sep.$provincia_trabajo_alumno.$sep.$localidad_trabajo_alumno.$sep.$cp_alumno2.$sep.$empresa_trabaja_alumno.$sep.$perfil_laboral_alumno.$sep.$destinoImagen.$sep.$localidad_nacimiento_alumno.$sep.$ultima_materia_alumno.$sep.$fecha_ultima_mat_alumno.$sep.$hidden1.$sep.$hidden2.$sep.$fecreg;
 		
-		//$nombre_foto = $_FILES['fotoAlumno']['name'];
 		$nombreFoto = $_FILES['fotoAlumno']['name'];
 		$tipo_archivo = $_FILES['fotoAlumno']['type'];	
 		$tamano_archivo = $_FILES['fotoAlumno']['size'];
 		$archivo_foto = $_FILES['fotoAlumno']['tmp_name'];
 		
+		//Le agrego estas dos lineas para crear un nombre de foto unico conformado por el legajo y el apellido
+		$vNombreFoto = explode('.', $nombre_foto);
+		$nombre_foto = $apellido_alumno.$nro_legajo.$vNombreFoto[1];
+
 		//en el siguiente paso le quito los espacios al nombre de la foto para evitar problemas.
 		$nombre_foto = str_replace(" ", "-", $nombreFoto);
 

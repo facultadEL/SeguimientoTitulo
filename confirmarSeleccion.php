@@ -22,6 +22,7 @@ var alumnosToAdd = "";
 var nombreEtapa;
 var numeroEtapa;
 var redireccion;
+var numeroControl = 0;
 var fechaEtapa;
 var addNumero = "";
 var addArchivo = "";
@@ -31,6 +32,7 @@ var contador = 0;
 var tieneArchivo = "";
 var controlArchivo = 0;
 var origen = "";
+var fechaControl;
 stringPasar = "guardarFechas.php?";
 
 function setOrigen(s)
@@ -70,7 +72,7 @@ function loadTable()
 	prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Confirmar - '+nombreEtapa+'</l1></td>';
 	prevHtml += '</tr>';
 	prevHtml += addNumero;
-	prevHtml += '<tr bgcolor="#FFFFFF">';
+	prevHtml += '<tr bgcolor="#FFFFFF" id="trFechaEtapa">';
 	prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>'+fechaEtapa+'</l1></td>';
 	prevHtml += '</tr>';
 	prevHtml += addArchivo;
@@ -95,7 +97,7 @@ function mostrarAlumnos()
 
 function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 {
-	
+	numeroControl = numeroRecibido;
 	switch(etapa)
 	{
 		case 1:
@@ -104,10 +106,10 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			break;
 		case 2:
 			nombreEtapa = "Consejo Directivo";
-			addNumero = '<tr bgcolor="#FFFFFF">';
+			addNumero = '<tr bgcolor="#FFFFFF"  id="trNumero">';
  			addNumero += '<td id="titulo3" colspan="5" align="center"><l1>Numero Resoluci&oacute;n:  '+numeroRecibido+'</l1></td>';
  			addNumero += '</tr>';
-			addArchivo = '<tr bgcolor="#FFFFFF">';
+			addArchivo = '<tr bgcolor="#FFFFFF" id="trArchivo">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "resolucionCd.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
@@ -115,10 +117,10 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			break;
 		case 3:
 			nombreEtapa = "Nota Envio a Rectorado";
-			addNumero = '<tr bgcolor="#FFFFFF">';
+			addNumero = '<tr bgcolor="#FFFFFF"  id="trNumero">';
  			addNumero += '<td id="titulo3" colspan="5" align="center"><l1>Numero Nota a Rectorado:  '+numeroRecibido+'</l1></td>';
  			addNumero += '</tr>';
-			addArchivo = '<tr bgcolor="#FFFFFF">';
+			addArchivo = '<tr bgcolor="#FFFFFF" id="trArchivo">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "notaEnvioRectorado.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
@@ -126,10 +128,10 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			break;
 		case 4:
 			nombreEtapa = "Consejo Superior";
-			addNumero = '<tr bgcolor="#FFFFFF">';
+			addNumero = '<tr bgcolor="#FFFFFF"  id="trNumero">';
  			addNumero += '<td id="titulo3" colspan="5" align="center"><l1>Numero Resoluci&oacute;n:  '+numeroRecibido+'</l1></td>';
  			addNumero += '</tr>';
-			addArchivo = '<tr bgcolor="#FFFFFF">';
+			addArchivo = '<tr bgcolor="#FFFFFF" id="trArchivo">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "resolucionCs.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
@@ -145,10 +147,10 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 			break;
 		case 7:
 			nombreEtapa = "Entrega Diploma";
-			addNumero = '<tr bgcolor="#FFFFFF">';
+			addNumero = '<tr bgcolor="#FFFFFF" id="trNumero">';
  			addNumero += '<td id="titulo3" colspan="5" align="center"><l1>Numero Acta:  '+numeroRecibido+'</l1></td>';
  			addNumero += '</tr>';
-			addArchivo = '<tr bgcolor="#FFFFFF">';
+			addArchivo = '<tr bgcolor="#FFFFFF" id="trArchivo">';
 			addArchivo += tieneArchivo;
 			addArchivo += '</tr>';
 			redireccion = "entregaDiploma.php?controlR=1&fecha="+fecha+"&alumnosPasar="+alumnosToReturn+"&nroResNot="+numeroRecibido;
@@ -170,6 +172,7 @@ function cargarDatosEtapa(etapa, fecha, alumnosToReturn, numeroRecibido)
 	}
 	numeroEtapa = etapa;
 	fechaPasar = fecha;
+	fechaControl = fecha;
 	fechaEtapa = "Fecha "+nombreEtapa+": "+fecha;
 	htmlConfRet = '<center><input type="submit" value="Confirmar"/>&nbsp;&nbsp;<a href="'+redireccion+'"><input type="button" value="Atr&aacute;s"></a></center>';
 	stringPasar += '&etapa='+etapa+'&fecha='+fecha;
@@ -220,21 +223,41 @@ function validarForm()
 	return true;
 }
 
-function validarArchivo(){
-		nombreArchivoValidar = $('#archivoPdf').val();
-		if(nombreArchivoValidar != ""){
-			vNombreArchivoValidar = nombreArchivoValidar.split('.');
-			extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
-			if(extension != "pdf" && extension != "doc" && extension != "docx"){
-				alert("Debe ingresar un archivo pdf o doc!");
-				$('#archivoPdf').val("");
-			}
+function validarArchivo()
+{
+	nombreArchivoValidar = $('#archivoPdf').val();
+	if(nombreArchivoValidar != ""){
+		vNombreArchivoValidar = nombreArchivoValidar.split('.');
+		extension = vNombreArchivoValidar[vNombreArchivoValidar.length - 1];
+		if(extension != "pdf" && extension != "doc" && extension != "docx"){
+			alert("Debe ingresar un archivo pdf o doc!");
+			$('#archivoPdf').val("");
 		}
 	}
+}
+
+function controlOcultar()
+{
+	if(numeroControl == 0)
+	{
+		$('#trArchivo').hide();
+	}
+
+	if(numeroControl == 0)
+	{
+		$('#trNumero').hide();
+	}
+
+	if(fechaControl == 0)
+	{
+		$('#trFechaEtapa').hide();
+	}
+}
 
 $(document).ready(function(){
 	mostrarAlumnos();
 	cargarConfirmData(); //Este metodo carga los datos para el submit del formulario
+	controlOcultar();
 });
 
 </script>
@@ -313,24 +336,27 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 
 //Traigo los datos de la ventana anterior(etapa,longVector,textPasar).
 //Luego con la etapa, defino que muestro y donde vuelvo.
+
 $nroResNot = "";
 
 $etapa = $_REQUEST['etapa'];
-$origen = empty($_REQUEST['origen']) ? '' : $_REQUEST['origen'];
+$origen = (empty($_REQUEST['origen'])) ? '' : $_REQUEST['origen'];
 
 if($etapa == 2 || $etapa == 3 || $etapa == 4 || $etapa == 7)
 {
-	$nroResNot = $_REQUEST['nroResNot'];
+	$nroResNot = (empty($_REQUEST['nroResNot'])) ? '0' : $_REQUEST['nroResNot'];
 	controlArchivoPhp($etapa,$nroResNot);
 }
 
 $alumnosPasar = $_REQUEST['alumnosPasar'];
-$fecha = $_REQUEST['fecha'];
+$fecha = (empty($_REQUEST['fecha'])) ? '0' : $_REQUEST['fecha'];
 
-if($fecha == '')
+
+if($origen == 'me' || $origen == 'ra')
 {
 	$fecha = date('d').'/'.date('m').'/'.date('Y');
 }
+
 
 echo '<script>cargarAlumnos("'.$alumnosPasar.'")</script>';
 echo '<script>cargarDatosEtapa('.$etapa.',"'.$fecha.'","'.$alumnosPasar.'","'.$nroResNot.'")</script>';

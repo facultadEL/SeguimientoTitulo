@@ -15,16 +15,16 @@ var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Nota Envio Rectorado</l1></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Listado de Alumnos - Nota Envio Rectorado</l1></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>N° de Nota:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>N° de Nota:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Fecha de Nota:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Fecha de Nota:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
@@ -122,7 +122,7 @@ function mostrarAlumnos(busqueda)
 				checked = 'checked';
 			}
 			nombreCheck = "checkbox"+key;
-			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -154,7 +154,7 @@ function mostrarAlumnos(busqueda)
 				{
 					checked = 'checked';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}

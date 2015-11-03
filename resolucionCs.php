@@ -205,7 +205,7 @@ function confirmSeleccion()
 {
 	separadorAlumnos = '/-/-/';
 	alumnosPasar = "";
-	if((nroResolucion != "") &&(fechaIngreso != "") && (alumnosSeleccionados.length > 0))
+	if(((nroResolucion != "") || (fechaIngreso != "")) && (alumnosSeleccionados.length > 0))
 	{
 		for(var i = 0; i < alumnosSeleccionados.length; i++)
 		{
@@ -215,6 +215,7 @@ function confirmSeleccion()
 	}
 	return false;
 }
+/*
 function confirmNoResolucion()
 {
 	separadorAlumnos = '/-/-/';
@@ -229,6 +230,7 @@ function confirmNoResolucion()
 	}
 	return false;
 }
+*/
 
 $(document).ready(function(){
 	//$('#tabla').html(prevHtml);
