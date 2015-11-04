@@ -11,8 +11,8 @@ $esp = '&nbsp;&nbsp;';
 $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 	if ($id_Alumno == 0){
 		//$id_Alumno = $_REQUEST['id_alumno'];
-		$nombre_alumno = ucwords(trim($_REQUEST['nombre_alumno']));
-		$apellido_alumno = ucwords(trim($_REQUEST['apellido_alumno']));
+		$nombre_alumno = ucwords(strtolower(trim($_REQUEST['nombre_alumno'])));
+		$apellido_alumno = ucwords(strtolower(trim($_REQUEST['apellido_alumno'])));
 		$nro_legajo = trim($_REQUEST['nro_legajo']);
 		$tipodni_alumno = trim($_REQUEST['tipodni_alumno']);
 		$numerodni_alumno = trim($_REQUEST['numerodni_alumno']);

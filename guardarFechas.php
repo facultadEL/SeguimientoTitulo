@@ -331,18 +331,19 @@ switch ($etapa){
 					if($idNumeroRes != 0 && empty($rowDatosAlumno['num_res_cs_fk']))
 					{
 						$sqlGuardar .= ", num_res_cs_fk='$idNumeroRes' ";
-						$controlSincronizar = 1;
-						$alumnosSincronizar .= $idAlumno;
-						if(!$i < (count($vAlumnosPasar) - 2))
-						{
-							$alumnosSincronizar .= $separador;
-						}
 					}
 				}
 			}
 			else
 			{
 				$sqlGuardar .= " num_res_cs_fk='$idNumeroRes'";
+			}
+
+			$controlSincronizar = 1;
+			$alumnosSincronizar .= $idAlumno;
+			if(!$i < (count($vAlumnosPasar) - 2))
+			{
+				$alumnosSincronizar .= $separador;
 			}
 
 			$sqlGuardar .= " WHERE id_seguimiento='$idAlumno';";
@@ -498,12 +499,44 @@ function sincronizarAlumnos($alumnos)
 {
 	$vAlumnos = explode('/--/', $alumnos);
 	//Aca se va a hacer la sincronizacion de este sistema con el de graduados.
-	/*
-	for ($i=0; $i < (count($vAlumnos) - 1); $i++)
-	{ 
+	
+	for ($i=0; $i < (count($vAlumnos)); $i++)
+	{
+		$idAlumno = $vAlumnos[$i];
+		$condicionAlumno = "id_seguimiento='$idAlumno' AND fecha_rescs IS NOT NULL AND num_res_cs_fk IS NOT NULL";
+		$sqlAlumno = traerSqlCondicion('*','seguimiento s INNER JOIN alumno a ON(s.alumno_fk = a.id_alumno) INNER JOIN carrera c ON(s.carrera_fk = c.id_carrera)',$condicion);
+		$rowAlumno = pg_fetch_array($sqlAlumno);
+
+		//El id lo busco en la otra base
+		$nombre = $rowAlumno['nombre_alumno'];
+		$apellido = $rowAlumno['apellido_alumno'];
+		$mail = $rowAlumno['mail_alumno'];
+		$facebook = $rowAlumno['facebook_alumno'];
+		$tipoDni = $rowAlumno['tipodni_alumno'];
+		$calle = $rowAlumno['calle_alumno'];
+		$foto = $rowAlumno['foto_alumno'];
+		$anchoFoto = $rowAlumno['ancho_final'];
+		$altoFoto = $rowAlumno['alto_final'];
+		$numeroCalle = $rowAlumno['numerocalle_alumno'];
+		$mail2 = $rowAlumno['mail_alumno2'];
+		$twitter = $rowAlumno['twitter_alumno'];
+		$provinciaTrabajo = $rowAlumno['provincia_trabajo_alumno'];
+		$localidadTrabajo = $rowAlumno['localidad_trabajo_alumno'];
+		$provinciaViviendo = $rowAlumno['provincia_viviendo_alumno'];
+		$localidadViviendo = $rowAlumno['localidad_viviendo_alumno'];
+		$perfilLaboral = $rowAlumno['perfil_laboral_alumno'];
+		
+
+		//sqlGraduado es el query que se va a ejecutar en la base de datos de graduados
+		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,
+			facebook_alumno,numerodni_alumno,tipodni_alumno,perfilacademico_alumno,foto_alumno,
+			carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,
+			gra_depto,gra_piso,mail_alumno2,twitter_alumno,provincia_nac_alumno,localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) 
+			VALUES()"
+
 		
 	}
-	*/
+	
 
 }
 
