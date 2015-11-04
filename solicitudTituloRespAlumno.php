@@ -1,6 +1,6 @@
 <html>
 <head>
-<title> Solicitud Titulo </title>
+<title> Solicitud Titulo - Responsable de Alumnos </title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <!--script src="jquery-latest.js"></script-->
@@ -34,7 +34,7 @@ var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos  - Solicitud Titulo</l1></td>';
+prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos  - Solicitud Titulo - Responsable de Alumnos</l1></td>';
 prevHtml += '</tr>';
 //prevHtml += '<tr bgcolor="#FFFFFF">';
 //prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Fecha de resoluci&oacute;n:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';

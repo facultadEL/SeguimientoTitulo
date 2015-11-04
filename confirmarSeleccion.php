@@ -273,57 +273,67 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 	$direccionArchivo = "";
 	switch ($etapaLocal) {
 		case 2: //Consejo directivo
-			$condicion = "nombre='".$nroRecibido."' AND tipo=1";
+			$condicion = "nombre='".$nroRecibido."' AND tipo=1 AND url IS NOT NULL";
 			$cantidad = contarRegistro('id','archivo',$condicion);
-			if($cantidad == 0){
+			if($cantidad == 0)
+			{
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
-			}elseif ($cantidad == 1){
+			}
+			elseif ($cantidad == 1)
+			{
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
 				$direccionArchivo = $rowIdNumeroRes['url'];
 			}
 			break;
-		case 3:
-			$condicion = "nombre='".$nroRecibido."' AND tipo=2";
+		case 3: //Nota a rectorado
+			$condicion = "nombre='".$nroRecibido."' AND tipo=2 AND url IS NOT NULL";
 			$cantidad = contarRegistro('id','archivo',$condicion);
-			if($cantidad == 0){
+			if($cantidad == 0)
+			{
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Nota: ";
 				$direccionArchivo = "";
-			}elseif ($cantidad == 1){
+			}
+			elseif ($cantidad == 1)
+			{
 				$rowIdNumeroNota = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "nota";
-				$direcionArchivo = $rowIdNumeroNota['url'];
+				$direccionArchivo = $rowIdNumeroNota['url'];
 			}
 			break;
 		case 4: //Consejo superior
-			$condicion = "nombre='".$nroRecibido."' AND tipo=3";
+			$condicion = "nombre='".$nroRecibido."' AND tipo=3 AND url IS NOT NULL";
 			$cantidad = contarRegistro('id','archivo',$condicion);
-			if($cantidad == 0){
+			if($cantidad == 0)
+			{
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Resolución: ";
 				$direccionArchivo = "";
-			}elseif ($cantidad == 1){
+			}
+			elseif ($cantidad == 1)
+			{
 				$rowIdNumeroRes = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "resolución";
 				$direccionArchivo = $rowIdNumeroRes['url'];
 			}
 			break;
-		case 7:
-			//Numero acta tiene un = a d y el numero de acta, en caso de que tambien se quiera agregar el analitico a eso, en ese caso se agregaria una a
-			$condicion = "nombre='".$nroRecibido."' AND tipo=4";
+		case 7: //Acta retiro diploma
+			$condicion = "nombre='".$nroRecibido."' AND tipo=4 AND url IS NOT NULL";
 			$cantidad = contarRegistro('id','archivo', $condicion);
 			if($cantidad == 0)
 			{
 				$controlTieneArchivo = 0;
 				$nombreArchivo = "Acta: ";
 				$direccionArchivo = "";
-			}elseif ($cantidad == 1){
+			}
+			elseif ($cantidad == 1)
+			{
 				$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id,url','archivo',$condicion));
 				$controlTieneArchivo = 1;
 				$nombreArchivo = "acta";
@@ -333,9 +343,6 @@ function controlArchivoPhp($etapaLocal,$nroRecibido)
 	}
 	echo '<script>cargarTieneArchivo('.$controlTieneArchivo.',"'.$direccionArchivo.'","'.$nombreArchivo.'")</script>';
 }
-
-//Traigo los datos de la ventana anterior(etapa,longVector,textPasar).
-//Luego con la etapa, defino que muestro y donde vuelvo.
 
 $nroResNot = "";
 

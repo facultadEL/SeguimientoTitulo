@@ -48,6 +48,7 @@ $vAlumnosPasar = explode('/--/', $alumnosPasar);
 
 $sqlGuardar = "";
 $controlSincronizar = 0;
+$alumnosSincronizar = "";
 $sqlSincronizar = "";
 $errorPdf = 0;
 
@@ -83,19 +84,41 @@ switch ($etapa){
 			$controlAgregoArchivo = $_REQUEST['controlArchivoHidden'];
 			if($controlArchivo == 0)
 			{
-				if($controlAgregoArchivo == 0)
+				$condicionCantidad = "nombre='$numeroResolucion' AND tipo=1";
+				$cantidad = contarRegistro('id','archivo',$condicionCantidad);
+				if($cantidad == 0)
 				{
-					$idNumeroRes = traerIdST('archivo');
-					$numeroResolucionGuardar = $numeroResolucion;
-					$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',1);";
+					if($controlAgregoArchivo == 0)
+					{
+						$idNumeroRes = traerIdST('archivo');
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',1);";
+					}
+					else
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoDirectivo-'.$numeroResolucion));
+
+						$idNumeroRes = traerIdST('archivo');
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',1);";
+					}
 				}
 				else
 				{
-					$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoDirectivo-'.$numeroResolucion));	
+					if($controlAgregoArchivo == 1)
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoDirectivo-'.$numeroResolucion));
 
-					$idNumeroRes = traerIdST('archivo');
-					$numeroResolucionGuardar = $numeroResolucion;
-					$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',1);";		
+						$rowNroRes = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroRes = $rowNroRes['id'];
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "UPDATE archivo SET url='$getDestinoPdf' WHERE id='$idNumeroRes';";
+					}
+					else
+					{
+						$rowNroRes = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroRes = $rowNroRes['id'];
+					}
 				}
 			}
 			else
@@ -152,19 +175,41 @@ switch ($etapa){
 			$controlAgregoArchivo = $_REQUEST['controlArchivoHidden'];
 			if($controlArchivo == 0)
 			{
-				if($controlAgregoArchivo == 0)
+				$condicionCantidad = "nombre='$numeroNota' AND tipo=2";
+				$cantidad = contarRegistro('id','archivo',$condicionCantidad);
+				if($cantidad == 0)
 				{
-					$idNumeroNota = traerIdST('archivo');
-					$numeroNotaGuardar = $numeroNota;
-					$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar',2);";
+					if($controlAgregoArchivo == 0)
+					{
+						$idNumeroNota = traerIdST('archivo');
+						$numeroNotaGuardar = $numeroNota;
+						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar',2);";
+					}
+					else
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('NotaRectorado-'.$numeroNota));	
+
+						$idNumeroNota = traerIdST('archivo');
+						$numeroNotaGuardar = $numeroNota;
+						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar','$getDestinoPdf',2);";
+					}
 				}
 				else
 				{
-					$getDestinoPdf = loadFileToServer('seguimientoPrueba',('NotaRectorado-'.$numeroNota));	
+					if($controlAgregoArchivo == 1)
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('NotaRectorado-'.$numeroNota));
 
-					$idNumeroNota = traerIdST('archivo');
-					$numeroNotaGuardar = $numeroNota;
-					$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar','$getDestinoPdf',2);";
+						$rowNroNota = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroNota = $rowNroNota['id'];
+						$numeroNotaGuardar = $numeroNota;
+						$sqlNuevoNroNota = "UPDATE archivo SET url='$getDestinoPdf' WHERE id='$idNumeroNota';";
+					}
+					else
+					{
+						$rowNroNota = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroNota = $rowNroNota['id'];
+					}
 				}
 			}
 			else
@@ -215,26 +260,49 @@ switch ($etapa){
 		$numeroResolucion = (empty($_REQUEST['nroNotORes'])) ? 0 : $_REQUEST['nroNotORes'];
 		$idNumeroRes = 0;
 
-		echo $numeroResolucion;
+		//echo $numeroResolucion;
 		if($numeroResolucion != 0)
 		{
 			$controlAgregoArchivo = $_REQUEST['controlArchivoHidden'];
 			if($controlArchivo == 0)
 			{
-				if($controlAgregoArchivo == 0)
+				$condicionCantidad = "nombre='$numeroResolucion' AND tipo=3";
+				$cantidad = contarRegistro('id','archivo',$condicionCantidad);
+				if($cantidad == 0)
 				{
-					$idNumeroRes = traerId('archivo');
-					$numeroResolucionGuardar = $numeroResolucion;
-					$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',1);";
+					if($controlAgregoArchivo == 0)
+					{
+						$idNumeroRes = traerIdST('archivo');
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',3);";
+					}
+					else
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoSuperior-'.$numeroResolucion));
+
+						$idNumeroRes = traerIdST('archivo');
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',3);";
+					}
 				}
 				else
 				{
-					$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoSuperior-'.$numeroResolucion));	
+					if($controlAgregoArchivo == 1)
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ConsejoSuperior-'.$numeroResolucion));
 
-					$idNumeroRes = traerId('archivo');
-					$numeroResolucionGuardar = $numeroResolucion;
-					$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',1);";		
+						$rowNroRes = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroRes = $rowNroRes['id'];
+						$numeroResolucionGuardar = $numeroResolucion;
+						$sqlNuevoNroResolucion = "UPDATE archivo SET url='$getDestinoPdf' WHERE id='$idNumeroRes';";
+					}
+					else
+					{
+						$rowNroRes = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroRes = $rowNroRes['id'];
+					}
 				}
+				
 			}
 			else
 			{
@@ -263,6 +331,12 @@ switch ($etapa){
 					if($idNumeroRes != 0 && empty($rowDatosAlumno['num_res_cs_fk']))
 					{
 						$sqlGuardar .= ", num_res_cs_fk='$idNumeroRes' ";
+						$controlSincronizar = 1;
+						$alumnosSincronizar .= $idAlumno;
+						if(!$i < (count($vAlumnosPasar) - 2))
+						{
+							$alumnosSincronizar .= $separador;
+						}
 					}
 				}
 			}
@@ -296,43 +370,94 @@ switch ($etapa){
 		break;
 
 	case 7:
+		//Traigo el control para ver si el archivo ya se encuentra en el sistema
 		$controlArchivo = $_REQUEST['controlArchivo'];
-		$numeroActa = $_REQUEST['nroNotORes'];
+		$numeroActa = (empty($_REQUEST['nroNotORes'])) ? 0 : $_REQUEST['nroNotORes'];
+		$idNumeroActa = 0;
 
-		if($controlArchivo==0)
+		//echo $numeroResolucion;
+		if($numeroActa != 0)
 		{
-			$getDestinoPdf = loadFileToServer('SeguimientoTitulo',('ActaDiploma-'.$numeroActa));
-		}
-		$condicion = "nombre='".$numeroActa."'";
-		$cantidad = contarRegistro('id','archivo',$condicion);
-		if($cantidad == 0){
-			$idNumeroActa = traerId('archivo');
-			$numeroActaGuardar = 'd-'.$numeroActa;
-			$sqlNuevoNroActa = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroActa,'$numeroActaGuardar','$getDestinoPdf',4);";
-		}else{
-			$sqlNuevoNroActa = "";
-			$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id','archivo',$condicion));
-			$idNumeroActa = $rowIdNumeroActa['id'];
+			$controlAgregoArchivo = $_REQUEST['controlArchivoHidden'];
+			if($controlArchivo == 0)
+			{
+				$condicionCantidad = "nombre='$numeroActa' AND tipo=4";
+				$cantidad = contarRegistro('id','archivo',$condicionCantidad);
+				if($cantidad == 0)
+				{
+					if($controlAgregoArchivo == 0)
+					{
+						$idNumeroActa = traerIdST('archivo');
+						$numeroActaGuardar = $numeroActa;
+						$sqlNuevoNroActa = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroActa,'$numeroActaGuardar',4);";
+					}
+					else
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ActaDiploma-'.$numeroActa));
+
+						$idNumeroActa = traerIdST('archivo');
+						$numeroActaGuardar = $numeroActa;
+						$sqlNuevoNroActa = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroActa,'$numeroActaGuardar','$getDestinoPdf',4);";
+					}
+				}
+				else
+				{
+					if($controlAgregoArchivo == 1)
+					{
+						$getDestinoPdf = loadFileToServer('seguimientoPrueba',('ActaDiploma-'.$numeroActa));
+
+						$rowNroActa = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroActa = $rowNroActa['id'];
+						$numeroActaGuardar = $numeroActa;
+						$sqlNuevoNroActa = "UPDATE archivo SET url='$getDestinoPdf' WHERE id='$idNumeroActa';";
+					}
+					else
+					{
+						$rowNroActa = pg_fetch_array(traerSqlCondicion('id','archivo',$condicionCantidad));
+						$idNumeroActa = $rowNroActa['id'];
+					}
+				}
+				
+			}
+			else
+			{
+				$condicion = "nombre='".$numeroActa."' AND tipo=4";
+			
+				$rowIdNumeroActa = pg_fetch_array(traerSqlCondicion('id','archivo',$condicion));
+				$idNumeroActa = $rowIdNumeroActa['id'];
+			}
 		}
 
-		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
+		for($i = 0; $i < (count($vAlumnosPasar) - 1); $i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
 			$condicionAlumno = "id_seguimiento='$idAlumno'";
+
 			$sqlDatosAlumno = traerSqlCondicion('fecha_retiro_diploma,num_acta_d_fk','seguimiento',$condicionAlumno);
 			$rowDatosAlumno = pg_fetch_array($sqlDatosAlumno);
+
 			$sqlGuardar .= "UPDATE seguimiento SET";
-			if(empty($rowDatosAlumno['fecha_retiro_diploma']))
+
+			if($fecha != '1900-01-01')
 			{
-				$sqlGuardar .= " fecha_retiro_diploma='$fecha'";
-				if(empty($rowDatosAlumno['num_acta_d_fk']))
+				if(empty($rowDatosAlumno['fecha_retiro_diploma']))
 				{
-					$sqlGuardar .= ", num_acta_d_fk='$idNumeroActa' ";
+					$sqlGuardar .= " fecha_retiro_diploma='$fecha'";
+					if($idNumeroActa != 0 && empty($rowDatosAlumno['num_acta_d_fk']))
+					{
+						$sqlGuardar .= ", num_acta_d_fk='$idNumeroActa' ";
+						$controlSincronizar = 1;
+						$alumnosSincronizar .= $idAlumno;
+						if(!$i < (count($vAlumnosPasar) - 2))
+						{
+							$alumnosSincronizar .= $separador;
+						}
+					}
 				}
 			}
 			else
 			{
-				$sqlGuardar .= " num_acta_d_fk='$idNumeroActa' ";
+				$sqlGuardar .= " num_acta_d_fk='$idNumeroActa'";
 			}
 
 			$sqlGuardar .= " WHERE id_seguimiento='$idAlumno';";
@@ -357,15 +482,7 @@ if($errorPdf == 0){
 	$e = guardarSql($sqlGuardar);
 	if($controlSincronizar == 1)
 	{
-		$conGraduados = pg_connect("host=localhost port=5432 user=extension password=newgenius dbname=graduados") or die("Error de conexion.".pg_last_error());
-		if(!pg_query($conGraduados,$sqlSincronizar)){
-        $termino = "ROLLBACK";
-	        $error = 1;
-	    }else{
-	        $termino = "COMMIT";
-	    }
-    
-    	pg_query($termino);
+		sincronizarAlumnos($alumnosSincronizar);
 	}
 	
 	if($e==1){
@@ -375,6 +492,19 @@ if($errorPdf == 0){
 	}
 }else{
 	mostrarMensaje('El archivo subido no es valido. Suba un PDF, DOC o DOCX',$redireccionTmp);
+}
+
+function sincronizarAlumnos($alumnos)
+{
+	$vAlumnos = explode('/--/', $alumnos);
+	//Aca se va a hacer la sincronizacion de este sistema con el de graduados.
+	/*
+	for ($i=0; $i < (count($vAlumnos) - 1); $i++)
+	{ 
+		
+	}
+	*/
+
 }
 
 ?>

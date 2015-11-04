@@ -21,7 +21,7 @@ prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>N° de Nota:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Fecha de Nota:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Fecha de Nota:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onKeyDown="ocultarMensajeFecha()" onBlur="controlFecha();setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/><br><span id="mensajeFecha" style="color:red;display:none">La fecha no puede ser mayor a la actual</span></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="6" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
@@ -66,6 +66,36 @@ function setNumeroRedireccion(numeroRecibido)
 function cargarAlumno(id, stringAlumno)
 {
 	alumnosDiccionario[id] = stringAlumno;
+}
+
+function controlFecha()
+{
+	fechaIngresada = $('#date').val().trim();
+	if(fechaIngresada != '')
+	{
+		if(fechaIngresada.indexOf('/') != -1)
+		{
+			vFechaIngresada = fechaIngresada.split('/');
+			var fechaIngresadaFormat = new Date(vFechaIngresada[2],(vFechaIngresada[1] - 1),vFechaIngresada[0]);
+			var fechaActual = new Date();
+
+			if(fechaIngresadaFormat > fechaActual)
+			{
+				mostrarMensajeFecha();
+				$('#date').val('');
+			}
+		}
+	}
+}
+
+function ocultarMensajeFecha()
+{
+	$('#mensajeFecha').hide();
+}
+
+function mostrarMensajeFecha()
+{
+	$('#mensajeFecha').show();
 }
 
 function setFecha()
@@ -202,6 +232,7 @@ $(document).ready(function(){
       }
     });
     mostrarAlumnos(false);
+    ocultarMensajeFecha();
     //Ver si se pone desp de que se busquen los alumnos para una etapa
 });
 
@@ -217,7 +248,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_nota_envio_rec,numero_nota FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN numero_nota_rectorado ON(seguimiento.num_nota_fk = numero_nota_rectorado.id_numero_nota_rectorado) WHERE (fecha_rescd IS NOT NULL AND num_res_cd_fk IS NOT NULL) AND (fecha_nota_envio_rec IS NULL OR num_nota_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_nota_envio_rec,archivo.nombre FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN archivo ON(seguimiento.num_nota_fk = archivo.id) WHERE (fecha_rescd IS NOT NULL AND num_res_cd_fk IS NOT NULL) AND (fecha_nota_envio_rec IS NULL OR num_nota_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -228,7 +259,7 @@ while($row = pg_fetch_array($val)){
 	$contador += 1;
 
 	$fechaNota = (empty($row['fecha_nota_envio_rec'])) ? '' : $row['fecha_nota_envio_rec'];
-	$numeroNota = (empty($row['numero_nota'])) ? '' : $row['numero_nota'];
+	$numeroNota = (empty($row['nombre'])) ? '' : $row['nombre'];
 
 	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaNota.$sep.$numeroNota;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';

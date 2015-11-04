@@ -35,21 +35,23 @@ var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Listado de Alumnos - Entrega Diploma</l1></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Listado de Alumnos - Entrega Diploma</l1></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>N° de Acta:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>N° de Acta:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Fecha de Entrega Diploma:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onBlur="setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Fecha de Entrega Diploma:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onKeyDown="ocultarMensajeFecha()" onBlur="controlFecha();setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/><br><span id="mensajeFecha" style="color:red;display:none">La fecha no puede ser mayor a la actual</span></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
+prevHtml += '<td id="titulo3" colspan="6" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Carrera</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Nivel</label></strong></td>';
+prevHtml += '<td align="center"><strong><label>Fecha</label></strong></td>';
+prevHtml += '<td align="center"><strong><label>N&uacute;mero Acta</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Selecci&oacute;n</label></strong></td>';
 prevHtml += '</tr>';
 finHtml = '</table>';
@@ -85,6 +87,36 @@ function setNumeroRedireccion(numeroRecibido)
 function cargarAlumno(id, stringAlumno)
 {
 	alumnosDiccionario[id] = stringAlumno;
+}
+
+function controlFecha()
+{
+	fechaIngresada = $('#date').val().trim();
+	if(fechaIngresada != '')
+	{
+		if(fechaIngresada.indexOf('/') != -1)
+		{
+			vFechaIngresada = fechaIngresada.split('/');
+			var fechaIngresadaFormat = new Date(vFechaIngresada[2],(vFechaIngresada[1] - 1),vFechaIngresada[0]);
+			var fechaActual = new Date();
+
+			if(fechaIngresadaFormat > fechaActual)
+			{
+				mostrarMensajeFecha();
+				$('#date').val('');
+			}
+		}
+	}
+}
+
+function ocultarMensajeFecha()
+{
+	$('#mensajeFecha').hide();
+}
+
+function mostrarMensajeFecha()
+{
+	$('#mensajeFecha').show();
 }
 
 function setFecha()
@@ -141,7 +173,7 @@ function mostrarAlumnos(busqueda)
 				checked = 'checked';
 			}
 			nombreCheck = "checkbox"+key;
-			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -173,7 +205,7 @@ function mostrarAlumnos(busqueda)
 				{
 					checked = 'checked';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}
@@ -187,7 +219,7 @@ function confirmSeleccion()
 {
 	separadorAlumnos = '/-/-/';
 	alumnosPasar = "";
-	if((fechaIngreso != "") && (alumnosSeleccionados.length > 0))
+	if(((nroResolucion != "") || (fechaIngreso != "")) && (alumnosSeleccionados.length > 0))
 	{
 		for(var i = 0; i < alumnosSeleccionados.length; i++)
 		{
@@ -221,6 +253,7 @@ $(document).ready(function(){
       }
     });
     mostrarAlumnos(false);
+    ocultarMensajeFecha();
     //Ver si se pone desp de que se busquen los alumnos para una etapa
 });
 
@@ -236,7 +269,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_ingreso_diploma IS NOT NULL AND fecha_retiro_diploma IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,fecha_retiro_diploma,archivo.nombre FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) INNER JOIN archivo ON(seguimiento.num_acta_d_fk = archivo.id) WHERE fecha_ingreso_diploma IS NOT NULL AND (fecha_retiro_diploma IS NULL OR num_acta_d_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -245,7 +278,11 @@ $controlR = $_REQUEST['controlR'];
 
 while($row = pg_fetch_array($val)){
 	$contador += 1;
-	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'];
+
+	$fechaResCs = empty($row['fecha_retiro_diploma']) ? '' : $row['fecha_retiro_diploma'];
+	$numeroActaDiploma = empty($row['nombre']) ? '' : $row['nombre'];
+
+	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaResCs.$sep.$numeroActaDiploma;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
 
