@@ -43,6 +43,7 @@ prevHtml += '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
+prevHtml += '<td align="center"><strong><label>Expediente</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Carrera</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Nivel</label></strong></td>';
@@ -131,7 +132,7 @@ function mostrarAlumnos(busqueda)
 				checked = 'checked';
 			}
 			nombreCheck = "checkbox"+key;
-			alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[6]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -163,7 +164,7 @@ function mostrarAlumnos(busqueda)
 				{
 					checked = 'checked';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[6]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}
@@ -205,7 +206,7 @@ $(document).ready(function(){
 
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL AND fecha_resp_alumno IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,nro_expediente,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL AND fecha_resp_alumno IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -214,7 +215,10 @@ $controlR = $_REQUEST['controlR'];
 
 while($row = pg_fetch_array($val)){
 	$contador += 1;
-	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'];
+
+	$nroExpediente = empty($row['nro_expediente']) ? '' : $row['nro_expediente'];
+
+	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$nroExpediente;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
 

@@ -35,18 +35,19 @@ var alumnosDiccionario = {};
 var separador = '/--/';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Listado de Alumnos - Consejo Superior</l1></td>';
+prevHtml += '<td id="titulo3" colspan="7" align="center"><l1>Listado de Alumnos - Consejo Superior</l1></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>N° de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
+prevHtml += '<td id="titulo3" colspan="7" align="center"><l1>N° de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="nroResolucion" value="'+nroResolucion+'" id="nroRes" onBlur="setNumero()" class="resolution" data-mask-clearifnotmatch="true" autoComplete="off"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="6" align="center"><l1>Fecha de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onKeyDown="ocultarMensajeFecha()" onBlur="controlFecha();setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/><br><span id="mensajeFecha" style="color:red;display:none">La fecha no puede ser mayor a la actual</span></td>';
+prevHtml += '<td id="titulo3" colspan="7" align="center"><l1>Fecha de Resolución:</l1>&nbsp;&nbsp;<input type="text" name="fechaIngreso" value="'+fechaIngreso+'" id="date" placeholder="dd/mm/aaaa" onKeyDown="ocultarMensajeFecha()" onBlur="controlFecha();setFecha()" class="fallback" data-mask-clearifnotmatch="true" autoComplete="off"/><br><span id="mensajeFecha" style="color:red;display:none">La fecha no puede ser mayor a la actual</span></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="6" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="Sin Resolución" onmouseup="confirmNoResolucion()"/></td>';
+prevHtml += '<td id="titulo3" colspan="7" align="center"><input type="button" value="Confirmar" onmouseup="confirmSeleccion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
+prevHtml += '<td align="center"><strong><label>Expediente</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Carrera</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Nivel</label></strong></td>';
@@ -181,7 +182,7 @@ function mostrarAlumnos(busqueda)
 			{
 				color = 'black';
 			}
-			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
+			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[8]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
 	}
 	else
@@ -221,7 +222,7 @@ function mostrarAlumnos(busqueda)
 				{
 					color = 'black';
 				}
-				alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[8]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[1]+', '+vStringAlumno[2]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[3]+'</font></l2></td><td align="center"><l2><font color="'+color+'">'+vStringAlumno[4]+'</font></l2></td><td align="center"><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+'/></td></tr>';
 			}
 		});
 	}
@@ -301,7 +302,7 @@ $(document).ready(function(){
 <?php
 $sep = '/--/';
 include_once 'conexion.php';
-$consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,archivo.nombre FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN archivo ON(seguimiento.num_res_cs_fk = archivo.id) WHERE (fecha_nota_envio_rec IS NOT NULL AND num_nota_fk IS NOT NULL) AND (fecha_rescs IS NULL OR num_res_cs_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+$consulta = "SELECT id_alumno,nro_expediente,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud,archivo.nombre FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) FULL OUTER JOIN archivo ON(seguimiento.num_res_cs_fk = archivo.id) WHERE (fecha_nota_envio_rec IS NOT NULL AND num_nota_fk IS NOT NULL) AND (fecha_rescs IS NULL OR num_res_cs_fk IS NULL) ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;
@@ -314,7 +315,9 @@ while($row = pg_fetch_array($val)){
 	$fechaResCs = empty($row['fecha_rescs']) ? '' : $row['fecha_rescs'];
 	$numeroResolucionCs = empty($row['nombre']) ? '' : $row['nombre'];
 
-	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaResCs.$sep.$numeroResolucionCs;
+	$nroExpediente = empty($row['nro_expediente']) ? '' : $row['nro_expediente'];
+
+	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaResCs.$sep.$numeroResolucionCs.$sep.$nroExpediente;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
 

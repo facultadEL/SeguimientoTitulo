@@ -481,6 +481,8 @@ echo $sqlGuardar;
 
 if($errorPdf == 0){
 	$e = guardarSql($sqlGuardar);
+	$controlSincronizar = 0; //Una vez implementado esto se saca
+
 	if($controlSincronizar == 1)
 	{
 		sincronizarAlumnos($alumnosSincronizar);
@@ -525,16 +527,81 @@ function sincronizarAlumnos($alumnos)
 		$provinciaViviendo = $rowAlumno['provincia_viviendo_alumno'];
 		$localidadViviendo = $rowAlumno['localidad_viviendo_alumno'];
 		$perfilLaboral = $rowAlumno['perfil_laboral_alumno'];
-		
+		$numeroDni = $rowAlumno['numerodni_alumno'];
+		$fechaNacimiento = $rowAlumno['fechanacimiento_alumno'];
+		$depto = $rowAlumno['dpto_alumno'];
+		$piso = $rowAlumno['piso_alumno'];
+		$localidadNacimiento = $rowAlumno['localidad_nacimiento_alumno'];
+		$carrera = $rowAlumno['carrera_fk'];
+		//Tratar la foto
+		/*
+		-Moverla de directorio
+		-Rearmar el nombre, sobre todo la direccion
+		*/
 
+		//Ver el tema carrera
+		/* 
+		Carreras en graduados a la fecha 05/11/2015
+			1-Ing. en Sistemas de Información
+			2-Ing. Electrónica
+			3-Ing. Química
+			4-Ing. Mecánica
+			5-Lic. en Administración Rural
+			6-Mecatrónica
+			7-Analista en Sistemas de Información
+			8-Técnico en Administración Rural
+			9-Técnico Electrónico
+			10-Técnico Química
+			11-Licenciatura en Lengua Inglesa
+			12-Tecnico Sup. en Negociacion de Bienes
+			13-Especialista en Higiene y Segurid_carreraad
+			14-Lic. en Educación Física
+			15-Maestría en Ingeniería Gerencial
+			16-Licenciatura en Tecnologia Educativa
+			17-Especialista en Tecnologia de los Alimentos
+
+		Carreras en Seguimiento de Titulo a la misma fecha
+			1-Ingeniero/a en Sistemas de Información
+			2-Ingeniero/a Electrónica
+			3-Ingeniero/a Química
+			4-Ingeniero/a Mecánica
+			5-Licenciado/a en Administración Rural
+			6-Mecatrónica
+			7-Analista en Sistemas de Información
+			8-Técnico/a en Administración Rural
+			9-Técnico/a Electrónico
+			10-Técnico/a Química
+			11-Licenciado/a en Lengua Inglesa
+			12-Técnico/a Superior en Negociación de Bienes
+			13-Especialista en Higiene y Seguridad
+			14-Licenciado/a en Educación Física
+			15-Maestría en Ingeniería Gerencial
+			16-Licenciado/a en Tecnologia Educativa
+			17-Especialista en Tecnologia de los Alimentos
+			18-Licenciado/a en Ciencias Aplicadas
+			19-Especialista en Soldadura
+		*/
+
+		$conGraduados = pg_connect("host=190.114.198.126 port=5432 user=extension password=newgenius dbname=graduados") or die("Error de conexion.".pg_last_error());
+		$sqlIdAlumno = pg_query($conGraduados,"SELECT max(id_alumno) FROM alumno");
+		$rowIdAlumno = pg_fetch_array($sqlIdAlumno);
+		$proxIdAlumno = $rowIdAlumno['max'] + 1;
 		//sqlGraduado es el query que se va a ejecutar en la base de datos de graduados
 		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,
-			facebook_alumno,numerodni_alumno,tipodni_alumno,perfilacademico_alumno,foto_alumno,
+			facebook_alumno,numerodni_alumno,tipodni_alumno,foto_alumno,
 			carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,
-			gra_depto,gra_piso,mail_alumno2,twitter_alumno,provincia_nac_alumno,localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) 
-			VALUES()"
+			gra_depto,gra_piso,mail_alumno2,twitter_alumno,
+			localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,
+			provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) 
+			VALUES('$proxIdAlumno','$nombre','$apellido','$mail','$facebook','$numeroDni',
+				'$tipoDni','$foto','$carrera','$anchoFoto','$altoFoto',
+				'$fechaNacimiento','$calle','$numeroCalle','$depto','$piso','$mail2',
+				'$twitter','$localidadNacimiento','$provinciaTrabajo','$localidadTrabajo',
+				'$provinciaViviendo','$localidadViviendo','$perfilLaboral');";
 
+		//Ver el tema telefonos
 		
+		pg_close($conGraduados);
 	}
 	
 
