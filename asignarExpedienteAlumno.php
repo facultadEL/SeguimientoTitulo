@@ -3,16 +3,14 @@
 <title>Asignar Expedientes</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<!--script src="jquery-latest.js"></script-->
 <script src="jquery.mask.js" type="text/javascript"></script>
+
 <script>
-var etapa = 1;
-var fechaIngreso = "nada";
-var alumnosSeleccionados = [];
+
 var alumnosDiccionario = {};
 var expedienteDiccionario = {};
 var separador = '/--/';
-//prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
+
 prevHtml = '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Asignar Expedientes</l1></td>';
 prevHtml += '</tr>';
@@ -26,40 +24,10 @@ prevHtml += '<td align="center"><strong><label>Nivel</label></strong></td>';
 prevHtml += '<td align="center"><strong><label>Expediente</label></strong></td>';
 prevHtml += '<td align="center"><strong><label></label></strong></td>';
 prevHtml += '</tr>';
-finHtml = '</table>';
-		
-function setAlumnoSelectRedireccion(alumnosString)
-{
-	var vStringAlumnoRecibido = alumnosString.split('/-/-/');
-	for(var i = 0; i < (vStringAlumnoRecibido.length - 1); i++)
-	{
-		vStringAlumnoEspecifico = vStringAlumnoRecibido[i].split('/--/');
-		$.each(alumnosDiccionario, function(key,value)
-		{
-			var vStringAlumno = value.split(separador);
-			if(vStringAlumnoEspecifico[0] == vStringAlumno[0])
-			{
-				alumnosSeleccionados.push(parseInt(key));
-			}
-		});
-	}
-}
 
 function cargarAlumno(id, stringAlumno)
 {
 	alumnosDiccionario[id] = stringAlumno;
-}
-
-function setAlumnoSelect(idAlumno)
-{
-	if($.inArray(idAlumno, alumnosSeleccionados) == -1)
-	{
-		alumnosSeleccionados.push(idAlumno);
-	}
-	else
-	{
-		alumnosSeleccionados.splice(($.inArray(idAlumno, alumnosSeleccionados)), 1);
-	}
 }
 
 function controlBusqueda()
@@ -214,7 +182,7 @@ function confirmSeleccion()
 
 $(document).ready(function(){
     mostrarAlumnos(false);
-    //Ver si se pone desp de que se busquen los alumnos para una etapa
+    
 });
 
 </script>
