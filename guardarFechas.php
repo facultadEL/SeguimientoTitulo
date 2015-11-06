@@ -533,12 +533,32 @@ function sincronizarAlumnos($alumnos)
 		$piso = $rowAlumno['piso_alumno'];
 		$localidadNacimiento = $rowAlumno['localidad_nacimiento_alumno'];
 		$carrera = $rowAlumno['carrera_fk'];
+
+		$caracteristicaFijo = empty(trim($_REQUEST['caracteristicaF_alumno'])) ? '0' : trim($_REQUEST['caracteristicaF_alumno']);
+		$telefonoFijo = empty(trim($_REQUEST['telefono_alumno'])) ? '0' : trim($_REQUEST['telefono_alumno']);
+		$caracteristicaCelular = empty(trim($_REQUEST['caracteristicaC_alumno'])) ? '0' : trim($_REQUEST['caracteristicaC_alumno']);
+		$telefonoCelular = empty(trim($_REQUEST['celular_alumno'])) ? '0' : trim($_REQUEST['celular_alumno']);
+		
 		//Tratar la foto
 		/*
 		-Moverla de directorio
 		-Rearmar el nombre, sobre todo la direccion
 		*/
+		
+		$nombreFotoDestino = explode('/', $foto);
 
+		$ftp_server = "190.114.198.126";
+		$ftp_user_name = "fernandoserassioextension";
+		$ftp_user_pass = "fernando2013";
+		$destino = "web/graduados/fotos/".$nombreFotoDestino[1];
+		$fotoGuardar = "fotos/".$nombreFotoDestino[1];
+
+		$conn_id = ftp_connect($ftp_server); 
+		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass); 
+
+		if (($conn_id) && ($login_result)){ 
+	   		$uploadPdf = ftp_put($conn_id, $destino, $foto, FTP_BINARY);
+		}
 		//Ver el tema carrera
 		/* 
 		Carreras en graduados a la fecha 05/11/2015
@@ -587,20 +607,24 @@ function sincronizarAlumnos($alumnos)
 		$rowIdAlumno = pg_fetch_array($sqlIdAlumno);
 		$proxIdAlumno = $rowIdAlumno['max'] + 1;
 		//sqlGraduado es el query que se va a ejecutar en la base de datos de graduados
-		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,
-			facebook_alumno,numerodni_alumno,tipodni_alumno,foto_alumno,
-			carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,
-			gra_depto,gra_piso,mail_alumno2,twitter_alumno,
-			localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,
-			provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) 
-			VALUES('$proxIdAlumno','$nombre','$apellido','$mail','$facebook','$numeroDni',
-				'$tipoDni','$foto','$carrera','$anchoFoto','$altoFoto',
-				'$fechaNacimiento','$calle','$numeroCalle','$depto','$piso','$mail2',
-				'$twitter','$localidadNacimiento','$provinciaTrabajo','$localidadTrabajo',
-				'$provinciaViviendo','$localidadViviendo','$perfilLaboral');";
+		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,facebook_alumno,numerodni_alumno,tipodni_alumno,foto_alumno,carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,gra_depto,gra_piso,mail_alumno2,twitter_alumno,localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) VALUES('$proxIdAlumno','$nombre','$apellido','$mail','$facebook','$numeroDni','$tipoDni','$fotoGuardar','$carrera','$anchoFoto','$altoFoto','$fechaNacimiento','$calle','$numeroCalle','$depto','$piso','$mail2','$twitter','$localidadNacimiento','$provinciaTrabajo','$localidadTrabajo','$provinciaViviendo','$localidadViviendo','$perfilLaboral');";
+	    
+	    $sqlTelefono = '';
 
-		//Ver el tema telefonos
+	    if($caracteristicaFijo != '0' || $telefonoFijo != '0')
+	    {
+	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaFijo',
+	    		'$telefonoFijo','Telefono Fijo','$proxIdAlumno');";
+	    }
+
+	    if($caracteristicaCelular != '0' || $telefonoCelular != '0')
+	    {
+	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaCelular',
+	    		'$telefonoCelular','Celular','$proxIdAlumno');";
+	    }
 		
+	    $sqlGuardar = $sqlGraduado.$sqlTelefono;
+
 		pg_close($conGraduados);
 	}
 	

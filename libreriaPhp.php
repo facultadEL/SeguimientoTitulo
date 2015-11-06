@@ -120,9 +120,6 @@ function loadFileToServer($placeToLoad,$nombre)
 	$destinoPdf = "archivos/".$nombre;
 	$vacio = "archivos/";
 
-    echo $destinoPdf.'<br>';
-    echo $destino_Pdf.'<br>';
-
 	//conexión
 	$conn_id = ftp_connect($ftp_server); 
 	// logeo
@@ -141,9 +138,10 @@ function loadFileToServer($placeToLoad,$nombre)
 	
 
 	if ($nombre != NULL){
-        //$uploadPdf = ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY);
-        echo 'Entro';
-		if(ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY))
+        $uploadPdf = ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY);
+        //echo 'Entro';
+		/*
+        if(ftp_put($conn_id, $destino_Pdf, $filePdf, FTP_BINARY))
         {
             echo 'Si';
         }
@@ -151,6 +149,7 @@ function loadFileToServer($placeToLoad,$nombre)
         {
             echo 'No';
         }
+        */
 	}
 
 	return $destinoPdf;
