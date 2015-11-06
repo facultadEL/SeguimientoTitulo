@@ -258,8 +258,8 @@ $controlR = $_REQUEST['controlR'];
 while($row = pg_fetch_array($val)){
 	$contador += 1;
 
-	$numResCd = (empty($row['numero_res'])) ? '' : $row['numero_res'];
-	$fechaRes = (empty($row['nombre'])) ? '' : $row['nombre'];
+	$numResCd = (empty($row['nombre'])) ? '' : $row['nombre'];
+	$fechaRes = (empty($row['fecha_rescd'])) ? '' : $row['fecha_rescd'];
 
 	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'].$sep.$fechaRes.$sep.$numResCd;
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
