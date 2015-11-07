@@ -6,26 +6,6 @@
 <!--script src="jquery-latest.js"></script-->
 <script src="jquery.mask.js" type="text/javascript"></script>
 <script>
-/*
-jQuery(function($){
-	$("#numero1").mask("9,99", {
-
-		// Generamos un evento en el momento que se rellena
-		completed:function(){
-			$("#numero1").addClass("ok")
-		}
-	});
-	
-	// Definimos las mascaras para cada input
-	$("#date").mask("39/19/2999");
-	$("#movil").mask("999 99 99 99");
-	$("#letras").mask("aaa");
-	*/
-	//$("#resolucion").mask("****/**");
-	/*
-	$("#comodines").mask("?");
-});
-*/
 
 var etapa = 4;
 var fechaIngreso = "";
@@ -246,22 +226,6 @@ function confirmSeleccion()
 	}
 	return false;
 }
-/*
-function confirmNoResolucion()
-{
-	separadorAlumnos = '/-/-/';
-	alumnosPasar = "";
-	if(alumnosSeleccionados.length > 0)
-	{
-		for(var i = 0; i < alumnosSeleccionados.length; i++)
-		{
-			alumnosPasar += alumnosDiccionario[alumnosSeleccionados[i]] + separadorAlumnos;
-		}
-		document.location.href = "confirmarNoResolucion.php?alumnosPasar=" + alumnosPasar;
-	}
-	return false;
-}
-*/
 
 $(document).ready(function(){
 	//$('#tabla').html(prevHtml);
