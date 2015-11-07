@@ -15,7 +15,7 @@ prevHtml = '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="5" align="center"><l1>Asignar Expedientes</l1></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#FFFFFF">';
-prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Guardar Todos" onmouseup="confirmSeleccion()"/></td>';
+prevHtml += '<td id="titulo3" colspan="5" align="center"><input type="button" value="Asignar Todos" onmouseup="confirmSeleccion()"/></td>';
 prevHtml += '</tr>';
 prevHtml += '<tr bgcolor="#000000">';
 prevHtml += '<td align="center"><strong><label>Alumno</label></strong></td>';
@@ -111,7 +111,7 @@ function mostrarAlumnos(busqueda)
 				{
 					expedienteAlumno = "";
 				}
-				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="txtExpediente-'+key+'" onblur="setExpedienteKey('+key+');" value="'+expedienteAlumno+'" type="text" size="5" /></td><td align="center"><input id="ctemario_general_curso" type="button" onClick="guardarExpediente('+key+','+vStringAlumno[0]+')" value="Guardar" /></td></tr>';
+				alumnosToAdd += '<tr><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="txtExpediente-'+key+'" onblur="setExpedienteKey('+key+');" value="'+expedienteAlumno+'" type="text" size="5" /></td><td align="center"><a href=""><img src="img/save.png" title="Guardar" width="24" onClick="guardarExpediente('+key+','+vStringAlumno[0]+')"/></a></td></tr>';
 			}
 		});
 	}
@@ -140,7 +140,7 @@ function guardarExpediente(idKey,idSeguimiento)
 			{
 				if(response == 0)
 				{
-					alert("Expediente guardado exitosamente");	
+					alert("Expediente actualizado exitosamente");	
 				}
 				else
 				{
