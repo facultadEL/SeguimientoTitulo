@@ -131,6 +131,7 @@ function mostrarAlumnos(busqueda)
 			{
 				checked = 'checked';
 			}
+			color = 'black';
 			nombreCheck = "checkbox"+key;
 			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[6]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});
