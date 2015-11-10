@@ -33,6 +33,7 @@ var nroResolucion = "";
 var alumnosSeleccionados = [];
 var alumnosDiccionario = {};
 var separador = '/--/';
+var color = 'black';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="7" align="center"><l1>Listado de Alumnos - Entrega Diploma</l1></td>';
@@ -173,7 +174,6 @@ function mostrarAlumnos(busqueda)
 			{
 				checked = 'checked';
 			}
-			color = 'black';
 			nombreCheck = "checkbox"+key;
 			alumnosToAdd += '<tr><td align="center"><l2><font color="'+color+'">'+vStringAlumno[8]+'</font></l2></td><td align="center"><l2>'+vStringAlumno[1]+', '+vStringAlumno[2]+'</l2></td><td align="center"><l2>'+vStringAlumno[3]+'</l2></td><td align="center"><l2>'+vStringAlumno[4]+'</l2></td><td align="center"><l2>'+vStringAlumno[6]+'</l2></td><td align="center"><l2>'+vStringAlumno[7]+'</l2></td><td align="center"><input id="ctemario_general_curso" name="'+nombreCheck+'" type="checkbox" onChange="setAlumnoSelect('+key+')" '+checked+' /></td></tr>';
 		});

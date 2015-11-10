@@ -13,6 +13,7 @@ var nroResolucion = "";
 var alumnosSeleccionados = [];
 var alumnosDiccionario = {};
 var separador = '/--/';
+var color = 'black';
 //prevHtml = '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 prevHtml = '<tr bgcolor="#FFFFFF">';
 prevHtml += '<td id="titulo3" colspan="7" align="center"><l1>Listado de Alumnos - Consejo Directivo</l1></td>';
