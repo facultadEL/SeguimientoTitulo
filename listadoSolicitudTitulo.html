@@ -1,0 +1,67 @@
+<html>
+<head>
+<title> Listado Solicitudes </title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script>
+
+var orden = 0;
+
+function cargarAlumnos()
+{
+
+	var parametros = 
+	{
+		"orden" : orden
+	}
+
+	$.ajax({
+		type : 'POST',
+		url : 'traerAlumnosSolicitudTitulo.php',
+		data : parametros,
+		success: function(response)
+		{
+			$('#cuerpoTabla').html(response);
+		},
+		error: function(msg)
+		{
+			alert(msg);
+		}
+	});
+}
+
+$(document).ready(function(){
+	cargarAlumnos();
+});
+
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<td colspan="5" class="text-center">
+							<strong>Listado de solicitudes</strong>
+						</td>
+					</tr>
+					<tr>
+						<td><strong>Expediente</strong></td>
+						<td><strong>Alumno</strong></td>
+						<td><strong>Carrera</strong></td>
+						<td><strong>Nivel</strong></td>
+						<td><strong>Fecha de Solicitud</strong></td>
+					</tr>
+				</thead>
+				<tbody id="cuerpoTabla">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
