@@ -253,6 +253,8 @@
     </style>
     <script defer>
 
+    var novalidar = false;
+
 	    function addTwitter()
 		{
 			var valTwitter;
@@ -368,10 +370,19 @@
 			});
 		}
 
+		function setNoValidarDNI()
+		{
+			novalidar = true;
+		}
+
 		function validarDNI(){
-			if ($('#numerodni_alumno').val() != '') {
-				validar('1');
-			};
+			if(!novalidar)
+			{
+				if ($('#numerodni_alumno').val() != '') {
+					validar('1');
+				}
+			}
+
 		}
 
 		function validarMail(){
@@ -407,6 +418,7 @@ $volver = $_REQUEST['volver'];
 $numDNI = (empty($_REQUEST['numDNI'])) ? '' : $_REQUEST['numDNI'];
 //echo 'numDNI '.$numDNI.'<br>';
 $dniExistente = $_REQUEST['dniExistente'];
+$nuevaSolicitud = (empty($_REQUEST['nuevaSolicitud'])) ? 'f' : $_REQUEST['nuevaSolicitud'];
 //$numerodni_alumno = $numDNI;
 //echo 'dniExistente '.$dniExistente.'<br>';
 include_once "conexion.php";
@@ -511,6 +523,13 @@ include_once "libreria.php";
 				$fecha_ultima_mat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];
 		}
 	}
+	if($nuevaSolicitud == 't')
+	{
+		echo '<script>setNoValidarDNI();</script>';
+		$ultima_materia_alumno = '';
+		$fecha_ultima_mat_alumno = '';
+
+	}
 ?>
 <center>
 <form class="formNuevoGraduado" name="f1" id="form2" action="registrarDatosGraduado.php?idAlumno=<?php echo $id_Alumno ?>" method="post" onsubmit="return control();" enctype="multipart/form-data">
@@ -549,6 +568,38 @@ include_once "libreria.php";
 										?>
 									</select>
 								<?php 	}else{
+											if($nuevaSolicitud == 't')
+											{
+												echo '<select id="carrera_alumno" name="carrera_alumno" onchange="pedirFoto();" onblur="validarCarrera();" size="1" autofocus required>';
+												echo '<option value="0">Seleccione t&iacute;tulo</option>';
+														//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
+														$sql = "SELECT * FROM carrera WHERE id_carrera NOT IN(SELECT c.id_carrera FROM carrera c INNER JOIN seguimiento s ON(s.carrera_fk = c.id_carrera) WHERE s.alumno_fk='$id_Alumno') ORDER BY nombre_carrera";
+														//$consultaCarrera=traerSql('*',$condicion, '');
+														$consultaCarrera = pg_query($sql);
+														while($rowCarrera=pg_fetch_array($consultaCarrera)){
+															if($carrera_alumno == $rowCarrera['id_carrera']){						
+																echo '<option value="'.$rowCarrera['id_carrera'].'" selected>'.$rowCarrera['nombre_carrera'].'</option>';
+															}else{
+																echo '<option value="'.$rowCarrera['id_carrera'].'">'.$rowCarrera['nombre_carrera'].'</option>';
+															}
+														}
+												echo '</select>';
+												//$condicion = "carrera WHERE id_carrera NOT IN(SELECT c.id_carrera FROM carrera c INNER JOIN seguimiento s ON(s.carrera_fk = c.id_carrera) WHERE s.alumno_fk='$id_Alumno') ORDER BY nombre_carrera";
+												//echo $condicion;
+												//$sql = "SELECT * FROM carrera WHERE id_carrera NOT IN(SELECT c.id_carrera FROM carrera c INNER JOIN seguimiento s ON(s.carrera_fk = c.id_carrera) WHERE s.alumno_fk='$id_Alumno') ORDER BY nombre_carrera";
+												//$consultaCarrera=traerSql('*',$condicion, '');
+												//$consultaCarrera = pg_query($sql);
+												//while($rowCarrera=pg_fetch_array($consultaCarrera)){
+													//if ($carrera_alumno == $rowCarrera['id_carrera']){
+														//echo '<l1>'.$rowCarrera['nombre_carrera'].'</l1>';
+													//}
+												//}
+												//echo '<input id="carrera_alumno" name="carrera_alumno" type="hidden" value="'.$carrera_alumno.'"/>';
+												
+												
+											}
+											else
+											{
 											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
 											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
@@ -557,6 +608,7 @@ include_once "libreria.php";
 												}
 											}
 											echo '<input id="carrera_alumno" name="carrera_alumno" type="hidden" value="'.$carrera_alumno.'"/>';
+											}
 										}
 								?>
 							</td>

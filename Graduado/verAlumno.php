@@ -208,7 +208,28 @@
 			margin-right: 1%;
 			margin-left: 1%;
 		}
-
+		#nuevoTitulo {
+			-webkit-border-radius: 10px;
+			-moz-border-radius: 10px;
+			border-radius: 10px;
+			background-color: #086A87;
+			color: #fff;
+			display: block;
+			margin: 10px auto;
+			cursor: pointer;
+			width: 150px;
+			height: 40px;
+			border: none;
+			-webkit-background-size: 30px 30px;           /* Safari 3.0 */
+		    -moz-background-size: 30px 30px;           /* Gecko 1.9.2 (Firefox 3.6) */
+		    -o-background-size: 30px 30px;           /* Opera 9.5 */
+		    background-size: 30px 30px;           /* Gecko 2.0 (Firefox 4.0) and other CSS3-compliant browsers */			
+			box-shadow:0px 0px 10px 1px  #ccc;
+		}
+		#nuevoTitulo:hover {
+			background-color: #0489B1;
+			box-shadow:0px 0px 15px 0px  #02BAF2;
+		}
     </style>
     <script type="text/javascript">
     	function evaluaring(academico){
@@ -254,6 +275,13 @@ include_once "conexion.php";
 						</table>
 				</fieldset>
 				</form>
+			</td>
+		</tr>
+		<tr align="center" width="100%">
+			<td align="center" width="100%">
+			<?php
+				echo '<a href="registrarGraduado.php?idAlumno='.$idAlumno.'&nuevaSolicitud=t"><input type="button" id="nuevoTitulo" name="validar" value="Solicitar nuevo titulo"/></a>';
+			?>
 			</td>
 		</tr>
 		<?php if($titulo != NULL AND $titulo != 0){ ?>
