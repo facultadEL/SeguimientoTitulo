@@ -17,7 +17,8 @@
 <?php
 include_once "conexion.php";
 $id_Alumno = $_REQUEST['idAlumno'];
-	$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
+$idCarrera = $_REQUEST['idCarrera'];
+	$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno AND carrera_fk=$idCarrera");
 	$rowAlumno = pg_fetch_array($sqlAlumno);
 		$nombre_alumno = $rowAlumno['nombre_alumno'];
 		$apellido_alumno = $rowAlumno['apellido_alumno'];

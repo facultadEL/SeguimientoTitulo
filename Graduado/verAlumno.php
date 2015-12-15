@@ -589,13 +589,13 @@ include_once "conexion.php";
 					<div id="td">
 						<?php
 							if ($nivel_carrera == 1) {//carrera de grado
-								echo '<a href="imprimirGraduado1.php?idAlumno='.$id_Alumno.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
+								echo '<a href="imprimirGraduado1.php?idAlumno='.$id_Alumno.'&idCarrera='.$titulo.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
 							}
 							if ($nivel_carrera == 2) {//carrera de posgrado
-								echo '<a href="imprimirGraduado2.php?idAlumno='.$id_Alumno.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
+								echo '<a href="imprimirGraduado2.php?idAlumno='.$id_Alumno.'&idCarrera='.$titulo.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
 							}
 							if ($nivel_carrera == 3) {//carrera de pregrado
-								echo '<a href="imprimirGraduado3.php?idAlumno='.$id_Alumno.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
+								echo '<a href="imprimirGraduado3.php?idAlumno='.$id_Alumno.'&idCarrera='.$titulo.'" target="_blank"><input type="button" id="btn_print" value="Imprimir" /></a>';
 							}
 						?>
 					<!-- </td> -->
