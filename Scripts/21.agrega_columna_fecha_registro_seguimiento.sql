@@ -1,0 +1,1 @@
+ALTER TABLE seguimiento ADD column fecha_registro date;
