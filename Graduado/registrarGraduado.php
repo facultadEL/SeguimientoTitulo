@@ -414,7 +414,7 @@
 
 $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 //echo 'idAlumno '.$id_Alumno.'<br>';
-$volver = $_REQUEST['volver'];
+$volver = (empty($_REQUEST['volver'])) ? 0 : $_REQUEST['volver'];
 $numDNI = (empty($_REQUEST['numDNI'])) ? '' : $_REQUEST['numDNI'];
 //echo 'numDNI '.$numDNI.'<br>';
 $dniExistente = $_REQUEST['dniExistente'];
@@ -472,7 +472,7 @@ include_once "libreria.php";
 			// $alto_final = $mostrar[30];	
 	}else{
 		if ($id_Alumno != 0) {		
-			$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
+			$sqlAlumno = pg_query("SELECT alumno.*,seguimiento.carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
 			$rowAlumno = pg_fetch_array($sqlAlumno);
 				$id_Alumno = $rowAlumno['id_alumno'];
 				$nombre_alumno = $rowAlumno['nombre_alumno'];
@@ -495,7 +495,7 @@ include_once "libreria.php";
 				$numerocalle_alumno = $rowAlumno['numerocalle_alumno'];
 				$piso_alumno = $rowAlumno['piso_alumno'];
 				$dpto_alumno = $rowAlumno['dpto_alumno'];
-				$carrera_alumno = $_REQUEST['carrera_fk'];
+				$carrera_alumno = (empty($rowAlumno['carrera_fk'])) ? $_REQUEST['idCarrera'] : $rowAlumno['carrera_fk'];
 				$caracteristicaF_alumno = $rowAlumno['caracteristicaf_alumno'];
 				$telefono_alumno = $rowAlumno['telefono_alumno'];
 				$caracteristicaC_alumno = $rowAlumno['caracteristicac_alumno'];
@@ -601,7 +601,10 @@ include_once "libreria.php";
 											else
 											{
 											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
-											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
+											$sql = "SELECT * FROM carrera WHERE id_carrera = $carrera_alumno ORDER BY nombre_carrera";
+											//$consultaCarrera=traerSql('*',$condicion, '');
+											$consultaCarrera = pg_query($sql);
+											//$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
 												if ($carrera_alumno == $rowCarrera['id_carrera']){
 													echo '<l1>'.$rowCarrera['nombre_carrera'].'</l1>';
@@ -784,10 +787,10 @@ include_once "libreria.php";
 								<label for="caracteristicaC_alumno">Celular: </label>
 							</td>
 							<td width="5%">
-								<input id="caracteristicaC_alumno" name="caracteristicaC_alumno" type="text" class="campoNro" pattern="[1-9]{2,4}" placeholder="Sin 0" value="<?php echo $caracteristicaC_alumno; ?>" size="3" maxlength="5" title="Ingrese la caracter&iacute;stica de su nro. de celular" required/>
+								<input id="caracteristicaC_alumno" name="caracteristicaC_alumno" type="text" class="campoNro" pattern="[1-9]{0,4}" placeholder="Sin 0" value="<?php echo $caracteristicaC_alumno; ?>" size="3" maxlength="5" title="Ingrese la caracter&iacute;stica de su nro. de celular" required/>
 							</td>
 							<td width="35%">
-								<input id="celular_alumno" name="celular_alumno" type="text" class="campoText" pattern="[0-9]{6,8}" placeholder="Sin 15" value="<?php echo $celular_alumno; ?>" title="Ingrese su nro. de celular" required/>
+								<input id="celular_alumno" name="celular_alumno" type="text" class="campoText" pattern="[0-9]{0,8}" placeholder="Sin 15" value="<?php echo $celular_alumno; ?>" title="Ingrese su nro. de celular" required/>
 							</td>
 						</tr>
 						<tr width="100%">
@@ -840,7 +843,7 @@ include_once "libreria.php";
 								<label for="cp_alumno2">C.P.:</label>
 							</td>
 							<td width="10%">
-								<input id="cp_alumno2" name="cp_alumno2" type="text" class="campoNro" pattern="[0-9]{4,5}" value="<?php echo $cp_alumno2; ?>" maxlength="5" size="2" title="Ingrese el c&oacute;digo postal de la localidad d&oacute;nde trabaja" />
+								<input id="cp_alumno2" name="cp_alumno2" type="text" class="campoNro" pattern="[0-9]{0,5}" value="<?php echo $cp_alumno2; ?>" maxlength="5" size="2" title="Ingrese el c&oacute;digo postal de la localidad d&oacute;nde trabaja" />
 							</td>
 						</tr>
 						<tr width="100%">

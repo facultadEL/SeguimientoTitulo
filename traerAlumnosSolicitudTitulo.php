@@ -17,7 +17,7 @@ switch ($orden) {
 
 $html = '';
 
-$sqlSolicitud = pg_query('SELECT nro_expediente,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,fecha_solicitud,foto_alumno,carrera_fk,id_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL ORDER BY '.$orderBy.';');
+$sqlSolicitud = pg_query('SELECT nro_expediente,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,fecha_solicitud,foto_alumno,carrera_fk,id_alumno,caracteristicac_alumno,celular_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_solicitud IS NOT NULL ORDER BY '.$orderBy.';');
 
 //echo $sqlSolicitud;
 
@@ -38,9 +38,11 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 		//$html .= '<td><img src="Graduado/'.$rowSolicitud['foto_alumno'].'" width="50px"/></td>';
 	}
 	$html .= '<td>'.$rowSolicitud['nro_expediente'].'</td>';
-	$html .= '<td><a href="mostrarAlumno.php?idAlumno='.$idAlumno.'&idCarrera='.$idCarrera.'&origen=listadoSolicitudTitulo" >'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</a></td>';
+	//$html .= '<td><a href="mostrarAlumno.php?idAlumno='.$idAlumno.'&idCarrera='.$idCarrera.'&origen=listadoSolicitudTitulo" >'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</a></td>';
+	$html .= '<td><a href="Graduado/registrarGraduado.php?idAlumno='.$idAlumno.'&idCarrera='.$idCarrera.'&origen=listadoSolicitudTitulo" >'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</a></td>';
 	$html .= '<td>'.$rowSolicitud['nombre_carrera'].'</td>';
 	$html .= '<td>'.$rowSolicitud['nombre_nivel_carrera'].'</td>';
+	$html .= '<td>'.$rowSolicitud['caracteristicac_alumno'].'-'.$rowSolicitud['celular_alumno'].'</td>';
 
 	$fecha = $rowSolicitud['fecha_solicitud'];
 	$vFecha = explode('-', $fecha);
