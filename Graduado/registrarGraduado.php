@@ -320,13 +320,17 @@
 			if(modificar)
 			{
 				htmlToAdd += '<i>El alumno ya tiene una foto cargada</i></br>';
-			}
-
-			if (($('#carrera_alumno').val() > 5) || ($('#carrera_alumno').val() > 6 && $('#carrera_alumno').val() < 11)) {
 				htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" />';
-			}else{
-				htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" required />';
-			};
+			}
+			else
+			{
+				if (($('#carrera_alumno').val() > 5) || ($('#carrera_alumno').val() > 6 && $('#carrera_alumno').val() < 11)) {
+					htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" />';
+				}else{
+					htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" required />';
+				};
+			}
+			
 			$("#foto_nr").html(htmlToAdd);
 		}
 
