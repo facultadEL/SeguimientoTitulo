@@ -9,43 +9,41 @@ include_once "conexion.php";
 $esp = '&nbsp;&nbsp;';
 
 $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
-	if ($id_Alumno == 0){
-		//$id_Alumno = $_REQUEST['id_alumno'];
-		$nombre_alumno = ucwords(strtolower(trim($_REQUEST['nombre_alumno'])));
-		$apellido_alumno = ucwords(strtolower(trim($_REQUEST['apellido_alumno'])));
-		$nro_legajo = trim($_REQUEST['nro_legajo']);
-		$tipodni_alumno = trim($_REQUEST['tipodni_alumno']);
-		$numerodni_alumno = trim($_REQUEST['numerodni_alumno']);
-		$fechanacimiento_alumno = trim($_REQUEST['fechanacimiento_alumno']);
-		$localidad_nacimiento_alumno = ucwords(trim($_REQUEST['localidad_nacimiento_alumno']));
-		$provincia_viviendo_alumno = ucwords(trim($_REQUEST['provincia_viviendo_alumno']));
-		$localidad_viviendo_alumno = ucwords(trim($_REQUEST['localidad_viviendo_alumno']));
-		$cp_alumno = trim($_REQUEST['cp_alumno']);
-		$calle_alumno = ucwords(trim($_REQUEST['calle_alumno']));
-		$numerocalle_alumno = trim($_REQUEST['numerocalle_alumno']);
-		$piso_alumno = trim($_REQUEST['piso_alumno']);
-		$dpto_alumno = ucwords(trim($_REQUEST['dpto_alumno']));
-		$carrera_alumno = trim($_REQUEST['carrera_alumno']);
-		$caracteristicaF_alumno = empty($_REQUEST['caracteristicaF_alumno']) ? '0' : trim($_REQUEST['caracteristicaF_alumno']);
-		$telefono_alumno = empty($_REQUEST['telefono_alumno']) ? '0' : trim($_REQUEST['telefono_alumno']);
-		$caracteristicaC_alumno = trim($_REQUEST['caracteristicaC_alumno']);
-		$celular_alumno = trim($_REQUEST['celular_alumno']);
-		$mail_alumno = trim($_REQUEST['mail_alumno']);
-		$mail_alumno2 = trim($_REQUEST['mail_alumno2']);
-		$facebook_alumno = ucwords(trim($_REQUEST['facebook_alumno']));
-		$twitter_alumno = ucwords(trim($_REQUEST['twitter_alumno']));
-		$password_alumno = trim($_REQUEST['password_alumno']);
-		$provincia_trabajo_alumno = ucwords(trim($_REQUEST['provincia_trabajo_alumno']));
-		$localidad_trabajo_alumno = ucwords(trim($_REQUEST['localidad_trabajo_alumno']));
-		//$cp_alumno2 = trim($_REQUEST['cp_alumno2']);
-		$cp_alumno2 = empty($_REQUEST['cp_alumno2']) ? '0' : trim($_REQUEST['cp_alumno2']);
-		$empresa_trabaja_alumno = ucwords(trim($_REQUEST['empresa_trabaja_alumno']));
-		$perfil_laboral_alumno = ucfirst(trim($_REQUEST['perfil_laboral_alumno']));
-		$destinoImagen = trim($_REQUEST['foto_alumno']);
-		$ultima_materia_alumno = ucwords(trim($_REQUEST['ultima_materia_alumno']));
-		$fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
-		// $ancho_final = trim($_REQUEST['ancho_final']);
-		// $alto_final = trim($_REQUEST['alto_final']);
+
+$nombre_alumno = ucwords(strtolower(trim($_REQUEST['nombre_alumno'])));
+$apellido_alumno = ucwords(strtolower(trim($_REQUEST['apellido_alumno'])));
+$nro_legajo = trim($_REQUEST['nro_legajo']);
+$tipodni_alumno = trim($_REQUEST['tipodni_alumno']);
+$numerodni_alumno = trim($_REQUEST['numerodni_alumno']);
+$fechanacimiento_alumno = trim($_REQUEST['fechanacimiento_alumno']);
+$localidad_nacimiento_alumno = ucwords(trim($_REQUEST['localidad_nacimiento_alumno']));
+$provincia_viviendo_alumno = ucwords(trim($_REQUEST['provincia_viviendo_alumno']));
+$localidad_viviendo_alumno = ucwords(trim($_REQUEST['localidad_viviendo_alumno']));
+$cp_alumno = trim($_REQUEST['cp_alumno']);
+$calle_alumno = ucwords(trim($_REQUEST['calle_alumno']));
+$numerocalle_alumno = trim($_REQUEST['numerocalle_alumno']);
+$piso_alumno = trim($_REQUEST['piso_alumno']);
+$dpto_alumno = ucwords(trim($_REQUEST['dpto_alumno']));
+$carrera_alumno = trim($_REQUEST['carrera_alumno']);
+$caracteristicaF_alumno = empty($_REQUEST['caracteristicaF_alumno']) ? '0' : trim($_REQUEST['caracteristicaF_alumno']);
+$telefono_alumno = empty($_REQUEST['telefono_alumno']) ? '0' : trim($_REQUEST['telefono_alumno']);
+$caracteristicaC_alumno = trim($_REQUEST['caracteristicaC_alumno']);
+$celular_alumno = trim($_REQUEST['celular_alumno']);
+$mail_alumno = trim($_REQUEST['mail_alumno']);
+$mail_alumno2 = trim($_REQUEST['mail_alumno2']);
+$facebook_alumno = ucwords(trim($_REQUEST['facebook_alumno']));
+$twitter_alumno = ucwords(trim($_REQUEST['twitter_alumno']));
+$password_alumno = trim($_REQUEST['password_alumno']);
+$provincia_trabajo_alumno = ucwords(trim($_REQUEST['provincia_trabajo_alumno']));
+$localidad_trabajo_alumno = ucwords(trim($_REQUEST['localidad_trabajo_alumno']));
+$cp_alumno2 = empty($_REQUEST['cp_alumno2']) ? '0' : trim($_REQUEST['cp_alumno2']);
+$empresa_trabaja_alumno = ucwords(trim($_REQUEST['empresa_trabaja_alumno']));
+$perfil_laboral_alumno = ucfirst(trim($_REQUEST['perfil_laboral_alumno']));
+$destinoImagen = trim($_REQUEST['foto_alumno']);
+$ultima_materia_alumno = ucwords(trim($_REQUEST['ultima_materia_alumno']));
+$fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
+
+	if ($id_Alumno == 0){		
 		$hidden1 = trim($_REQUEST['hidden1']);
 		$hidden2 = trim($_REQUEST['hidden2']);
 		$fecreg = date('Y-m-d');
@@ -100,9 +98,14 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		// cerramos
 		ftp_close($conn_id);
 		
-		if ($imagen[$formato] == "jpeg" || $imagen[$formato] == "jpg"){
+		$isPNG = false;
+		if($imagen[$formato] == "png")
+		{
+			$isPNG = true;
+		}
 
-		$imagen_origen = imagecreatefromjpeg($destinoImagen);
+		$imagen_origen = ($isPNG) ? imagecreatefrompng($destinoImagen) : imagecreatefromjpeg($destinoImagen);
+
 		//obtengo el ancho de la imagen original
 		$ancho_origen = imagesx($imagen_origen);
 		//obtengo el alto de la imagen original
@@ -124,38 +127,13 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
 
 		imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
-		
-		//guardo la nueva foto (nuevaFoto, destino, calidad)
-		imagejpeg( $imagen_destino,$destinoImagen,100 );
-		}
-		
-		if ($imagen[$formato] == "png") {
-		$imagen_origen = imagecreatefrompng($destinoImagen);
-		//obtengo el ancho de la imagen original
-		$ancho_origen = imagesx($imagen_origen);
-		//obtengo el alto de la imagen original
-		$alto_origen = imagesy($imagen_origen);
-		
-		$ancho=600;
-		$alto=400;
-		
-		if($ancho_origen>$alto_origen){
-		//foto horizontal
-			$ancho_final=$ancho;
-			$alto_final=$alto_origen*$ancho_final/$ancho_origen;    
-		}else{
-		//fotos verticales
-			$alto_final=$alto;
-			$ancho_final=$ancho_origen*$alto_final/$alto_origen;
-		}
-		// creo la imagen con el tamaño que le pase
-		$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
-		
-		//Copio y cambio el tamaño de la imagen
-		imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
-		
-		//guardo la nueva foto (nuevaFoto, destino, calidad)
-		imagepng( $imagen_destino,$destinoImagen,9 );
+
+		if($isPNG)
+		{
+			imagepng( $imagen_destino,$destinoImagen,9 );
+		}else
+		{
+			imagejpeg( $imagen_destino,$destinoImagen,100 );
 		}
 
 		$consultaNivel = pg_query("SELECT nivel_carrera_fk FROM carrera WHERE id_carrera = $carrera_alumno");
@@ -194,59 +172,10 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 				
 		if ($error==1){
 			echo '<script language="JavaScript"> 			alert("Los datos no se guardaron correctamente. Pongase en contacto con el administrador");</script>';
-			//echo $errorpg;
 		}else{
-			// if ($nivel_carrera_fk == 1) {//carrera de grado
-			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado1.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
-			// if ($nivel_carrera_fk == 2) {//carrera de posgrado
-			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado2.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
-			// if ($nivel_carrera_fk == 3) {//carrera de pregrado
-			// 	echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "imprimirGraduado3.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
 			echo '<script language="JavaScript"> alert("Los datos se guardaron correctamente."); window.location = "verAlumno.php?idAlumno='.$id_Alumno.'&titulo_alumno='.$carrera_alumno.'";</script>';
 		}
 	}else{
-		//aca va el update
-
-
-		//$id_Alumno = trim($_REQUEST['idAlumno']);
-		$nombre_alumno = ucwords(trim($_REQUEST['nombre_alumno']));
-		$apellido_alumno = ucwords(trim($_REQUEST['apellido_alumno']));
-		$nro_legajo = trim($_REQUEST['nro_legajo']);
-		$tipodni_alumno = trim($_REQUEST['tipodni_alumno']);
-		$numerodni_alumno = trim($_REQUEST['numerodni_alumno']);
-		$fechanacimiento_alumno = trim($_REQUEST['fechanacimiento_alumno']);
-		$localidad_nacimiento_alumno = ucwords(trim($_REQUEST['localidad_nacimiento_alumno']));
-		$provincia_viviendo_alumno = ucwords(trim($_REQUEST['provincia_viviendo_alumno']));
-		$localidad_viviendo_alumno = ucwords(trim($_REQUEST['localidad_viviendo_alumno']));
-		$cp_alumno = trim($_REQUEST['cp_alumno']);
-		$calle_alumno = ucwords(trim($_REQUEST['calle_alumno']));
-		$numerocalle_alumno = trim($_REQUEST['numerocalle_alumno']);
-		$piso_alumno = trim($_REQUEST['piso_alumno']);
-		$dpto_alumno = ucwords(trim($_REQUEST['dpto_alumno']));
-		$carrera_alumno = trim($_REQUEST['carrera_alumno']);
-		$caracteristicaF_alumno = trim($_REQUEST['caracteristicaF_alumno']);
-		$telefono_alumno = trim($_REQUEST['telefono_alumno']);
-		$caracteristicaC_alumno = trim($_REQUEST['caracteristicaC_alumno']);
-		$celular_alumno = trim($_REQUEST['celular_alumno']);
-		$mail_alumno = trim($_REQUEST['mail_alumno']);
-		$mail_alumno2 = trim($_REQUEST['mail_alumno2']);
-		$facebook_alumno = ucwords(trim($_REQUEST['facebook_alumno']));
-		$twitter_alumno = ucwords(trim($_REQUEST['twitter_alumno']));
-		$password_alumno = trim($_REQUEST['password_alumno']);
-		$provincia_trabajo_alumno = ucwords(trim($_REQUEST['provincia_trabajo_alumno']));
-		$localidad_trabajo_alumno = ucwords(trim($_REQUEST['localidad_trabajo_alumno']));
-		//$cp_alumno2 = trim($_REQUEST['cp_alumno2']);
-		$cp_alumno2 = (empty($_REQUEST['cp_alumno2'])) ? '0' : trim($_REQUEST['cp_alumno2']);
-		$empresa_trabaja_alumno = ucwords(trim($_REQUEST['empresa_trabaja_alumno']));
-		$perfil_laboral_alumno = ucfirst(trim($_REQUEST['perfil_laboral_alumno']));
-		$destinoImagen = trim($_REQUEST['foto_alumno']);
-		$ultima_materia_alumno = ucwords(trim($_REQUEST['ultima_materia_alumno']));
-		$fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
-		// $ancho_final = trim($_REQUEST['ancho_final']);
-		// $alto_final = trim($_REQUEST['alto_final']);
 		
 		$sep = '/-/';
 		$datosPasar = $nombre_alumno.$sep.$apellido_alumno.$sep.$nro_legajo.$sep.$tipodni_alumno.$sep.$numerodni_alumno.$sep.$fecha_nacimiento_alumno.$sep.$provincia_viviendo_alumno.$sep.$localidad_viviendo_alumno.$sep.$cp_alumno.$sep.$calle_alumno.$sep.$numerocalle_alumno.$sep.$piso_alumno.$sep.$dpto_alumno.$sep.$carrera_alumno.$sep.$caracteristicaF_alumno.$sep.$telefono_alumno.$sep.$caracteristicaC_alumno.$sep.$celular_alumno.$sep.$mail_alumno.$sep.$mail_alumno2.$sep.$facebook_alumno.$sep.$twitter_alumno.$sep.$password_alumno.$sep.$provincia_trabajo_alumno.$sep.$localidad_trabajo_alumno.$sep.$cp_alumno2.$sep.$empresa_trabaja_alumno.$sep.$perfil_laboral_alumno.$sep.$destinoImagen.$sep.$localidad_nacimiento_alumno.$sep.$ultima_materia_alumno.$sep.$fecha_ultima_mat_alumno;
@@ -310,9 +239,14 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 			// cerramos
 			ftp_close($conn_id);
 			
-			if ($imagen[$formato] == "jpeg" || $imagen[$formato] == "jpg"){
+			$isPNG = false;
+			if($imagen[$formato] == "png")
+			{
+				$isPNG = true;
+			}
 
-			$imagen_origen = imagecreatefromjpeg($destinoImagen);
+			$imagen_origen = ($isPNG) ? imagecreatefrompng($destinoImagen) : imagecreatefromjpeg($destinoImagen);
+
 			//obtengo el ancho de la imagen original
 			$ancho_origen = imagesx($imagen_origen);
 			//obtengo el alto de la imagen original
@@ -334,38 +268,14 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 			$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
 
 			imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
-			
-			//guardo la nueva foto (nuevaFoto, destino, calidad)
-			imagejpeg( $imagen_destino,$destinoImagen,100 );
+
+			if($isPNG)
+			{
+				imagepng( $imagen_destino,$destinoImagen,9 );
 			}
-			
-			if ($imagen[$formato] == "png") {
-			$imagen_origen = imagecreatefrompng($destinoImagen);
-			//obtengo el ancho de la imagen original
-			$ancho_origen = imagesx($imagen_origen);
-			//obtengo el alto de la imagen original
-			$alto_origen = imagesy($imagen_origen);
-			
-			$ancho=600;
-			$alto=400;
-			
-			if($ancho_origen>$alto_origen){
-			//foto horizontal
-				$ancho_final=$ancho;
-				$alto_final=$alto_origen*$ancho_final/$ancho_origen;    
-			}else{
-			//fotos verticales
-				$alto_final=$alto;
-				$ancho_final=$ancho_origen*$alto_final/$alto_origen;
-			}
-			// creo la imagen con el tamaño que le pase
-			$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
-			
-			//Copio y cambio el tamaño de la imagen
-			imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
-			
-			//guardo la nueva foto (nuevaFoto, destino, calidad)
-			imagepng( $imagen_destino,$destinoImagen,9 );
+			else
+			{
+				imagejpeg( $imagen_destino,$destinoImagen,100 );
 			}
 		
 		}
@@ -410,15 +320,6 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		if ($error==1){
 			echo '<script language="JavaScript"> alert("Los datos no se modificaron correctamente. Pongase en contacto con el administrador");</script>';
 		}else{
-			// if ($nivel_carrera_fk == 1) {//carrera de grado
-			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado1.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
-			// if ($nivel_carrera_fk == 2) {//carrera de posgrado
-			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado2.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
-			// if ($nivel_carrera_fk == 3) {//carrera de pregrado
-			// 	echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "imprimirGraduado3.php?idAlumno='.$id_Alumno.'";</script>';
-			// }
 			echo '<script language="JavaScript"> alert("Los datos se actualizaron correctamente."); window.location = "verAlumno.php?idAlumno='.$id_Alumno.'&titulo_alumno='.$carrera_alumno.'";</script>';
 		}
 }
