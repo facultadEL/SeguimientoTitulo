@@ -58,12 +58,18 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		$tamano_archivo = $_FILES['fotoAlumno']['size'];
 		$archivo_foto = $_FILES['fotoAlumno']['tmp_name'];
 		
+		$randNumbers = '';
+		for($i = 0; $i < 10; $i++)
+		{
+			$randNumbers .= rand(0,9);
+		}
+
 		//Le agrego estas dos lineas para crear un nombre de foto unico conformado por el legajo y el apellido
-		$vNombreFoto = explode('.', $nombre_foto);
-		$nombre_foto = $apellido_alumno.$nro_legajo.$vNombreFoto[1];
+		$vNombreFoto = explode('.', $nombreFoto);
+		$nombre_foto = $apellido_alumno.$nro_legajo.$randNumbers.$vNombreFoto[1];
 
 		//en el siguiente paso le quito los espacios al nombre de la foto para evitar problemas.
-		$nombre_foto = str_replace(" ", "-", $nombreFoto);
+		$nombre_foto = str_replace(" ", "-", $nombre_foto);
 
 		$ftp_server = "190.114.198.126";
 		$ftp_user_name = "fernandoserassioextension";
@@ -76,7 +82,7 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		// logeo
 		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
 
-		$imagen = explode(".", $nombre_foto);
+		$imagen = explode(".", $nombreFoto);
 		$totalImagen=count($imagen);
 		$formato = $totalImagen - 1;
 		if ($nombre_foto != ""){
@@ -249,12 +255,10 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 		$tipo_archivo = $_FILES['fotoAlumno']['type'];	
 		$tamano_archivo = $_FILES['fotoAlumno']['size'];
 		$archivo_foto = $_FILES['fotoAlumno']['tmp_name'];
-		
-		
-		//en el siguiente paso le quito los espacios al nombre de la foto para evitar problemas.
-		$nombre_foto = str_replace(" ", "-", $nombreFoto);
-		
-		if($nombre_foto == NULL){
+	
+		//echo 'N:'.$nombreFoto.'<br>';
+
+		if($nombreFoto == NULL){
 			$sqlFoto = pg_query("SELECT foto_alumno,ancho_final,alto_final FROM alumno WHERE id_alumno = $id_Alumno");
 			$rowFoto = pg_fetch_array($sqlFoto);
 			
@@ -265,19 +269,32 @@ $id_Alumno = (empty($_REQUEST['idAlumno'])) ? 0 : $_REQUEST['idAlumno'];
 			
 			
 		}else{
-			
+			//echo 'Entre';
+			$randNumbers = '';
+			for($i = 0; $i < 10; $i++)
+			{
+				$randNumbers .= rand(0,9);
+			}
+
+			//Le agrego estas dos lineas para crear un nombre de foto unico conformado por el legajo y el apellido
+			$vNombreFoto = explode('.', $nombreFoto);
+			$nombre_foto = $apellido_alumno.$nro_legajo.$randNumbers.'.'.$vNombreFoto[1];
+
+			//en el siguiente paso le quito los espacios al nombre de la foto para evitar problemas.
+			$nombre_foto = str_replace(" ", "-", $nombre_foto);
+
 			$ftp_server = "190.114.198.126";
 			$ftp_user_name = "fernandoserassioextension";
 			$ftp_user_pass = "fernando2013";
 			$destino_Imagen = "web/SeguimientoTitulo/Graduado/fotos/".$nombre_foto;
 			$destinoImagen = "fotos/".$nombre_foto;
-					
+			echo 'N:'.$nombre_foto;
 			//conexión
 			$conn_id = ftp_connect($ftp_server); 
 			// logeo
 			$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
 
-			$imagen = explode(".", $nombre_foto);
+			$imagen = explode(".", $nombreFoto);
 			$totalImagen=count($imagen);
 			$formato = $totalImagen - 1;
 			

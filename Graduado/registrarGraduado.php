@@ -254,6 +254,7 @@
     <script defer>
 
     var novalidar = false;
+    var modificar = false;
 
 	    function addTwitter()
 		{
@@ -305,6 +306,10 @@
 
 		$('#hidden1').val(getCode(30,1));
 		$('#hidden2').val(getCode(30,1));
+		if(modificar)
+		{
+			pedirFoto();
+		}
 
 		});
 
@@ -312,10 +317,15 @@
 		function pedirFoto(){
 			var htmlToAdd = '';
 
+			if(modificar)
+			{
+				htmlToAdd += '<i>El alumno ya tiene una foto cargada</i></br>';
+			}
+
 			if (($('#carrera_alumno').val() > 5) || ($('#carrera_alumno').val() > 6 && $('#carrera_alumno').val() < 11)) {
-				htmlToAdd = '<input id="fotoAlumno" type="file" name="fotoAlumno" />';
+				htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" />';
 			}else{
-				htmlToAdd = '<input id="fotoAlumno" type="file" name="fotoAlumno" required />';
+				htmlToAdd += '<input id="fotoAlumno" type="file" name="fotoAlumno" required />';
 			};
 			$("#foto_nr").html(htmlToAdd);
 		}
@@ -521,6 +531,7 @@ include_once "libreria.php";
 				// 		$dia = $mostrar[2];
 				// $fecha_ultima_mat_alumno = $dia.'-'.$mes.'-'.$anio;
 				$fecha_ultima_mat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];
+				echo '<script>modificar=true;</script>';
 		}
 	}
 	if($nuevaSolicitud == 't')
