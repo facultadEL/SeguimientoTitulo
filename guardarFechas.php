@@ -482,11 +482,12 @@ echo $sqlGuardar;
 if($errorPdf == 0){
 	$e = guardarSql($sqlGuardar);
 	$controlSincronizar = 0; //Una vez implementado esto se saca
-
+	/*
 	if($controlSincronizar == 1)
 	{
 		sincronizarAlumnos($alumnosSincronizar);
 	}
+	*/
 	
 	if($e==1){
 		mostrarMensaje('Los datos no se pudieron guardar. Contactese con su administrador',$redireccion);
@@ -496,6 +497,8 @@ if($errorPdf == 0){
 }else{
 	mostrarMensaje('El archivo subido no es valido. Suba un PDF, DOC o DOCX',$redireccionTmp);
 }
+
+/*
 
 function sincronizarAlumnos($alumnos)
 {
@@ -540,10 +543,10 @@ function sincronizarAlumnos($alumnos)
 		$telefonoCelular = empty(trim($_REQUEST['celular_alumno'])) ? '0' : trim($_REQUEST['celular_alumno']);
 		
 		//Tratar la foto
-		/*
-		-Moverla de directorio
-		-Rearmar el nombre, sobre todo la direccion
-		*/
+		
+		//-Moverla de directorio
+		//-Rearmar el nombre, sobre todo la direccion
+		
 		
 		$nombreFotoDestino = explode('/', $foto);
 
@@ -559,6 +562,39 @@ function sincronizarAlumnos($alumnos)
 		if (($conn_id) && ($login_result)){ 
 	   		$uploadPdf = ftp_put($conn_id, $destino, $foto, FTP_BINARY);
 		}
+
+
+		$conGraduados = pg_connect("host=190.114.198.126 port=5432 user=extension password=newgenius dbname=graduados") or die("Error de conexion.".pg_last_error());
+		$sqlIdAlumno = pg_query($conGraduados,"SELECT max(id_alumno) FROM alumno");
+		$rowIdAlumno = pg_fetch_array($sqlIdAlumno);
+		$proxIdAlumno = $rowIdAlumno['max'] + 1;
+		//sqlGraduado es el query que se va a ejecutar en la base de datos de graduados
+		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,facebook_alumno,numerodni_alumno,tipodni_alumno,foto_alumno,carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,gra_depto,gra_piso,mail_alumno2,twitter_alumno,localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) VALUES('$proxIdAlumno','$nombre','$apellido','$mail','$facebook','$numeroDni','$tipoDni','$fotoGuardar','$carrera','$anchoFoto','$altoFoto','$fechaNacimiento','$calle','$numeroCalle','$depto','$piso','$mail2','$twitter','$localidadNacimiento','$provinciaTrabajo','$localidadTrabajo','$provinciaViviendo','$localidadViviendo','$perfilLaboral');";
+	    
+	    $sqlTelefono = '';
+
+	    if($caracteristicaFijo != '0' || $telefonoFijo != '0')
+	    {
+	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaFijo',
+	    		'$telefonoFijo','Telefono Fijo','$proxIdAlumno');";
+	    }
+
+	    if($caracteristicaCelular != '0' || $telefonoCelular != '0')
+	    {
+	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaCelular',
+	    		'$telefonoCelular','Celular','$proxIdAlumno');";
+	    }
+		
+	    $sqlGuardar = $sqlGraduado.$sqlTelefono;
+
+		pg_close($conGraduados);
+	}
+	
+
+}
+
+*/
+
 		//Ver el tema carrera
 		/* 
 		Carreras en graduados a la fecha 05/11/2015
@@ -601,34 +637,4 @@ function sincronizarAlumnos($alumnos)
 			18-Licenciado/a en Ciencias Aplicadas
 			19-Especialista en Soldadura
 		*/
-
-		$conGraduados = pg_connect("host=190.114.198.126 port=5432 user=extension password=newgenius dbname=graduados") or die("Error de conexion.".pg_last_error());
-		$sqlIdAlumno = pg_query($conGraduados,"SELECT max(id_alumno) FROM alumno");
-		$rowIdAlumno = pg_fetch_array($sqlIdAlumno);
-		$proxIdAlumno = $rowIdAlumno['max'] + 1;
-		//sqlGraduado es el query que se va a ejecutar en la base de datos de graduados
-		$sqlGraduado = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,mail_alumno,facebook_alumno,numerodni_alumno,tipodni_alumno,foto_alumno,carrera_alumno,ancho_final,alto_final,fechanacimiento_alumno,calle_alumno,numerocalle_alumno,gra_depto,gra_piso,mail_alumno2,twitter_alumno,localidad_nac_alumno,provincia_trabajo_alumno,localidad_trabajo_alumno,provincia_viviendo_alumno,localidad_viviendo_alumno,perfil_laboral_alumno) VALUES('$proxIdAlumno','$nombre','$apellido','$mail','$facebook','$numeroDni','$tipoDni','$fotoGuardar','$carrera','$anchoFoto','$altoFoto','$fechaNacimiento','$calle','$numeroCalle','$depto','$piso','$mail2','$twitter','$localidadNacimiento','$provinciaTrabajo','$localidadTrabajo','$provinciaViviendo','$localidadViviendo','$perfilLaboral');";
-	    
-	    $sqlTelefono = '';
-
-	    if($caracteristicaFijo != '0' || $telefonoFijo != '0')
-	    {
-	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaFijo',
-	    		'$telefonoFijo','Telefono Fijo','$proxIdAlumno');";
-	    }
-
-	    if($caracteristicaCelular != '0' || $telefonoCelular != '0')
-	    {
-	    	$sqlTelefono .= "INSERT INTO telefonos_del_alumno(caracteristica_alumno,telefono_alumno,duenio_del_telefono,alumno_fk) VALUES('$caracteristicaCelular',
-	    		'$telefonoCelular','Celular','$proxIdAlumno');";
-	    }
-		
-	    $sqlGuardar = $sqlGraduado.$sqlTelefono;
-
-		pg_close($conGraduados);
-	}
-	
-
-}
-
 ?>
