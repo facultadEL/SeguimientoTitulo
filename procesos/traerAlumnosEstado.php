@@ -16,7 +16,7 @@ $html = '';
 
 $sqlSolicitud = pg_query('SELECT nro_expediente,foto_alumno,apellido_alumno,nombre_alumno,nombre_carrera,nombre_nivel_carrera,fecha_solicitud,fecha_resp_alumno,
 	fecha_rescd,fecha_nota_envio_rec,fecha_rescs,fecha_ingreso_diploma,fecha_ingreso_analitico,fecha_retiro_diploma,fecha_retiro_analitico,
-	carrera_fk,id_alumno,caracteristicac_alumno,celular_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) 
+	carrera_fk,id_alumno,id_carrera,caracteristicac_alumno,celular_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) 
 	INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) 
 	ORDER BY fecha_retiro_analitico desc,fecha_retiro_diploma desc, fecha_ingreso_analitico desc, fecha_ingreso_diploma desc, fecha_rescs desc, fecha_nota_envio_rec desc,
 	fecha_rescd desc, fecha_resp_alumno desc, fecha_solicitud desc, apellido_alumno asc, nombre_alumno asc;');
@@ -27,6 +27,7 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 {
 	
 	$idAlumno = $rowSolicitud['id_alumno'];
+	$idCarrera = $rowSolicitud['id_carrera'];
 	$bg = '';
 	$estado = '';
 
@@ -110,8 +111,8 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 	
 	$nExp = (empty($rowSolicitud['nro_expediente'])) ? 'Sin Expediente' : $rowSolicitud['nro_expediente'];
 	$html .= '<td>'.$nExp.'</td>';
-	//$html .= '<td><a href="mostrarAlumno.php?idAlumno='.$idAlumno.'&idCarrera='.$idCarrera.'&origen=listadoSolicitudTitulo" >'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</a></td>';
-	$html .= '<td>'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</td>';
+	$html .= '<td><a href="mostrarAlumno.php?idAlumno='.$idAlumno.'&idCarrera='.$idCarrera.'&origen=listadoEstados" >'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</a></td>';
+	//$html .= '<td>'.$rowSolicitud['apellido_alumno'].', '.$rowSolicitud['nombre_alumno'].'</td>';
 	$html .= '<td>'.$rowSolicitud['nombre_carrera'].'</td>';
 	$html .= '<td>'.$rowSolicitud['nombre_nivel_carrera'].'</td>';
 	$html .= '<td>'.$rowSolicitud['caracteristicac_alumno'].'-'.$rowSolicitud['celular_alumno'].'</td>';

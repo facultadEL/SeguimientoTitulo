@@ -297,12 +297,12 @@ include_once "conexion.php";
 								//foto horizontal
 									$ancho_mostrar=200;
 									$alto_mostrar=$alto_final*$ancho_mostrar/$ancho_final;
-									echo '<img src='.$foto_alumno.' width="'.$ancho_mostrar.'" height="'.$alto_mostrar.'">';
+									echo '<img src="../SeguimientoTitulo/Graduado/'.$foto_alumno.'" width="'.$ancho_mostrar.'" height="'.$alto_mostrar.'">';
 								}else{
 								//fotos verticales
 									$alto_mostrar=200;
 									$ancho_mostrar=$ancho_final*$alto_mostrar/$alto_final;
-									echo '<img src='.$foto_alumno.' width="'.$ancho_mostrar.'" height="'.$alto_mostrar.'">';
+									echo '<img src="../SeguimientoTitulo/Graduado/'.$foto_alumno.'" width="'.$ancho_mostrar.'" height="'.$alto_mostrar.'">';
 								}
 								?>
 							</td>
