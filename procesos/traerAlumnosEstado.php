@@ -19,10 +19,10 @@ $sqlSolicitud = pg_query('SELECT nro_expediente,foto_alumno,apellido_alumno,nomb
 	carrera_fk,id_alumno,id_carrera,caracteristicac_alumno,celular_alumno FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) 
 	INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) 
 	ORDER BY fecha_retiro_analitico desc,fecha_retiro_diploma desc, fecha_ingreso_analitico desc, fecha_ingreso_diploma desc, fecha_rescs desc, fecha_nota_envio_rec desc,
-	fecha_rescd desc, fecha_resp_alumno desc, fecha_solicitud desc, apellido_alumno asc, nombre_alumno asc;');
+	fecha_rescd desc, fecha_resp_alumno desc, fecha_solicitud desc, id_nivel_carrera asc, id_carrera asc, apellido_alumno asc, nombre_alumno asc;');
 
 //echo $sqlSolicitud;
-
+$prevEstado = 'Traer Solicitud';
 while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 {
 	
@@ -96,7 +96,12 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 			}
 		}
 	}
-	
+
+	if($prevEstado != $estado)
+	{
+		$html .= '<tr><td colspan="7">&nbsp;</td></tr>';
+	}
+
 	$html .= '<tr'.$bg.'>';
 	
 	if($rowSolicitud['foto_alumno'] == '')
@@ -119,6 +124,7 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 	$html .= '<td class="text-center">'.$estado.'</td>';
 
 	$html .= '</tr>';
+	$prevEstado = $estado;
 }
 
 
