@@ -2,8 +2,8 @@
 <head>
 <title> Listado Resoluciones Y Nota </title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<script src="jquery-latest.js"></script>
-<script src="jquery.maskedinput.js" type="text/javascript"></script>
+<script src="js/jquery-latest.js"></script>
+<script src="js/jquery.maskedinput.js" type="text/javascript"></script>
 <script type="text/javascript">
         jQuery(function($){
             $("#numero1").mask("9,99", {

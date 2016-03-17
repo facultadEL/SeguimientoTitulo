@@ -2,7 +2,7 @@
 <head>
 <title> Listado Completo </title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type='text/javascript' src="js/jquery.min.js"></script>
 <style type="text/css">
 	label {font-family: Cambria; text-transform: capitalize; padding: .5em; color: #0080FF;}
 	#tabla {background: #F2F2F2;}

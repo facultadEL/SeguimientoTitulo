@@ -2,8 +2,8 @@
 <head>
 <title>Asignar Expedientes</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-<script type='text/javascript' src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="jquery.mask.js" type="text/javascript"></script>
+<script src="js/jquery-latest.js" type='text/javascript'></script>
+<script src="js/jquery.mask.js" type="text/javascript"></script>
 
 <script>
 
