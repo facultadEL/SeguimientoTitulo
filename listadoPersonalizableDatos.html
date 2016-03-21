@@ -1,0 +1,304 @@
+<html>
+<head>
+<title> Listado Personalizable </title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/printThis.js"></script>
+<script>
+
+var orden = 0;
+var alumnos;
+var searchWord = '';
+var etapa = 0;
+var alumnosToShow;
+
+
+function cargarAlumnos()
+{
+
+	var parametros = 
+	{
+		"orden" : orden
+	}
+
+	$.ajax({
+		type : 'POST',
+		url : 'procesos/traerDatosAlumno.php',
+		data : parametros,
+		success: function(response)
+		{
+			parseAlumnos(response);
+			//$('#cuerpoTabla').html(response);
+		},
+		error: function(msg)
+		{
+			alert(msg);
+		}
+	});
+}
+
+function parseAlumnos(r)
+{
+	alumnos =  JSON.parse(r);
+
+	showAlumnos();
+}
+
+function showAlumnos()
+{
+	alumnosToShow = [];
+	datoEtapa = '';
+
+	var l = alumnos.length;
+
+	for(var i = 0; i < l; i++)
+	{
+		if(inSearch(alumnos[i]))
+		{
+			alumnosToShow.push(alumnos[i]);
+		}
+	}
+
+	loadTable();
+}
+
+function loadTable()
+{
+	showAll();
+	var l = alumnosToShow.length;
+
+	var htmlToAdd = '';
+
+	for(var i = 0; i < l; i++)
+	{
+		var a = alumnosToShow[i];
+
+		htmlToAdd += `<tr>`;
+		var foto = (a.foto == '0') ? 'Sin Foto' : `<img src="${a.foto}" width="50px"/>`;
+		htmlToAdd += `<td class="colFoto">${foto}</td>`;
+		htmlToAdd += `<td class="colExp">${a.nroExpediente}</td>`;
+		htmlToAdd += `<td class="colAlumno">${a.apellido}, ${a.nombre}</td>`;
+		htmlToAdd += `<td class="colCarrera">${a.carrera}</td>`;
+		htmlToAdd += `<td class="colNivel">${a.nivelCarrera}</td>`;
+		htmlToAdd += `<td class="colTelefono">${a.telefono}</td>`;
+		htmlToAdd += `<td class="colMail">${a.mail}</td>`;
+		htmlToAdd += `<td class="colDireccion">${a.direccion}</td>`;
+		htmlToAdd += `<td class="colLegajo">${a.nroLegajo}</td>`;
+		htmlToAdd += `<td class="colFechaNac">${a.fechaNac}</td>`;
+		htmlToAdd += `<td class="colDni">${a.dni}</td>`;
+		htmlToAdd += `<td class="colUltMat">${a.ultimaMateria}</td>`;
+		htmlToAdd += `<td class="colFechaUltMat">${a.fechaUltMat}</td>`;
+		htmlToAdd += `<td class="colFechaReg">${a.fechaReg}</td>`;
+		htmlToAdd += `</tr>`;
+	}
+
+	$('#cuerpoTabla').html(htmlToAdd);
+	controlCheck();
+}
+
+function showAll()
+{
+	$('.colFoto').show();
+	$('.colExp').show();
+	$('.colAlumno').show();
+	$('.colCarrera').show();
+	$('.colNivel').show();
+	$('.colTelefono').show();
+	$('.colMail').show();
+	$('.colDireccion').show();
+	$('.colLegajo').show();
+	$('.colFechaNac').show();
+	$('.colDni').show();
+	$('.colUltMat').show();
+	$('.colFechaUltMat').show();
+	$('.colFechaReg').show();
+}
+
+function controlCheck()
+{
+	if ($('#chkFoto').is(':checked')) {$('.colFoto').show(); } else {$('.colFoto').hide();}
+	if ($('#chkExp').is(':checked')) {$('.colExp').show(); } else {$('.colExp').hide();}
+	if ($('#chkAlumno').is(':checked')) {$('.colAlumno').show(); } else {$('.colAlumno').hide();}
+	if ($('#chkCarrera').is(':checked')) {$('.colCarrera').show(); } else {$('.colCarrera').hide();}
+	if ($('#chkNivel').is(':checked')) {$('.colNivel').show(); } else {$('.colNivel').hide();}
+	if ($('#chkTel').is(':checked')) {$('.colTelefono').show(); } else {$('.colTelefono').hide();}
+	if ($('#chkMail').is(':checked')) {$('.colMail').show(); } else {$('.colMail').hide();}
+	if ($('#chkDireccion').is(':checked')) {$('.colDireccion').show(); } else {$('.colDireccion').hide();}
+	if ($('#chkLegajo').is(':checked')) {$('.colLegajo').show(); } else {$('.colLegajo').hide();}
+	if ($('#chkFechaNac').is(':checked')) {$('.colFechaNac').show(); } else {$('.colFechaNac').hide();}
+	if ($('#chkDni').is(':checked')) {$('.colDni').show(); } else {$('.colDni').hide();}
+	if ($('#chkUltMat').is(':checked')) {$('.colUltMat').show(); } else {$('.colUltMat').hide();}
+	if ($('#chkFechaUltMat').is(':checked')) {$('.colFechaUltMat').show(); } else {$('.colFechaUltMat').hide();}
+	if ($('#chkFechaReg').is(':checked')) {$('.colFechaReg').show(); } else {$('.colFechaReg').hide();}
+}
+
+function formatDate(d)
+{
+	var vD = d.split('-');
+	var dateToReturn = vD[2]+'/'+vD[1]+'/'+vD[0];
+	return dateToReturn;
+}
+
+
+function inSearch(a)
+{
+	if((a.nombre.toLowerCase().indexOf(searchWord) == -1) && (a.apellido.toLowerCase().indexOf(searchWord) == -1) && (a.carrera.toLowerCase().indexOf(searchWord) == -1) && (a.nivelCarrera.toLowerCase().indexOf(searchWord) == -1) && (a.nroExpediente.toLowerCase().indexOf(searchWord) == -1))
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
+}
+
+function setFilter(option)
+{
+	var col;
+	switch(option)
+	{
+		case 'chkFoto':
+			col = '.colFoto';
+			break;
+		case 'chkNivel':
+			col = '.colNivel';
+			break;
+		case 'chkLegajo':
+			col = '.colLegajo';
+			break;
+		case 'chkFechaUltMat':
+			col = '.colFechaUltMat';
+			break;
+		case 'chkExp':
+			col = '.colExp';
+			break;
+		case 'chkTel':
+			col = '.colTelefono';
+			break;
+		case 'chkFechaNac':
+			col = '.colFechaNac';
+			break;
+		case 'chkFechaReg':
+			col = '.colFechaReg';
+			break;
+		case 'chkAlumno':
+			col = '.colAlumno';
+			break;
+		case 'chkMail':
+			col = '.colMail';
+			break;
+		case 'chkDni':
+			col = '.colDni';
+			break;
+		case 'chkCarrera':
+			col = '.colCarrera';
+			break;
+		case 'chkDireccion':
+			col = '.colDireccion';
+			break;
+		case 'chkUltMat':
+			col = '.colUltMat';
+			break;
+	}
+	if($(('#'+option)).is(':checked'))
+	{
+		$(col).show();
+	}
+	else
+	{
+		$(col).hide();
+	}
+}
+
+function searchControl()
+{
+	searchWord = $('#searchWord').val().toLowerCase();
+	showAlumnos();
+}
+
+$(document).ready(function(){
+	cargarAlumnos();
+});
+
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<td colspan="9" class="text-center resizeTable">
+							<strong>Listado de Alumnos</strong>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="9" class="text-center resizeTable" align="center">
+							<div class="input-group" style="width:100%">
+								<input type="text" class="form-control" placeholder="Buscar..." id="searchWord" onkeyup="searchControl()">
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">Buscar</button>
+									<button class="btn btn-default" type="button" onclick="printThis()">Imprimir</button>
+								</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="9" class="text-center resizeTable">Filtros</td>
+					</tr>
+					<tr>
+						<td colspan="9">
+							<div class="row">
+								<div class="col-xs-6 col-sm-3">
+									<span><input type="checkbox" onClick="setFilter('chkFoto')" id="chkFoto" checked />Foto</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkNivel')" id="chkNivel" checked />Nivel</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkLegajo')" id="chkLegajo" checked />Legajo</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkFechaUltMat')" id="chkFechaUltMat" checked />Fecha Ultima Materia</span>
+								</div>
+								<div class="col-xs-6 col-sm-3">
+									<span><input type="checkbox" onClick="setFilter('chkExp')" id="chkExp" checked />Expediente</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkTel')" id="chkTel" checked />Telefono</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkFechaNac')" id="chkFechaNac" checked />Fecha Nacimiento</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkFechaReg')" id="chkFechaReg" checked />Fecha Registro</span>
+								</div>
+								<div class="col-xs-6 col-sm-3">
+									<span><input type="checkbox" onClick="setFilter('chkAlumno')" id="chkAlumno" checked />Alumno</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkMail')" id="chkMail" checked />Mail</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkDni')" id="chkDni" checked />DNI</span></br>
+								</div>
+								<div class="col-xs-6 col-sm-3">
+									<span><input type="checkbox" onClick="setFilter('chkCarrera')" id="chkCarrera" checked />Carrera</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkDireccion')" id="chkDireccion" checked />Direcci&oacute;n</span></br>
+									<span><input type="checkbox" onClick="setFilter('chkUltMat')" id="chkUltMat" checked />Ultima Materia</span></br>
+								</div>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="colFoto"><strong>#</strong></td>
+						<td class="colExp"><strong>Expediente</strong></td>
+						<td class="colAlumno"><strong>Alumno</strong></td>
+						<td class="colCarrera"><strong>Carrera</strong></td>
+						<td class="colNivel"><strong>Nivel</strong></td>
+						<td class="colTelefono"><strong>Telefono</strong></td>
+						<td class="colMail"><strong>Mail</strong></td>
+						<td class="colDireccion"><strong>Direcci&oacute;n</strong></td>
+						<td class="colLegajo"><strong>N&uacute;mero Legajo</strong></td>
+						<td class="colFechaNac"><strong>Fecha Nacimiento</strong></td>
+						<td class="colDni"><strong>DNI</strong></td>
+						<td class="colUltMat"><strong>Ultima Materia</strong></td>
+						<td class="colFechaUltMat"><strong>Fecha Ultima Materia</strong></td>
+						<td class="colFechaReg"><strong>Fecha Registro</strong></td>
+					</tr>
+				</thead>
+				<tbody id="cuerpoTabla" class="printThis">
+					
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
