@@ -1,0 +1,538 @@
+<html>
+<head>
+<title>Enviar Mails</title>
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+<link rel="stylesheet" type="text/css" href="css/estilos.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/md5-min.js"></script>
+<script>
+
+var graduadosJSON = [];
+var carrerasIn = false;
+var gradError = [];
+var mailPrueba,carrerasJSON,interval;
+var cantCarreras = 0;
+var afterCarrera = '#headerSuperior';
+var carrerasSelected = [];
+var gradPorCarrera = [];
+var carreraOk = false;
+
+function controlVacio(nombreSelector)
+{
+	if($.trim($(nombreSelector).val()) == '')
+	{
+		$('#alertaDatos').attr('hidden',false);
+		$(nombreSelector).css('box-shadow','0px 0px 10px 5px #f24d4d');
+		$(nombreSelector).focus();
+		return false;
+	}
+	return true;
+}
+
+function controlSubmit()
+{
+	$('#alertaPass').attr('hidden', true);
+	$('#mailsComplete').attr('hidden', true);
+
+	if(!controlVacio('#titulo')) return false;
+	if(!controlVacio('#contenido')) return false;
+	if(!carreraOk)
+	{
+		$('#alertaCarrera').attr('hidden', false);
+		return false;
+	}
+
+	enviarMails();
+
+	return false;
+}
+
+function formatGradJSON()
+{
+	for(var i = 1; i <= cantCarreras; i++)
+	{
+		if(gradPorCarrera[i] != undefined)
+		{
+			graduadosJSON = graduadosJSON.concat(gradPorCarrera[i]);
+		}
+	}
+}
+
+function enviarMails()
+{
+	formatGradJSON();
+	gradError.length = 0;
+	var valueActual = 0;
+	var max = graduadosJSON.length;
+	$('#progressDiv').show();
+	updatePercent(valueActual,max);
+	$('#detenerEnvio').show();
+	var title = $('#titulo').val();
+	var content = $('#contenido').val();
+
+	var countTimeout = 0;
+	var countPass = 0;
+	var passCorrect = false;
+
+	var iGlobal = -1;
+
+	var urlSend = 'procesos/sendMailGraduado.php';
+	if(mailPrueba)
+	{
+		var t = $('#mailPrueba').val();
+		var n = 'Graduados';
+		var a = 'Prueba';
+		urlSend += `?c=t&to=${t}&n=${n}&a=${a}`;
+	}
+	else
+	{
+		urlSend += `?c=f`;
+	}
+
+	interval = setInterval(function(){sendMail();}, 5000);
+
+	function sendMail()
+	{
+
+		for(var i = 0; i < 5; i++)
+		{
+			if(iGlobal == max - 1)
+			{
+				break;
+			}
+			iGlobal++;
+			if(iGlobal == 0 || iGlobal % 100 == 0)
+			{
+				for(var j = 0; j < 3; j++)
+				{
+					
+					var prompText = `Ingrese la contraseña (Intento ${(j+1)})`;
+					var answer = prompt(prompText,'');
+					if(answer != '')
+					{
+						if(hex_md5(answer) != "fb4eeac938879974ae68cecd464b2c0e")
+						{
+							passCorrect = false;
+						}
+						else
+						{
+							passCorrect = true;
+							j = 3;
+						}
+					}
+					else
+					{
+						passCorrect = false;
+					}
+				}
+			}
+			else
+			{
+				passCorrect = true;
+			}
+
+			if(passCorrect)
+			{
+				var n,a,m,i;
+				var grad = graduadosJSON[iGlobal];
+				n = grad.nombre;
+				a = grad.apellido;
+				m = grad.mail;
+				i = grad.id;
+
+				var param = {
+					"id":i,
+					"mail":m,
+					"title":title,
+					"content":content,
+					"name":n,
+					"lastname":a
+				};
+
+				$.ajax({
+					type:'POST',
+					data:param,
+					url:urlSend,
+					success: function(response)
+					{
+						console.log(response);
+						if(response[(response.length - 1)] == "1")
+						{
+							valueActual++;
+							updatePercent(valueActual,max);
+							if(valueActual == max)
+							{
+								$('#mailsComplete').attr('hidden', false);
+								$('#progressDiv').hide();
+							}
+						}
+						else
+						{
+							valueActual++;
+							updatePercent(valueActual,max);
+							if(valueActual == max)
+							{
+								$('#mailsComplete').attr('hidden', false);
+								$('#progressDiv').hide();
+							}
+							gradError.push(grad);
+							alert("No se pudo enviar el mail.");
+						}
+					},
+					error: function(msg)
+					{
+						alert("Hubo un error al enviar mails. Contactarse con el administrador");
+					}
+				});
+			}
+			else
+			{
+				$('#alertaPass').attr('hidden', false);
+				$('#progressDiv').hide();
+				finishSend();
+				break;
+			}
+
+		}
+
+		if(iGlobal == max - 1)
+		{
+			finishSend();
+		}
+	}
+}
+
+function finishSend()
+{
+	clearInterval(interval);
+	$('#errorDiv').remove();
+	$('#detenerEnvio').hide();
+	if(gradError.length > 0)
+	{
+		var htmlError = `<div class="row" id="errorDiv"><legend class="text-center"><h4 class="text-center">Graduados con error</h4></legend></div>`;
+		for(var i = 0; i < gradError.length; i++)
+		{
+			htmlError += `<div class="row">
+						<div class="col-xs-4">
+							<span>Nombre: ${gradError[i].nombre}</span>
+						</div>
+						<div class="col-xs-4">
+							<span>Apellido: ${gradError[i].apellido}</span>
+						</div>
+						<div class="col-xs-4">
+							<span>Mail: ${gradError[i].mail}</span>
+						</div>
+					</div>`;
+		}
+		$('#divSend').after(htmlError);
+	}
+}
+
+function updatePercent(actual,max)
+{
+	var percent = parseInt(actual * 100 / max);
+	$('#progressBar').css('width',percent+'%');
+	$('#progressBar').html(`${percent}%`)
+	$('#progressBar').attr('aria-valuenow',percent);
+
+}
+
+function stopSend()
+{
+	var r = confirm("Desea detener el envio?");
+	if (r == true) {
+		clearInterval(interval);
+		$('#detenerEnvio').hide();
+	}
+}
+
+function createHtmlOptions(cursos)
+{
+	htmlOptions += '<option value="0">Seleccione un Curso</option>';
+	for(var i = 0; i < cursos.length; i++)
+	{
+		htmlOptions += `<option value="${cursos[i].id}">${cursos[i].nombre}</option>`;
+	}
+	addCurso();
+}
+
+function cargarCarreras()
+{
+	
+	$.ajax({
+		type: 'POST',
+		url: 'procesos/getCarreras.php',
+		success: function(response)
+		{
+			carrerasJSON = JSON.parse(response);
+			carrerasIn = true;
+			successGetCarreras(carrerasJSON);
+		},
+		error: function(msg)
+		{
+			alert('Contactese con el administrador. Error: '+msg);
+		}
+	});
+}
+
+function successGetCarreras(c)
+{
+	if(cantCarreras < 5)
+	{
+		c = (c == undefined) ? carrerasJSON : c;
+		cantCarreras++;
+		var htmlCarreras = `<div class="row" id="rowCarrera${cantCarreras}"><div class="form-group"><label for="carrera${cantCarreras}" class="control-label col-xs-3 col-sm-2 col-md-2 col-lg-2">Carrera:</label>`;
+		htmlCarreras += `<div class="col-xs-9 col-sm-10 col-md-10 col-lg-10"><select class="form-control" name="carrera${cantCarreras}" id="carrera${cantCarreras}" onchange="buscarGraduados('${cantCarreras}')">`;
+		var l = c.length;
+		htmlCarreras += '<option value="0">Seleccione una carrera</option>';
+		for(var i = 0; i < l; i++)
+		{
+			htmlCarreras += `<option value="${c[i].id}">${c[i].nombre}</option>`;
+		}
+		htmlCarreras += `</select></div></div></div>`;
+
+		$(afterCarrera).after(htmlCarreras);
+		afterCarrera = `#rowCarrera${cantCarreras}`;
+	}
+}
+
+function reorderCarrerasSelected()
+{
+	carrerasSelected = [];
+	carreraOk = false;
+	for(var i = 1; i <= cantCarreras; i++)
+	{
+		var cName = `#carrera${i}`;
+		var valCarrera = $(cName).val();
+		if(valCarrera != 0)
+		{
+			carreraOk = true;
+			carrerasSelected.push(valCarrera);
+		}
+	}
+}
+
+function buscarGraduados(index)
+{
+	$('#alertaCarrera').attr('hidden', true);
+	var cName = `#carrera${index}`;
+	var valCarrera = $(cName).val();
+	if(valCarrera != 0 && carrerasSelected.indexOf(valCarrera) == -1)
+	{
+		reorderCarrerasSelected();
+		successGetCarreras();
+
+		var param = {
+			"idCarrera":valCarrera
+		};
+		$.ajax({
+			type:"POST",
+			data:param,
+			url:"procesos/getGraduadosPorCarrera.php",
+			success: function(response)
+			{
+				var jParse = JSON.parse(response);
+				gradPorCarrera[index] = jParse;
+				successGetGraduados();
+			},
+			error: function(msg)
+			{
+				alert('Contactese con el administrado. Error: '+msg);
+			}
+		});
+	}
+	else if(valCarrera == 0)
+	{
+		gradPorCarrera[index] = [];
+		if(gradPorCarrera.length > 0)
+		{
+			successGetGraduados();
+		}
+		$('#alertaCarrera').html(`<strong>Atenci&oacute;n:</strong> Debe seleccionar una carrera.`)
+		$('#alertaCarrera').attr('hidden', false);
+		$('#alertaCarrera').focus();
+	}
+	else if(carrerasSelected.indexOf(valCarrera) != -1)
+	{
+		$('#alertaCarrera').html(`<strong>Atenci&oacute;n:</strong> La carrera no debe estar seleccionada.`)
+		$('#alertaCarrera').attr('hidden', false);
+		$('#alertaCarrera').focus();
+	}
+}
+
+function getLength()
+{
+	var cantGrad = 0;
+	for(var i = 1; i <= cantCarreras; i++)
+	{
+		if(gradPorCarrera[i] != undefined)
+		{
+			cantGrad += gradPorCarrera[i].length;
+		}
+	}
+	return cantGrad;
+}
+
+function successGetGraduados()
+{
+
+	var htmlNota = "";
+
+	if(getLength() == 0)
+	{
+		$('#enviar').attr('disabled',true);
+		htmlNota = "<strong>Atenci&oacute;n:</strong> No hay graduados a los que enviar correos.";
+	}
+	else
+	{
+		$('#enviar').attr('disabled',false);
+		htmlNota = `<strong>Atenci&oacute;n:</strong> Se van a enviar ${getLength()} correos.`
+	}
+
+	$('#alertaCantidadCorreos').html(htmlNota);
+	$('#alertaCantidadCorreos').attr('hidden', false);
+}
+
+function setCheckPrueba()
+{
+	mailPrueba = $('#checkPrueba').is(':checked');
+	if(mailPrueba)
+	{
+		$('#mailPrueba').prop('disabled',false);
+	}
+	else
+	{
+		$('#mailPrueba').prop('disabled',true);	
+	}
+}
+
+function sacarColor(me)
+{
+	hideAlerts();
+	$(me).css('box-shadow','0px 0px 10px 1px #ccc');
+}
+
+function hideAlerts()
+{
+	$('#alertaDatos').attr('hidden', true);
+	$('#alertaCarrera').attr('hidden', true);
+}
+
+$(document).ready(function(){
+	$('#progressDiv').hide();
+	$('#detenerEnvio').hide();
+	$('#alertaCantidadCorreos').attr('hidden', true);
+	$('#alertaPass').attr('hidden', true);
+	$('#mailsComplete').attr('hidden', true);
+	cargarCarreras();
+	hideAlerts();
+	setCheckPrueba();
+});
+
+</script>
+</head>
+<body>
+	<div class="container">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title text-center">Seguimiento de T&iacute;tulo</h3>
+			</div>
+
+			<div class="panel-body panel_body">
+				<form name="f1" id="form2" action="guardarinteresado.php" onsubmit="return controlSubmit();" method="post" class="form-horizontal col-xs-12 col-sm-12 col-md-12 col-lg-12 formNuevaVisita">
+
+					<div class="progress" id="progressDiv">
+						<div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" id="progressBar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+						0%
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+							<div class="alert alert-danger text-center" id="alertaPass">
+								<strong>Atenci&oacute;n:</strong> La contrase&ntilde;a ha sido ingresada incorrectamente. El env&iacute;o de mails ha sido detenido.
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+							<div class="alert alert-success text-center" id="mailsComplete">
+								Los mensajes se han enviado correctamente.
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+							<div class="alert alert-danger text-center" id="alertaDatos">
+								<strong>Atenci&oacute;n:</strong> Faltan agregar datos.
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+							<div class="alert alert-danger text-center" id="alertaCarrera">
+								<strong>Atenci&oacute;n:</strong> Debe seleccionar una carrera.
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xs-offset-2 col-sm-offset-2 col-md-offset-2 col-lg-offset-2">
+							<div class="alert alert-info text-center" id="alertaCantidadCorreos">
+								
+							</div>
+						</div>
+					</div>
+
+					<div class="row" id="headerSuperior">
+						<legend class="text-center"><h4 class="text-center">Env&iacute;o de mail</h4></legend>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+							<label for="titulo" class="control-label col-xs-3 col-sm-2 col-md-2 col-lg-2">Asunto:</label>
+							<div class="col-xs-9 col-sm-10 col-md-10 col-lg-10"><input class="form-control" name="titulo" type="text" id="titulo" onkeydown="sacarColor(this)" required /></div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+							<label for="contenido" class="control-label col-xs-3 col-sm-2 col-md-2 col-lg-2">Contenido:</label>
+							<div class="col-xs-9 col-sm-10 col-md-10 col-lg-10">
+								<textarea class="form-control" name="contenido" rows="12" id="contenido" style="resize:none" onkeydown="sacarColor(this)" aria-describedby="helpBlock" required></textarea>
+								<span id="helpBlock" class="help-block">Puede agregar {nombre} y/o {apellido} y se reemplazar&aacute; por el nombre y/o apellido del graduado.</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="form-group">
+							<label for="checkPrueba" class="control-label col-xs-2 col-sm-3 col-md-3 col-lg-3 col-sm-offset-2"><input name="checkPrueba" type="checkbox" id="checkPrueba" onclick="setCheckPrueba()" /> Mail de Prueba</label>
+														
+							<label for="mailPrueba" class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2">Mail:</label>
+							<div class="col-xs-10 col-sm-5 col-md-5 col-lg-5"><input class="form-control" name="mailPrueba" type="text" id="mailPrueba" /></div>
+						</div>
+					</div>
+
+					<div class="row" id="divSend">
+						<div class="form-group">
+							<p>
+								<center>
+									<button type="submit" id="enviar" class="btn btn-default submit" title="Enviar">Enviar</button>
+									<button type="button" id="detenerEnvio" onclick="stopSend()" class="btn btn-warning submit" title="Detener">Detener</button>
+								</center>
+							</p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
