@@ -32,6 +32,8 @@ $cuerpo = str_replace( "{apellido}", $apellido, $cuerpo);
 
 $cuerpo .= '<br /><br /> Si desea dejar de recibir estos correos haga click <a href="http://extension.frvm.utn.edu.ar/graduados/unsubscribe.php?to='.$vMail[0].'-'.$vMail[1].'&i='.$id.'">Aquí</a>';
 
+include_once "datosMail.php";
+/*
 $mail = new PHPMailer();
 $mail->IsSMTP();
 $mail->SMTPAuth = true;
@@ -61,8 +63,9 @@ $mail->Body = $cuerpo; // Mensaje a enviar
 //$mail->AltBody = "Hola mundo. Esta es la primer línean Acá continuo el mensaje"; // cuerpo alternativo del mensaje
 //$mail->AddAttachment("imagenes/imagen.jpg", "imagen.jpg");
 $mail->CharSet = 'UTF-8';
-$exito = $mail->Send(); // Envía el correo.
 
+$exito = $mail->Send(); // Envía el correo.
+*/
 if($exito){
 	echo '1';
 }else{
