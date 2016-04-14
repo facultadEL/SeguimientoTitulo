@@ -2,7 +2,7 @@
 
 include_once '../conexion.php';
 
-$c = "SELECT * FROM alumno WHERE suscrito IS FALSE;";
+$c = "SELECT * FROM alumno ORDER BY apellido_alumno, nombre_alumno;";
 
 $s = pg_query($c);
 $outJson = '[';
@@ -23,10 +23,10 @@ while($r = pg_fetch_array($s))
 
 	$telefono = '';
 
-	$cFijo = empty($r['caracteristicaf_alumno']) ? '' : $r['caracteristicaf_alumno'];
-	$tFijo = empty($r['telefono_alumno']) ? '' : $r['telefono_alumno'];
-	$cCel = empty($r['caracteristicac_alumno']) ? '' : $r['caracteristicac_alumno'];
-	$tCel = empty($r['celular_alumno']) ? '' : $r['celular_alumno'];
+	$cFijo = empty($r['caracteristicaf_alumno']) ? '' : trim($r['caracteristicaf_alumno']);
+	$tFijo = empty($r['telefono_alumno']) ? '' : trim($r['telefono_alumno']);
+	$cCel = empty($r['caracteristicac_alumno']) ? '' : trim($r['caracteristicac_alumno']);
+	$tCel = empty($r['celular_alumno']) ? '' : trim($r['celular_alumno']);
 
 	if($cFijo == '' && $tFijo == '')
 	{
