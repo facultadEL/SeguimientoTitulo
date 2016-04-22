@@ -36,6 +36,8 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 	$ultMat = $rowSolicitud['ultima_materia_alumno'];
 	$fechaUltMat = $rowSolicitud['fecha_ultima_mat_alumno'];
 	$fechaReg = $rowSolicitud['fecreg'];
+	$actoColacion = $rowSolicitud['acto_colacion'];
+	$anioColacion = ($actoColacion == 'f') ? '' : $rowSolicitud['anio_colacion'];
 		
 	$outJson .= '{
 		"id":'.$idAlumno.',
@@ -55,7 +57,9 @@ while($rowSolicitud = pg_fetch_array($sqlSolicitud))
 		"dni":"'.$dni.'",
 		"ultimaMateria":"'.$ultMat.'",
 		"fechaUltMat":"'.$fechaUltMat.'",
-		"fechaReg":"'.$fechaReg.'"
+		"fechaReg":"'.$fechaReg.'",
+		"actoColacion":"'.$actoColacion.'",
+		"anioColacion":"'.$anioColacion.'"
 	}';
 }
 
