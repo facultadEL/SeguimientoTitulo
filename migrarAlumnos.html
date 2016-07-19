@@ -95,7 +95,49 @@ function loadTable()
 function migrar(index)
 {
     const a = alumnosToShow[index];
-    console.log(a);
+    const param = {
+        "idGrad":a.grad.id,
+        "nombre":a.seg.nombre,
+        "apellido":a.seg.apellido,
+        "dni":a.seg.numerodni,
+        "mail":a.seg.mail,
+        "alto":a.seg.alto,
+        "ancho":a.seg.ancho,
+        "calle":a.seg.calle,
+        "dpto":a.seg.dpto,
+        "facebook":a.seg.facebook,
+        "fechanacimiento":a.seg.fechanacimiento,
+        "foto":a.seg.foto,
+        "mail2":a.seg.mail2,
+        "numerocalle":a.seg.numerocalle,
+        "perfil":a.seg.perfil_laboral,
+        "piso":a.seg.piso,
+        "twitter":a.seg.twitter,
+        "caracF":a.seg.caracteristicaf,
+        "telF":a.seg.telefono,
+        "caracC":a.seg.caracteristicac,
+        "telC":a.seg.celular,
+    };
+    
+    $.ajax({
+        type:'POST',
+        data:param,
+        url:'procesos/migrarAlumno.php',
+        success:function(response)
+        {
+            if(JSON.parse(response)[0].success == 't') {
+                alert('Migrado correctamente');
+                cargarAlumnos();
+            } else {
+                alert('No se pudo migrar el alumno');
+            }
+        },
+        error: function(msg)
+        {
+            alert('Error de conexion;');
+        }
+    });
+
 }
 
 function formatDate(d)
