@@ -71,8 +71,7 @@ if (!pg_query($sqlGuardar)){
 pg_query($termino);
 
 $outJson = '[{
-	"success":"'.$success.'",
-	"c":"'.$sqlGuardar.'"
+	"success":"'.$success.'"
 }]';
 
 echo $outJson;
