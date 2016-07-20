@@ -83,8 +83,13 @@ function loadTable()
         htmlToAdd += `<td>${a.seg.apellido}, ${a.seg.nombre}</td>`;
         htmlToAdd += `<td style="font-size:12px !important"><strong>Mail:</strong> ${a.seg.mail}</br><strong>Facebook:</strong> ${a.seg.facebook}</br><strong>Foto:</strong> ${a.seg.foto}</br><strong>Mail 2:</strong> ${a.seg.mail2}</br><strong>Twitter:</strong> ${a.seg.twitter}</br><strong>DNI:</strong> ${a.seg.numerodni}</br><strong>Fecha Nacimiento:</strong> ${a.seg.fechanacimiento}</br><strong>Calle:</strong> ${a.seg.calle}</br><strong>Numero Calle:</strong> ${a.seg.numerocalle}</br><strong>Depto:</strong> ${a.seg.dpto}</br><strong>Piso:</strong> ${a.seg.piso}</br><strong>Telefono:</strong> ${a.seg.caracteristicaf} - ${a.seg.telefono}</br><strong>Celular:</strong> ${a.seg.caracteristicac} - ${a.seg.celular}</td>`;
         //var foto = (a.foto == '0') ? 'Sin Foto' : `<img src="${a.foto}" width="50px"/>`;
-		htmlToAdd += `<td>${a.grad.apellido}, ${a.grad.nombre}</td>`;
-        htmlToAdd += `<td style="font-size:12px !important"><strong>Mail:</strong> ${a.grad.mail}</br><strong>Facebook:</strong> ${a.grad.facebook}</br><strong>Foto:</strong> ${a.grad.foto}</br><strong>Mail 2:</strong> ${a.grad.mail2}</br><strong>Twitter:</strong> ${a.grad.twitter}</br><strong>DNI:</strong> ${a.grad.numerodni}</br><strong>Fecha Nacimiento:</strong> ${a.grad.fechanacimiento}</br><strong>Calle:</strong> ${a.grad.calle}</br><strong>Numero Calle:</strong> ${a.grad.numerocalle}</br><strong>Depto:</strong> ${a.grad.dpto}</br><strong>Piso:</strong> ${a.grad.piso}</td>`;
+        if(a.grad.id=='0')
+        {
+            htmlToAdd += `<td></td><td></td>`;
+        } else {
+            htmlToAdd += `<td>${a.grad.apellido}, ${a.grad.nombre}</td>`;
+            htmlToAdd += `<td style="font-size:12px !important"><strong>Mail:</strong> ${a.grad.mail}</br><strong>Facebook:</strong> ${a.grad.facebook}</br><strong>Foto:</strong> ${a.grad.foto}</br><strong>Mail 2:</strong> ${a.grad.mail2}</br><strong>Twitter:</strong> ${a.grad.twitter}</br><strong>DNI:</strong> ${a.grad.numerodni}</br><strong>Fecha Nacimiento:</strong> ${a.grad.fechanacimiento}</br><strong>Calle:</strong> ${a.grad.calle}</br><strong>Numero Calle:</strong> ${a.grad.numerocalle}</br><strong>Depto:</strong> ${a.grad.dpto}</br><strong>Piso:</strong> ${a.grad.piso}</td>`;
+        }
         htmlToAdd += `<td><button class="btn btn-default" type="button" onclick="migrar('${i}')">Migrar</button></td>`;
 		htmlToAdd += `</tr>`;
 	}

@@ -10,7 +10,7 @@ $outJson = '[';
 while($r = pg_fetch_array($sqlSolicitud))
 {
     
-	if($outJson!= '[' && $entro)
+	if($outJson!= '[')
 	{
 		$outJson .= ',';
 	}
@@ -95,55 +95,74 @@ while($r = pg_fetch_array($sqlSolicitud))
         }
     }
 
-    if($entro)
+    if(!$entro)
     {
-
-        $outJson .= '{ "seg" : {
-                "id":"'.$idA.'",
-                "nombre":"'.$nombreA.'",
-                "apellido":"'.$apellidoA.'",
-                "mail":"'.$mailA.'",
-                "facebook":"'.$facebookA.'",
-                "tipodni":"'.$tipodniA.'",
-                "calle":"'.$calleA.'",
-                "foto":"'.$fotoA.'",
-                "ancho":"'.$anchoA.'",
-                "alto":"'.$altoA.'",
-                "numerocalle":"'.$numerocalleA.'",
-                "mail2":"'.$mail2A.'",
-                "twitter":"'.$twitterA.'",
-                "perfil_laboral":"'.$perfil_laboralA.'",
-                "numerodni":"'.$numerodniA.'",
-                "fechanacimiento":"'.$fechanacimientoA.'",
-                "dpto":"'.$dptoA.'",
-                "caracteristicaf":"'.$caracteristicafA.'",
-                "telefono":"'.$telefonoA.'",
-                "caracteristicac":"'.$caracteristicacA.'",
-                "celular":"'.$celularA.'",
-                "piso":"'.$pisoA.'"
-            },
-            "grad" : {
-                "id":"'.$idG.'",
-                "nombre":"'.$nombreG.'",
-                "apellido":"'.$apellidoG.'",
-                "mail":"'.$mailG.'",
-                "facebook":"'.$facebookG.'",
-                "tipodni":"'.$tipodniG.'",
-                "calle":"'.$calleG.'",
-                "foto":"'.$fotoG.'",
-                "ancho":"'.$anchoG.'",
-                "alto":"'.$altoG.'",
-                "numerocalle":"'.$numerocalleG.'",
-                "mail2":"'.$mail2G.'",
-                "twitter":"'.$twitterG.'",
-                "perfil_laboral":"'.$perfil_laboralG.'",
-                "numerodni":"'.$numerodniG.'",
-                "fechanacimiento":"'.$fechanacimientoG.'",
-                "dpto":"'.$dptoG.'",
-                "piso":"'.$pisoG.'"
-            }
-        }';
+        $idG = 0;
+        $nombreG = '';
+        $apellidoG = '';
+        $mailG = '';
+        $facebookG = '';
+        $tipodniG = '';
+        $calleG = '';
+        $fotoG = '';
+        $anchoG = '';
+        $altoG = '';
+        $numerocalleG = '';
+        $mail2G = '';
+        $twitterG = '';
+        $perfil_laboralG = '';
+        $numerodniG = '';
+        $fechanacimientoG = '';
+        $dptoG = '';
+        $pisoG = '';
     }
+
+    
+    $outJson .= '{ "seg" : {
+            "id":"'.$idA.'",
+            "nombre":"'.$nombreA.'",
+            "apellido":"'.$apellidoA.'",
+            "mail":"'.$mailA.'",
+            "facebook":"'.$facebookA.'",
+            "tipodni":"'.$tipodniA.'",
+            "calle":"'.$calleA.'",
+            "foto":"'.$fotoA.'",
+            "ancho":"'.$anchoA.'",
+            "alto":"'.$altoA.'",
+            "numerocalle":"'.$numerocalleA.'",
+            "mail2":"'.$mail2A.'",
+            "twitter":"'.$twitterA.'",
+            "perfil_laboral":"'.$perfil_laboralA.'",
+            "numerodni":"'.$numerodniA.'",
+            "fechanacimiento":"'.$fechanacimientoA.'",
+            "dpto":"'.$dptoA.'",
+            "caracteristicaf":"'.$caracteristicafA.'",
+            "telefono":"'.$telefonoA.'",
+            "caracteristicac":"'.$caracteristicacA.'",
+            "celular":"'.$celularA.'",
+            "piso":"'.$pisoA.'"
+        },
+        "grad" : {
+            "id":"'.$idG.'",
+            "nombre":"'.$nombreG.'",
+            "apellido":"'.$apellidoG.'",
+            "mail":"'.$mailG.'",
+            "facebook":"'.$facebookG.'",
+            "tipodni":"'.$tipodniG.'",
+            "calle":"'.$calleG.'",
+            "foto":"'.$fotoG.'",
+            "ancho":"'.$anchoG.'",
+            "alto":"'.$altoG.'",
+            "numerocalle":"'.$numerocalleG.'",
+            "mail2":"'.$mail2G.'",
+            "twitter":"'.$twitterG.'",
+            "perfil_laboral":"'.$perfil_laboralG.'",
+            "numerodni":"'.$numerodniG.'",
+            "fechanacimiento":"'.$fechanacimientoG.'",
+            "dpto":"'.$dptoG.'",
+            "piso":"'.$pisoG.'"
+        }
+    }';
 }
 
 if(substr($outJson, -1) == ',') {
