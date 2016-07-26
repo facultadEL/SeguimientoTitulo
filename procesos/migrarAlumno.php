@@ -24,6 +24,7 @@ $caracF = $_REQUEST['caracF'];
 $telF = $_REQUEST['telF'];
 $caracC = $_REQUEST['caracC'];
 $telC = $_REQUEST['telC'];
+$carrera = $_REQUEST['carrera'];
 
 if($idGrad == '0' || $idGrad == 0)
 {
@@ -31,10 +32,10 @@ if($idGrad == '0' || $idGrad == 0)
 	$sId = pg_query($cId);
 	$rId = pg_fetch_array($sId);
 	$id = $rId['max'] + 1;
-	$c = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,alto_final,ancho_final,calle_alumno,gra_depto,facebook_alumno,fechanacimiento_alumno,foto_alumno,mail_alumno2,numerocalle_alumno,perfil_laboral_alumno,gra_piso,twitter_alumno) VALUES('$id','$nombre','$apellido','$dni','$mail','$alto','$ancho','$calle','$dpto','$facebook','$fechanacimiento','$foto','$mail2','$numerocalle','$perfil','$piso','$twitter');";
+	$c = "INSERT INTO alumno(id_alumno,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,alto_final,ancho_final,calle_alumno,gra_depto,facebook_alumno,fechanacimiento_alumno,foto_alumno,mail_alumno2,numerocalle_alumno,perfil_laboral_alumno,gra_piso,twitter_alumno,carrera_alumno,tipodni_alumno) VALUES('$id','$nombre','$apellido','$dni','$mail','$alto','$ancho','$calle','$dpto','$facebook','$fechanacimiento','$foto','$mail2','$numerocalle','$perfil','$piso','$twitter','$carrera',1);";
 } else {
 	$id = $idGrad;
-	$c = "UPDATE alumno SET nombre_alumno='$nombre',apellido_alumno='$apellido',numerodni_alumno='$dni',mail_alumno='$mail',alto_final='$alto',ancho_final='$ancho',calle_alumno='$calle',gra_depto='$dpto',facebook_alumno='$facebook',fechanacimiento_alumno='$fechanacimiento',foto_alumno='$foto',mail_alumno2='$mail2',numerocalle_alumno='$numerocalle',perfil_laboral_alumno='$perfil',gra_piso='$piso',twitter_alumno='$twitter' WHERE id_alumno=$id;";
+	$c = "UPDATE alumno SET nombre_alumno='$nombre',apellido_alumno='$apellido',numerodni_alumno='$dni',mail_alumno='$mail',alto_final='$alto',ancho_final='$ancho',calle_alumno='$calle',gra_depto='$dpto',facebook_alumno='$facebook',fechanacimiento_alumno='$fechanacimiento',foto_alumno='$foto',mail_alumno2='$mail2',numerocalle_alumno='$numerocalle',perfil_laboral_alumno='$perfil',gra_piso='$piso',twitter_alumno='$twitter',carrera_alumno='$carrera',tipodni_alumno=1 WHERE id_alumno=$id;";
 }
 
 $cTel = "";
