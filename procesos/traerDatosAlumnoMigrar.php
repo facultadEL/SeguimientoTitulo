@@ -15,8 +15,6 @@ while($r = pg_fetch_array($sqlSolicitud))
 		$outJson .= ',';
 	}
 
-    
-
     $idA=$r['id_alumno'];
     $nombreA=$r['nombre_alumno'];
     $apellidoA=$r['apellido_alumno'];
@@ -40,9 +38,10 @@ while($r = pg_fetch_array($sqlSolicitud))
     $caracteristicacA=$r['caracteristicac_alumno'];
     $celularA=$r['celular_alumno'];
     $pisoA=$r['piso_alumno'];
+    $migrado = $r['migrado'];
 
-    $cCarrera = "SELECT carrera_fk FROM seguimiento WHERE alumno_fk=$idA ORDER BY carrera_fk ASC LIMIT 1;";
-    $sCarrera = pg_query($cCarrera);
+    $cCarrera = "SELECT carrera_fk FROM seguimiento WHERE alumno_fk='$idA' ORDER BY carrera_fk ASC LIMIT 1;";
+    $sCarrera = pg_query($conn,$cCarrera);
     $rCarrera = pg_fetch_array($sCarrera);
     $carreraA=$rCarrera['carrera_fk'];
 
@@ -148,7 +147,8 @@ while($r = pg_fetch_array($sqlSolicitud))
             "caracteristicac":"'.$caracteristicacA.'",
             "celular":"'.$celularA.'",
             "piso":"'.$pisoA.'",
-            "carrera":"'.$carreraA.'"
+            "carrera":"'.$carreraA.'",
+            "migrado":"'.$migrado.'"
         },
         "grad" : {
             "id":"'.$idG.'",

@@ -2,6 +2,7 @@
 
 $conGrad = pg_connect("host=localhost port=5432 user=extension password=newgenius dbname=graduados") or die("Error de conexion.".pg_last_error());
 
+$idSeg = $_REQUEST['idSeg'];
 $idGrad = $_REQUEST['idGrad'];
 $nombre = ucwords(strtolower($_REQUEST['nombre']));
 $apellido = ucwords(strtolower($_REQUEST['apellido']));
@@ -71,8 +72,16 @@ if (!pg_query($sqlGuardar)){
 }
 pg_query($termino);
 
+if($success == 't')
+{
+	$conS = pg_connect("host=localhost port=5432 user=extension password=newgenius dbname=seguimiento_titulo") or die("Error de conexion.".pg_last_error());
+	$cMigrar = "UPDATE alumno SET migrado='TRUE' WHERE id_alumno='$idSeg';";
+	pg_query($conS,$cMigrar);
+}
+
 $outJson = '[{
-	"success":"'.$success.'"
+	"success":"'.$success.'",
+	"s":"'.$sqlGuardar.'"
 }]';
 
 echo $outJson;

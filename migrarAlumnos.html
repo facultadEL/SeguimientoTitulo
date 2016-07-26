@@ -78,7 +78,9 @@ function loadTable()
 	{
 		var a = alumnosToShow[i];
 
-		htmlToAdd += `<tr>`;
+		let styleMigrado = (a.seg.migrado == 't') ? ` style="background-color:#349234;color:white;" ` : ``;
+
+		htmlToAdd += `<tr${styleMigrado}>`;
         htmlToAdd += `<td>${(i + 1)}</td>`;
         htmlToAdd += `<td>${a.seg.apellido}, ${a.seg.nombre}</td>`;
         htmlToAdd += `<td style="font-size:12px !important"><strong>Mail:</strong> ${a.seg.mail}</br><strong>Facebook:</strong> ${a.seg.facebook}</br><strong>Foto:</strong> ${a.seg.foto}</br><strong>Mail 2:</strong> ${a.seg.mail2}</br><strong>Twitter:</strong> ${a.seg.twitter}</br><strong>DNI:</strong> ${a.seg.numerodni}</br><strong>Fecha Nacimiento:</strong> ${a.seg.fechanacimiento}</br><strong>Calle:</strong> ${a.seg.calle}</br><strong>Numero Calle:</strong> ${a.seg.numerocalle}</br><strong>Depto:</strong> ${a.seg.dpto}</br><strong>Piso:</strong> ${a.seg.piso}</br><strong>Telefono:</strong> ${a.seg.caracteristicaf} - ${a.seg.telefono}</br><strong>Celular:</strong> ${a.seg.caracteristicac} - ${a.seg.celular}</td>`;
@@ -101,6 +103,7 @@ function migrar(index)
 {
     const a = alumnosToShow[index];
     const param = {
+		"idSeg":a.seg.id,
         "idGrad":a.grad.id,
         "nombre":a.seg.nombre,
         "apellido":a.seg.apellido,
