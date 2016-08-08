@@ -652,13 +652,13 @@ include_once "libreria.php";
 								<input type="hidden" id="control_form" name="hidden1" value="" />
 								<input type="hidden" id="hidden1" name="hidden1" value="" />
 								<input type="hidden" id="hidden2" name="hidden2" value="" />
-								<input id="nombre_alumno" name="nombre_alumno" type="text" class="campoText" maxlength="20" value="<?php echo $nombre_alumno; ?>" title="Ingrese su nombre" required/>
+								<input id="nombre_alumno" name="nombre_alumno" type="text" class="campoText" maxlength="50" value="<?php echo $nombre_alumno; ?>" title="Ingrese su nombre" required/>
 							</td>
 							<td width="10%" align="right">
 								<label for="apellido_alumno">Apellido: </label>
 							</td>
 							<td width="30%">
-								<input id="apellido_alumno" name="apellido_alumno" type="text" class="campoText" maxlength="30" value="<?php echo $apellido_alumno; ?>" title="Ingrese su apellido" required/>
+								<input id="apellido_alumno" name="apellido_alumno" type="text" class="campoText" maxlength="50" value="<?php echo $apellido_alumno; ?>" title="Ingrese su apellido" required/>
 							</td>
 							<td width="10%" align="right">
 								<label for="nro_legajo">N&deg; Legajo: </label>
