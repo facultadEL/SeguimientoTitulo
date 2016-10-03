@@ -133,7 +133,15 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acompa&ntilde;a al presente, los datos complementarios correspondientes.<br><br></label></td>
 	</tr>
 	<tr>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Certificado Anal&iacute;tico del secundario por duplicado.<br><br></label></td>
+	<?php
+		if($idCarrera == 6 || $idCarrera == 12) {
+			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI, Analítico del Secundario por duplicado y Partida de Nacimiento por duplicado.<br><br></label></td>';	
+		} else if($idCarrera == 7 || $idCarrera == 8 || $idCarrera == 9 || $idCarrera == 10) {
+			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y partida de Nacimiento por duplicado.<br><br></label></td>';
+		} else {
+			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Certificado Anal&iacute;tico del secundario por duplicado.<br><br></label></td>';
+		}
+	?>
 	</tr>
 	<tr>
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sin otro particular, saluda al Sr. Decano con toda consideraci&oacute;n.<br><br><br><br><br><br></label></td>

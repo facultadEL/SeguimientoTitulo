@@ -133,7 +133,46 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acompa&ntilde;a al presente, los datos complementarios correspondientes.<br><br></label></td>
 	</tr>
 	<tr>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI por duplicado.<br><br></label></td>
+	<?php
+	//Datos a solicitar según carrera
+	/*
+	Datos solicitados Mail Fer:
+
+	1. * Tecnico en Negociacion de bienes, Logistica y * mecatrónica ----- Fotocopia de DNI, Analítico del Secundario y Partida de Nacimiento
+	* 2. Posgrado----- Fotocopia de DNI y Diploma de titulo de Grado
+	* 3. * carreras de grado, * ingenierias, * LAR, tecnico electronico, tecn quimico, analista en sistemas y tecnico LAR -----Fotocopia de DNI y partida de Nacimiento
+	* 4. Lic en tecnologia educ, lic en ingles, lic. en ciencias aplicadas----- Fotocopia de DNI y Analítico de profesorado
+
+	1;"Ingeniero/a en Sistemas de Información";1
+	2;"Ingeniero/a en Electrónica";1
+	3;"Ingeniero/a Química";1
+	4;"Ingeniero/a Mecánica";1
+	5;"Licenciado/a en Administración Rural";1
+	6;"Técnico/a Superior en Mecatrónica";3
+	7;"Analista Universitario/a en Sistemas de Información";3
+	8;"Técnico/a Universitario/a en Administración Rural";3
+	9;"Técnico/a Universitario/a en Electrónica";3
+	10;"Técnico/a Universitario/a en Química";3
+	11;"Licenciado/a en Lengua Inglesa";1
+	12;"Técnico/a Superior en Negociación de Bienes";3
+	13;"Especialista en Higiene y Seguridad";2
+	14;"Licenciado/a en Educación Física";1
+	15;"Maestría en Ingeniería Gerencial";2
+	16;"Licenciado/a en Tecnologia Educativa";2
+	17;"Especialista en Tecnologia de los Alimentos";2
+	18;"Licenciado/a en Ciencias Aplicadas";1
+	19;"Especialista en Soldadura";2
+	20;"Tecnico/a en Administración y Gestión de Institucion de Educ. Sup.";3
+
+	*/
+	if($idCarrera == 11 || $idCarrera == 18)
+	{
+		echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Analítico de profesorado por duplicado.<br><br></label></td>';
+	} else {
+		echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y partida de Nacimiento por duplicado.<br><br></label></td>';
+	}
+		//<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI por duplicado.<br><br></label></td>
+	?>
 	</tr>
 	<tr>
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sin otro particular, saluda al Sr. Decano con toda consideraci&oacute;n.<br><br><br><br><br><br></label></td>

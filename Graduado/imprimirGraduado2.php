@@ -133,7 +133,14 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acompa&ntilde;a al presente, los datos complementarios correspondientes.<br><br></label></td>
 	</tr>
 	<tr>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI, Certificado Anal&iacute;tico y T&iacute;tulo de la carrera de grado por duplicado.<br><br></label></td>
+	<?php
+		if($idCarrera == 16) {
+			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Analítico de profesorado.<br><br></label></td>';
+		} else {
+			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Diploma de título de Grado por duplicado.<br><br></label></td>';
+		}
+		//<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI, Certificado Anal&iacute;tico y T&iacute;tulo de la carrera de grado por duplicado.<br><br></label></td>
+	?>	
 	</tr>
 	<tr>
 		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sin otro particular, saluda al Sr. Decano con toda consideraci&oacute;n.<br><br><br><br><br><br></label></td>
