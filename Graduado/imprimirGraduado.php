@@ -15,7 +15,7 @@
 <?php
 include_once "conexion.php";
 $id_Alumno = $_REQUEST['idAlumno'];
-	$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
+	$sqlAlumno = pg_query("SELECT persona.*,carrera_fk FROM persona INNER JOIN seguimientotitulo ON(persona.id = seguimientotitulo.personasistema_fk) WHERE id = $id_Alumno");
 	$rowAlumno = pg_fetch_array($sqlAlumno);
 		$nombre_alumno = $rowAlumno['nombre_alumno'];
 		$apellido_alumno = $rowAlumno['apellido_alumno'];
@@ -110,9 +110,9 @@ $esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 		<?php
 				$consultaCarrera=pg_query("SELECT * FROM carrera");
 				while($rowCarrera=pg_fetch_array($consultaCarrera)){
-					$id = $rowCarrera['id_carrera'];
+					$id = $rowCarrera['id'];
 					if($id == $carrera_alumno){						
-						$carrera = $rowCarrera['nombre_carrera'];
+						$carrera = $rowCarrera['nombre'];
 					}
 			}
 		?>
