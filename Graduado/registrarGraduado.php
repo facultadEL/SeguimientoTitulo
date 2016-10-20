@@ -701,16 +701,39 @@ include_once "libreria.php";
 						</tr>
 						<tr width="100%">
 							<td colspan="1" align="right">
+								<label for="sexo">Sexo:</label>
+							</td>
+							<td colspan="2">
+								<input type="radio" name="sexo" value="0"> Masculino<br>
+  								<input type="radio" name="sexo" value="1" checked="checked"> Femenino<br>
+							</td>
+						</tr>
+						<tr width="100%">
+							<td colspan="1" align="right">
 								<label for="fechanacimiento_alumno">Fecha Nac.: </label>
 							</td>
 							<td colspan="1">
 								<input id="fechanacimiento_alumno" name="fechanacimiento_alumno" type="date" class="campoDate"  value="<?php echo $fecha_nacimiento_alumno; ?>" maxlength="10" title="Ingrese la fecha de su nacimiento" required/>
 							</td>
 							<td colspan="1" align="right">
-								<label for="localidad_nacimiento_alumno">Lugar Nac.: </label>
+								<label for="localidad_nacimiento_alumno">Localidad Nac.: </label>
 							</td>
 							<td colspan="5">
 								<input id="localidad_nacimiento_alumno" name="localidad_nacimiento_alumno" type="text" spellcheck="true" class="campoText" value="<?php echo $localidad_nacimiento_alumno; ?>" maxlength="50" title="Ingrese la localidad donde naci&oacute;" required/>
+							</td>
+						</tr>
+						<tr width="100%">
+							<td colspan="1" align="right">
+								<label for="provincia_nacimiento">Provincia Nac.:</label>
+							</td>
+							<td colspan="1">
+								<input id="provincia_nacimiento" name="provincia_nacimiento" type="text" spellcheck="true" class="campoText" value="" maxlength="50" title="Ingrese la provincia donde naci&oacute;" required/>
+							</td>
+							<td colspan="1" align="right">
+								<label for="pais_nacimiento">Pais Nac.:</label>
+							</td>
+							<td colspan="5">
+								<input id="pais_nacimiento" name="pais_nacimiento" type="text" spellcheck="true" class="campoText" value="" maxlength="50" title="Ingrese el pais donde naci&oacute;" required/>
 							</td>
 						</tr>
 						<tr width="100%">

@@ -42,6 +42,9 @@ $perfil_laboral_alumno = ucfirst(trim($_REQUEST['perfil_laboral_alumno']));
 $destinoImagen = trim($_REQUEST['foto_alumno']);
 $ultima_materia_alumno = ucwords(trim($_REQUEST['ultima_materia_alumno']));
 $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
+$sexo = ($_REQUEST['sexo'] == '0') ? 'TRUE' : 'FALSE';
+$prov_nac = empty($_REQUEST['provincia_nacimiento']) ? '' : ucwords(strtolower(trim($_REQUEST['provincia_nacimiento'])));
+$pais_nac = empty($_REQUEST['pais_nacimiento']) ? '' : ucwords(strtolower(trim($_REQUEST['pais_nacimiento'])));
 
 	if ($id_Alumno == 0){		
 		$hidden1 = trim($_REQUEST['hidden1']);
@@ -75,7 +78,7 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 
 		$today = date('Y-m-d');
 
-		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno,codigo_impresion,fecreg)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno','$codigo_impresion','$fecreg');";
+		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno,codigo_impresion,fecreg,sexo,provincia_nacimiento,pais_nacimiento)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno','$codigo_impresion','$fecreg','$sexo','$prov_nac','$pais_nac');";
 		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk, fecha_registro) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL,'$today');";
 							 
 		$sql = $newAlumno.$nuevoSeguimiento;
@@ -123,7 +126,7 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 				$cont++;
 			}
 		}
-		$modAlumno="UPDATE alumno SET nombre_alumno='$nombre_alumno', apellido_alumno='$apellido_alumno', nro_legajo='$nro_legajo', tipodni_alumno='$tipodni_alumno', numerodni_alumno='$numerodni_alumno', fechanacimiento_alumno='$fechanacimiento_alumno',localidad_nacimiento_alumno='$localidad_nacimiento_alumno', localidad_viviendo_alumno='$localidad_viviendo_alumno', provincia_viviendo_alumno='$provincia_viviendo_alumno', cp_alumno='$cp_alumno', calle_alumno='$calle_alumno', numerocalle_alumno='$numerocalle_alumno', piso_alumno='$piso_alumno', dpto_alumno='$dpto_alumno', foto_alumno='$destinoImagen', caracteristicaf_alumno='$caracteristicaF_alumno', telefono_alumno='$telefono_alumno', caracteristicac_alumno='$caracteristicaC_alumno', celular_alumno='$celular_alumno', mail_alumno='$mail_alumno', mail_alumno2='$mail_alumno2', facebook_alumno='$facebook_alumno', twitter_alumno='$twitter_alumno', password_alumno='$password_alumno', localidad_trabajo_alumno='$localidad_trabajo_alumno', provincia_trabajo_alumno='$provincia_trabajo_alumno', cp_alumno2='$cp_alumno2', empresa_trabaja_alumno='$empresa_trabaja_alumno', perfil_laboral_alumno='$perfil_laboral_alumno', ancho_final='$ancho_final', alto_final='$alto_final', ultima_materia_alumno='$ultima_materia_alumno', fecha_ultima_mat_alumno='$fecha_ultima_mat_alumno' WHERE id_alumno = $id_Alumno;";
+		$modAlumno="UPDATE alumno SET nombre_alumno='$nombre_alumno', apellido_alumno='$apellido_alumno', nro_legajo='$nro_legajo', tipodni_alumno='$tipodni_alumno', numerodni_alumno='$numerodni_alumno', fechanacimiento_alumno='$fechanacimiento_alumno',localidad_nacimiento_alumno='$localidad_nacimiento_alumno', localidad_viviendo_alumno='$localidad_viviendo_alumno', provincia_viviendo_alumno='$provincia_viviendo_alumno', cp_alumno='$cp_alumno', calle_alumno='$calle_alumno', numerocalle_alumno='$numerocalle_alumno', piso_alumno='$piso_alumno', dpto_alumno='$dpto_alumno', foto_alumno='$destinoImagen', caracteristicaf_alumno='$caracteristicaF_alumno', telefono_alumno='$telefono_alumno', caracteristicac_alumno='$caracteristicaC_alumno', celular_alumno='$celular_alumno', mail_alumno='$mail_alumno', mail_alumno2='$mail_alumno2', facebook_alumno='$facebook_alumno', twitter_alumno='$twitter_alumno', password_alumno='$password_alumno', localidad_trabajo_alumno='$localidad_trabajo_alumno', provincia_trabajo_alumno='$provincia_trabajo_alumno', cp_alumno2='$cp_alumno2', empresa_trabaja_alumno='$empresa_trabaja_alumno', perfil_laboral_alumno='$perfil_laboral_alumno', ancho_final='$ancho_final', alto_final='$alto_final', ultima_materia_alumno='$ultima_materia_alumno', fecha_ultima_mat_alumno='$fecha_ultima_mat_alumno',sexo='$sexo','provincia_nacimiento'='$prov_nac',pais_nacimiento='$pais_nac' WHERE id_alumno = $id_Alumno;";
 		if($cont == 0){
 			$today = date('Y-m-d');
 			$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk, fecha_registro) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL,'$today');";
@@ -184,7 +187,7 @@ function subirFoto($idAl,$ap,$leg)
 		$destino_Imagen = "web/SeguimientoTitulo/Graduado/fotos/".$nombre_foto;
 		$destinoImagen = "fotos/".$nombre_foto;
 				
-		//conexión
+		//conexiï¿½n
 		$conn_id = ftp_connect($ftp_server); 
 		// logeo
 		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
@@ -197,7 +200,7 @@ function subirFoto($idAl,$ap,$leg)
 			// archivo a copiar/subir
 				$upload = ftp_put($conn_id, $destino_Imagen, $archivo_foto, FTP_BINARY);
 			}else{
-				echo '<script type="text/javascript">alert("El archivo subido no es válido. Suba algunos de estos formatos: - jpg - jpeg - png");
+				echo '<script type="text/javascript">alert("El archivo subido no es vï¿½lido. Suba algunos de estos formatos: - jpg - jpeg - png");
 													window.location="registrarGraduado.php?volver=1&verDatos='.$datosPasar.'";	
 					  </script>';
 			}
@@ -232,7 +235,7 @@ function subirFoto($idAl,$ap,$leg)
 			$alto_final=$alto;
 			$ancho_final=$ancho_origen*$alto_final/$alto_origen;
 		}
-		// creo la imagen con el tamaño que le pase
+		// creo la imagen con el tamaï¿½o que le pase
 		$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
 
 		imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
