@@ -1,36 +1,48 @@
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-	<script src="jquery-latest.js"></script>
-	<script type="text/javascript" src="jquery.validate.js"></script>
-	<title>Graduado</title>
-	<style type="text/css">
-			label {font-family: Arial; color: #000000; font-size: 1em;}
-			TextoFin {font-family: Arial; color: #000000;font-weight:bold; font-size: 1.2em;}
-			label1 {font-family: Arial; color: #000000;text-decoration: underline;font-weight:bold; font-size: 1.3em;}
-			l1 {font-family: Arial; color: #2E2E2E; font-size: 1em;}
-			l2{font-size: 20px;}
-			l3{font-weight: bold;}
-    </style>		
-</head>
-<body onload=print()>
+    <head>
+        <title> Listado Acto Colacion </title>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style>
+        .padded {
+            padding-top: 8px;
+            padding-bottom: 8px;
+        }
+        .inColPadded {
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .onTop {
+            border-top: 2px solid black !important;
+        }
+        .onBottom {
+            border-bottom: 2px solid black !important;
+        }
+        </style>
+    </head>
+<body onload="print()">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/printThis.js"></script>
 <?php
 include_once "conexion.php";
 $id_Alumno = $_REQUEST['idAlumno'];
 $idCarrera = $_REQUEST['idCarrera'];
-	$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno AND carrera_fk=$idCarrera");
+	$sqlAlumno = pg_query("SELECT alumno.*,carrera_fk,td.nombre_tipo_dni as tdn FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) INNER JOIN tipo_dni td ON(alumno.tipodni_alumno = td.id_tipo_dni) WHERE id_alumno = $id_Alumno AND carrera_fk=$idCarrera");
 	$rowAlumno = pg_fetch_array($sqlAlumno);
 		$nombre_alumno = $rowAlumno['nombre_alumno'];
 		$apellido_alumno = $rowAlumno['apellido_alumno'];
 		$nro_legajo = $rowAlumno['nro_legajo'];
 		$tipodni_alumno = $rowAlumno['tipodni_alumno'];
+        $tdn = $rowAlumno['tdn'];
 		$numerodni_alumno = $rowAlumno['numerodni_alumno'];
 		$fechanacimiento_alumno = $rowAlumno['fechanacimiento_alumno'];
 			$mostrar = explode('-',$fechanacimiento_alumno);
 				$anio = $mostrar[0];
 				$mes = $mostrar[1];
 				$dia = $mostrar[2];
-		$fecha_nacimiento_alumno = $dia.'-'.$mes.'-'.$anio;
+		$fecha_nacimiento_alumno = $dia.'/'.$mes.'/'.$anio;
 		$localidad_nacimiento_alumno = $rowAlumno['localidad_nacimiento_alumno'];
 		$provincia_viviendo_alumno = $rowAlumno['provincia_viviendo_alumno'];
 		$localidad_viviendo_alumno = $rowAlumno['localidad_viviendo_alumno'];
@@ -59,8 +71,11 @@ $idCarrera = $_REQUEST['idCarrera'];
 		$alto_final = $rowAlumno['alto_final'];
 		$ultima_materia_alumno = $rowAlumno['ultima_materia_alumno'];
 		$fechaUltimaMatAlumno = $rowAlumno['fecha_ultima_mat_alumno'];
-
+        $provNac = $rowAlumno['provincia_nacimiento'];
+        $paisNac = $rowAlumno['pais_nacimiento'];
+        $sexo = ($rowAlumno['sexo'] == 'f') ? 'Femenino' : 'Masculino';
 		$codigo_impresion = $rowAlumno['codigo_impresion'];
+        $anioIngreso = empty($rowAlumno['anio_ingreso']) ? '' : $rowAlumno['anio_ingreso'];
 
 			$mostrar = explode('-',$fechaUltimaMatAlumno);
 					$anio = $mostrar[0];
@@ -107,86 +122,144 @@ $idCarrera = $_REQUEST['idCarrera'];
 	if ($mesActual == 12){
 		$mesActual = 'Diciembre';
 	}
-$esp = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#8226; ';
-$esp1 = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-?>
-<table width="100%" height="90%">
-	<tr width="100%">
-		<td width="100%" align="right"><label><?php echo 'Villa María, &nbsp;&nbsp;&nbsp;&nbsp; de &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; de &nbsp;&nbsp;&nbsp;&nbsp;'; ?></label></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Texto">Se&ntilde;or<br>Decano de la<br>Facultad Regional Villa Mar&iacute;a de la<br>UNIVERSIDAD TECNOL&Oacute;GICA NACIONAL<br>Ing. Pablo Andr&eacute;s ROSSO<br>S._______________/_______________D.<br><br></label></td>
-	</tr>
-	<tr>
-		<?php
-				$consultaCarrera=pg_query("SELECT * FROM carrera");
-				while($rowCarrera=pg_fetch_array($consultaCarrera)){
-					$id = $rowCarrera['id_carrera'];
-					if($id == $carrera_alumno){						
-						$carrera = $rowCarrera['nombre_carrera'];
-					}
-			}
-		?>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;El/La  que  suscribe, <?php echo $apellido_alumno.', '.$nombre_alumno.', '; ?>alumno/a de esta Casa de Altos Estudios, tiene el agrado de dirigirse al Sr. Decano y, por su intermedio ante quien corresponda a los efectos de solicitar <l3>se me extienda el t&iacute;tulo de <strong><l2><?php echo $carrera; ?></l2></strong></l3>, por haber cumplido las exigencias del respectivo Plan de Estudios.<br><br></label></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Acompa&ntilde;a al presente, los datos complementarios correspondientes.<br><br></label></td>
-	</tr>
-	<tr>
-	<?php
-		if($idCarrera == 16) {
-			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Analítico de profesorado.<br><br></label></td>';
-		} else {
-			echo '<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI y Diploma de título de Grado por duplicado.<br><br></label></td>';
-		}
-		//<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se adjunta Fotocopia de DNI, Certificado Anal&iacute;tico y T&iacute;tulo de la carrera de grado por duplicado.<br><br></label></td>
-	?>	
-	</tr>
-	<tr>
-		<td width="100%"><label for="Texto">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sin otro particular, saluda al Sr. Decano con toda consideraci&oacute;n.<br><br><br><br><br><br></label></td>
-	</tr>
-	<tr width="100%">
-		<td width="100%" align="right"><label for="Texto">Firma _______________________</label><br><br><br></td>
-	</tr>
-	<tr width="100%">
-		<td width="100%" align="center"><label1>DATOS COMPLEMENTARIOS</label1><br><br><br></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Apellido y Nombres: </label><l1><?php echo $apellido_alumno.', '.$nombre_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Documento Nacional de Identidad N&deg;: </label><l1><?php echo $numerodni_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Lugar de nacimiento: </label><l1><?php echo $localidad_nacimiento_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Fecha de nacimiento: </label><l1><?php echo $fecha_nacimiento_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Domicilio actual: </label><l1><?php echo $calle_alumno.' '.$numerocalle_alumno; ?></l1><label for="Datos"> Piso: </label><l1><?php echo $piso_alumno; ?></l1><label for="Datos"> Dpto: </label><l1><?php echo $dpto_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Localidad: </label><l1><?php echo $localidad_viviendo_alumno; ?></l1><label for="Datos"> Prov.: </label><l1><?php echo $provincia_viviendo_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Teléfono: </label><l1><?php echo $caracteristicaF_alumno.' - '.$telefono_alumno; ?></l1><label for="Datos"> Cel.: </label><l1><?php echo $caracteristicaC_alumno.' - '.$celular_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">e-mail: </label><l1><?php echo $mail_alumno?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">&Uacute;ltima materia aprobada y fecha: </label><l1><?php echo $ultima_materia_alumno.', rendida el '.$fecha_ultima_mat_alumno; ?></l1></td>
-	</tr>
-	<tr>
-		<td width="100%"><label for="Datos">Legajo Personal U.T.N. Fac. Reg. Villa María: Nº 17: </label><l1><?php echo $nro_legajo?></l1><br><br></td>
-	</tr>
-	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
-		<tr><td width="100%"><TextoFin>Toda notificaci&oacute;n oficial se realizar&aacute; &uacute;nicamente a los datos consignados en la presente, quedando el solicitante comprometido a notificar cambios. Este documento tiene caracter de <b><u>DECLARACI&Oacute;N JURADA</u></b></TextoFin></td></tr>
-	<tr width="100%"><td width="100%"><hr size="2" width="100%" align="center"/></td></tr>
-	<tr width="100%">
-		<td width="100%" align="center"><b>Codigo de control interno:</b><?php echo $codigo_impresion;?></td>
-	</tr>
-</table>
+    ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-3 text-left">
+            <img src="minEdu.png" class="img-responsive" alt="UTN">
+        </div>
+        <div class="col-xs-9 text-center">
+            <br/><br/>
+            <h6>"2016 - Año del Bicentenario de la Declaración de la Independencia de la Nación"</h6>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12" style="padding-top:25px;">
+            Al señor Decano,
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-center">
+            <u>SOLICITUD DE DIPLOMA</u>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            De mi consideración:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            Al señor Decano,
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 text-justify padded">
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tengo el agrado de dirigirme a usted a efectos de comunicarle que he concluido con todos los examenes correspondientes al plan de estudioas y por cuanto con el fin de solicitarle, tenga a bien disponer el tramite correspondiente al título de la carrera:
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 padded">
+            <strong style="font-size: 20px;">
+            <?php
+                    $consultaCarrera=pg_query("SELECT * FROM carrera");
+                    while($rowCarrera=pg_fetch_array($consultaCarrera)){
+                            $id = $rowCarrera['id_carrera'];
+                            if($id == $carrera_alumno){						
+                                $carrera = $rowCarrera['nombre_carrera'];
+                            }
+                    }
+                    echo $carrera;
+            ?>
+            </strong>
+        </div>
+    </div>
+    <div class="row onTop" style="border: 1px solid black">
+        <div class="col-xs-12 text-justify padded">
+            IMPORTANTE:<br/>Los datos aquí declarados son los que aparecerán en el diploma una vez confeccionado el mismo. De manera que solicitamos al egresado que escriba sus datos completos con letra clara y comprensible, diferenciando mayúsculas y minúsculas, indicando acentos o signos ortográficos.
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            NOMBRES: <strong><?php echo $nombre_alumno?></strong>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            APELLIDOS: <strong><?php echo $apellido_alumno?></strong>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-6 inColPadded">
+                TIPO DE DOCUMENTO: <?php echo $tdn?>
+            </div>
+            <div class="col-xs-6 inColPadded">
+                NÚMERO DE DOCUMENTO: <?php echo $numerodni_alumno?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-6 inColPadded">
+                FECHA DE NACIMIENTO: <?php echo $fecha_nacimiento_alumno?>
+            </div>
+            <div class="col-xs-6 inColPadded">
+                SEXO: <?php echo $sexo;?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-4 inColPadded">
+                LUGAR DE NACIMIENTO:
+            </div>
+            <div class="col-xs-8 inColPadded">
+                PAIS: <?php echo $paisNac;?>
+            </div>
+            <div class="col-xs-8 col-xs-offset-4 inColPadded">
+                PROVINCIA: <?php echo $provNac;?>
+            </div>
+            <div class="col-xs-8 col-xs-offset-4 inColPadded">
+                LOCALIDAD: <?php echo $localidad_nacimiento_alumno;?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-4 inColPadded">
+                DOMICILIO ACTUAL:
+            </div>
+            <div class="col-xs-8 inColPadded">
+                CALLE: <?php echo $calle_alumno.' '.$numerocalle_alumno;?>
+            </div>
+            <div class="col-xs-8 col-xs-offset-4 inColPadded">
+                LOCALIDAD: <?php echo $localidad_viviendo_alumno;?>
+            </div>
+            <div class="col-xs-8 col-xs-offset-4 inColPadded">
+                CÓDIGO POSTAL: <?php echo $cp_alumno;?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-6 inColPadded">
+                TELÉFONO: <?php echo $caracteristicaC_alumno.'-'.$telefono_alumno;?>
+            </div>
+            <div class="col-xs-6 inColPadded">
+                TELÉFONO CELULAR: <?php echo $caracteristicaC_alumno.'-'.$celular_alumno;?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            <div class="col-xs-6 inColPadded">
+                AÑO DE INGRESO: <?php echo $anioIngreso;?>
+            </div>
+            <div class="col-xs-6 inColPadded">
+                FECHA DE ÚLTIMA MATERIA: <?php echo $fecha_ultima_mat_alumno;?>
+            </div>
+        </div>
+        <div class="col-xs-12 padded" style="border: 1px solid black">
+            E-MAIL: <?php echo $mail_alumno;?>
+        </div>
+    </div>
+    <div class="row padded onBottom" style="border: 1px solid black">
+        <div class="col-xs-12 text-justify">
+            Declaro que los datos aquí compleados son correctos.
+        </div>
+        <br/>
+        <div class="col-xs-6 col-xs-offset-6 text-right">
+            ..............................<br/>
+            Firma del egresado
+        </div>
+    </div>
+</div>
 </body>
 </html>

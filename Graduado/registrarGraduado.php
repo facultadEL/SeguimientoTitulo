@@ -535,6 +535,7 @@ include_once "libreria.php";
 				// 		$dia = $mostrar[2];
 				// $fecha_ultima_mat_alumno = $dia.'-'.$mes.'-'.$anio;
 				$fecha_ultima_mat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];
+				$anio_ingreso = $rowAlumno['anio_ingreso'];
 				echo '<script>modificar=true;</script>';
 		}
 	}
@@ -637,6 +638,16 @@ include_once "libreria.php";
 							
 							<td class="tdCampo">
 								<input id="fecha_ultima_mat_alumno" name="fecha_ultima_mat_alumno" type="date" class="campoDateTit" value="<?php echo $fecha_ultima_mat_alumno; ?>" maxlength="10" size="6" required title="Ingrese la fecha en la que rindi&oacute; la &uacute;ltima materia" />
+							</td>
+						</tr>
+					</table>
+					<table>
+						<tr width="100%">
+							<td align="right">
+								<label for="nro_legajo">A&ntilde;o de Ingreso: </label>
+							</td>
+							<td>
+								<input id="anio_ingreso" name="anio_ingreso" pattern="[0-9]{4}" type="text" class="campoNro" value="<?php echo $anio_ingreso; ?>" size="4" minlength="4" maxlength="4" title="Ingrese su anio de ingreso" required/>
 							</td>
 						</tr>
 					</table>
