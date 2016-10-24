@@ -7,7 +7,7 @@ $idEliminarTA = $_REQUEST['idEliminarTA'];
 echo 'id_Alumno: '.$id_Alumno;
 
 if ($eliminar == 1){
-	pg_query("DELETE FROM telefonos_del_alumno WHERE id_telefonos_del_alumno = $idEliminarTA");
+	pg_query("DELETE FROM telefono WHERE id = $idEliminarTA");
 }
 
 echo '<script type="text/javascript">

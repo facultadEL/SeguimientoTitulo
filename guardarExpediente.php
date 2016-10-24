@@ -6,7 +6,7 @@ include_once 'libreriaPhp.php';
 $idSeguimiento = $_REQUEST['idSeguimiento'];
 $nroExpediente = $_REQUEST['nroExpediente'];
 
-$sqlGuardar = "UPDATE seguimiento SET nro_expediente='$nroExpediente' WHERE id_seguimiento='$idSeguimiento';";
+$sqlGuardar = "UPDATE seguimientotitulo SET nroexpediente='$nroExpediente' WHERE id='$idSeguimiento';";
 
 $error = guardarSql($sqlGuardar);
 echo $error;

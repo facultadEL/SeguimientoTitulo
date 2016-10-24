@@ -67,7 +67,7 @@ switch ($etapa){
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
-			$sqlGuardar .= "UPDATE seguimiento SET $columna='$fecha' WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= "UPDATE seguimientotitulo SET $columna='$fecha' WHERE id='$idAlumno';";
 		}
 		$redireccion = 'solicitudTitulo.php?controlR=0';
 		break;
@@ -92,7 +92,7 @@ switch ($etapa){
 					{
 						$idNumeroRes = traerIdST('archivo');
 						$numeroResolucionGuardar = $numeroResolucion;
-						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',1);";
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo_fk) VALUES($idNumeroRes,'$numeroResolucionGuardar',1);";
 					}
 					else
 					{
@@ -100,7 +100,7 @@ switch ($etapa){
 
 						$idNumeroRes = traerIdST('archivo');
 						$numeroResolucionGuardar = $numeroResolucion;
-						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',1);";
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo_fk) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',1);";
 					}
 				}
 				else
@@ -138,25 +138,25 @@ switch ($etapa){
 			$sqlDatosAlumno = traerSqlCondicion('fecha_rescd,num_res_cd_fk','seguimiento',$condicionAlumno);
 			$rowDatosAlumno = pg_fetch_array($sqlDatosAlumno);
 
-			$sqlGuardar .= "UPDATE seguimiento SET";
+			$sqlGuardar .= "UPDATE seguimientotitulo SET";
 
 			if($fecha != '1900-01-01')
 			{
-				if(empty($rowDatosAlumno['fecha_rescd']))
+				if(empty($rowDatosAlumno['fecha_csuperior']))
 				{
-					$sqlGuardar .= " fecha_rescd='$fecha'";
-					if($idNumeroRes != 0 && empty($rowDatosAlumno['num_res_cd_fk']))
+					$sqlGuardar .= " fecha_csuperior='$fecha'";
+					if($idNumeroRes != 0 && empty($rowDatosAlumno['resolucioncd_fk']))
 					{
-						$sqlGuardar .= ", num_res_cd_fk='$idNumeroRes' ";
+						$sqlGuardar .= ", resolucioncd_fk='$idNumeroRes' ";
 					}
 				}
 			}
 			else
 			{
-				$sqlGuardar .= " num_res_cd_fk='$idNumeroRes'";
+				$sqlGuardar .= " resolucioncd_fk='$idNumeroRes'";
 			}
 
-			$sqlGuardar .= " WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= " WHERE id='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
 		$redireccion = 'resolucionCd.php?controlR=0';
@@ -183,7 +183,7 @@ switch ($etapa){
 					{
 						$idNumeroNota = traerIdST('archivo');
 						$numeroNotaGuardar = $numeroNota;
-						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar',2);";
+						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,tipo_fk) VALUES($idNumeroNota,'$numeroNotaGuardar',2);";
 					}
 					else
 					{
@@ -191,7 +191,7 @@ switch ($etapa){
 
 						$idNumeroNota = traerIdST('archivo');
 						$numeroNotaGuardar = $numeroNota;
-						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroNota,'$numeroNotaGuardar','$getDestinoPdf',2);";
+						$sqlNuevoNroNota = "INSERT INTO archivo(id,nombre,url,tipo_fk) VALUES($idNumeroNota,'$numeroNotaGuardar','$getDestinoPdf',2);";
 					}
 				}
 				else
@@ -229,25 +229,25 @@ switch ($etapa){
 			$sqlDatosAlumno = traerSqlCondicion('fecha_nota_envio_rec,num_nota_fk','seguimiento',$condicionAlumno);
 			$rowDatosAlumno = pg_fetch_array($sqlDatosAlumno);
 
-			$sqlGuardar .= "UPDATE seguimiento SET";
+			$sqlGuardar .= "UPDATE seguimientotitulo SET";
 
 			if($fecha != '1900-01-01')
 			{
-				if(empty($rowDatosAlumno['fecha_nota_envio_rec']))
+				if(empty($rowDatosAlumno['fecha_notarectorado']))
 				{
-					$sqlGuardar .= " fecha_nota_envio_rec='$fecha'";
-					if($idNumeroNota != 0 && empty($rowDatosAlumno['num_nota_fk']))
+					$sqlGuardar .= " fecha_notarectorado='$fecha'";
+					if($idNumeroNota != 0 && empty($rowDatosAlumno['nota_fk']))
 					{
-						$sqlGuardar .= ", num_nota_fk='$idNumeroNota' ";
+						$sqlGuardar .= ", nota_fk='$idNumeroNota' ";
 					}
 				}
 			}
 			else
 			{
-				$sqlGuardar .= " num_nota_fk='$idNumeroNota'";
+				$sqlGuardar .= " nota_fk='$idNumeroNota'";
 			}
 
-			$sqlGuardar .= " WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= " WHERE id='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroNota.$sqlGuardar;
 
@@ -274,7 +274,7 @@ switch ($etapa){
 					{
 						$idNumeroRes = traerIdST('archivo');
 						$numeroResolucionGuardar = $numeroResolucion;
-						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar',3);";
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,tipo_fk) VALUES($idNumeroRes,'$numeroResolucionGuardar',3);";
 					}
 					else
 					{
@@ -282,7 +282,7 @@ switch ($etapa){
 
 						$idNumeroRes = traerIdST('archivo');
 						$numeroResolucionGuardar = $numeroResolucion;
-						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',3);";
+						$sqlNuevoNroResolucion = "INSERT INTO archivo(id,nombre,url,tipo_fk) VALUES($idNumeroRes,'$numeroResolucionGuardar','$getDestinoPdf',3);";
 					}
 				}
 				else
@@ -318,25 +318,25 @@ switch ($etapa){
 			$idAlumno = $vAlumnosPasar[$i];
 			$condicionAlumno = "id_seguimiento='$idAlumno'";
 
-			$sqlDatosAlumno = traerSqlCondicion('fecha_rescs,num_res_cs_fk','seguimiento',$condicionAlumno);
+			$sqlDatosAlumno = traerSqlCondicion('fecha_cdirectivo,resolucioncd_fk','seguimiento',$condicionAlumno);
 			$rowDatosAlumno = pg_fetch_array($sqlDatosAlumno);
 
 			$sqlGuardar .= "UPDATE seguimiento SET";
 
 			if($fecha != '1900-01-01')
 			{
-				if(empty($rowDatosAlumno['fecha_rescs']))
+				if(empty($rowDatosAlumno['fecha_cdirectivo']))
 				{
-					$sqlGuardar .= " fecha_rescs='$fecha'";
-					if($idNumeroRes != 0 && empty($rowDatosAlumno['num_res_cs_fk']))
+					$sqlGuardar .= " fecha_cdirectivo='$fecha'";
+					if($idNumeroRes != 0 && empty($rowDatosAlumno['resolucioncd_fk']))
 					{
-						$sqlGuardar .= ", num_res_cs_fk='$idNumeroRes' ";
+						$sqlGuardar .= ", resolucioncd_fk='$idNumeroRes' ";
 					}
 				}
 			}
 			else
 			{
-				$sqlGuardar .= " num_res_cs_fk='$idNumeroRes'";
+				$sqlGuardar .= " resolucioncd_fk='$idNumeroRes'";
 			}
 
 			$controlSincronizar = 1;
@@ -346,7 +346,7 @@ switch ($etapa){
 				$alumnosSincronizar .= $separador;
 			}
 
-			$sqlGuardar .= " WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= " WHERE id='$idAlumno';";
 		}
 		$sqlGuardar = $sqlNuevoNroResolucion.$sqlGuardar;
 		$redireccion = 'resolucionCs.php?controlR=0';
@@ -356,7 +356,7 @@ switch ($etapa){
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
-			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_diploma='$fecha' WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= "UPDATE seguimiento SET fecha_idiploma='$fecha' WHERE id='$idAlumno';";
 		}
 		$redireccion = 'ingresoDiploma.php?controlR=0';
 		break;
@@ -365,7 +365,7 @@ switch ($etapa){
 		for($i=0;$i<count($vAlumnosPasar) - 1;$i++)
 		{
 			$idAlumno = $vAlumnosPasar[$i];
-			$sqlGuardar .= "UPDATE seguimiento SET fecha_ingreso_analitico='$fecha' WHERE id_seguimiento='$idAlumno';";
+			$sqlGuardar .= "UPDATE seguimiento SET fecha_ianalitico='$fecha' WHERE id='$idAlumno';";
 		}
 		$redireccion = 'ingresoAnalitico.php?controlR=0';
 		break;
@@ -390,7 +390,7 @@ switch ($etapa){
 					{
 						$idNumeroActa = traerIdST('archivo');
 						$numeroActaGuardar = $numeroActa;
-						$sqlNuevoNroActa = "INSERT INTO archivo(id,nombre,tipo) VALUES($idNumeroActa,'$numeroActaGuardar',4);";
+						$sqlNuevoNroActa = "INSERT INTO archivo(id,nombre,tipo_fk) VALUES($idNumeroActa,'$numeroActaGuardar',4);";
 					}
 					else
 					{

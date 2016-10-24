@@ -4,8 +4,8 @@ include 'conexion.php';
 
 $id_Alumno = $_REQUEST['idAlumno'];
 
-pg_query("DELETE FROM telefonos_del_alumno WHERE alumno_fk = $id_Alumno");
-pg_query("DELETE FROM alumno WHERE id_alumno = $id_Alumno");
+pg_query("DELETE FROM telefono WHERE persona_fk = $id_Alumno");
+pg_query("DELETE FROM persona WHERE id = $id_Alumno");
 
 
 echo '<script type="text/javascript">

@@ -15,7 +15,7 @@ for ($i=0; $i < (count($vExpedientes) - 1); $i++)
 	$idSeguimiento = $vDatosExpediente[0];
 	$nroExpediente = $vDatosExpediente[1];
 
-	$sqlGuardar .= "UPDATE seguimiento SET nro_expediente='$nroExpediente' WHERE id_seguimiento='$idSeguimiento';";
+	$sqlGuardar .= "UPDATE seguimientotitulo SET nroexpediente='$nroExpediente' WHERE id='$idSeguimiento';";
 }
 
 
