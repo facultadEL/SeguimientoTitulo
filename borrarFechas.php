@@ -22,6 +22,16 @@
 <?php
 include_once 'conexion.php';
 $val = pg_query("SELECT id_alumno,nombre_alumno,apellido_alumno,foto_alumno,carrera.nombre_carrera,nombre_nivel_carrera FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) ORDER BY id_nivel_carrera,apellido_alumno,nombre_alumno,id_alumno ASC");
+
+/*SELECT persona.id,persona.nombre,persona.apellido,persona.foto,carrera.nombre,nivelcarrera.nombre
+FROM persona
+Inner Join personasistema ON(personasistema.persona_fk = persona.id)
+Inner Join seguimientotitulo ON(seguimientotitulo.personasistema_fk = personasistema.id)
+Inner Join carreraregional ON(carreraregional.id = seguimientotitulo.carrera_fk)
+Inner Join carrera ON(carrera.id = carreraregional.carrera_fk)
+Inner Join nivelcarrera ON(nivelcarrera.id = carrera.nivel_fk)
+ORDER BY nivelcarrera.id, persona.apellido, persona.nombre, persona.id ASC*/
+
 echo '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 	echo '<tr bgcolor="#FFFFFF">';
 		echo '<td id="titulo3" colspan="6" align="center"><l1>Listado de Graduados</l1></td>';

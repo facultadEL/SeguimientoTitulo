@@ -199,6 +199,11 @@ $(document).ready(function(){
 $sep = '/--/';
 include_once 'conexion.php';
 $consulta = "SELECT id_alumno,apellido_alumno,nombre_alumno,numerodni_alumno,nombre_carrera,nombre_nivel_carrera,id_seguimiento FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE nro_expediente IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+//anda
+/*SELECT persona.id,persona.apellido,persona.nombre,persona.dni,carrera.nombre,nivelcarrera.nombre,seguimientotitulo.id FROM persona Inner Join personasistema ON(personasistema.persona_fk = persona.id) Inner Join seguimientotitulo ON(seguimientotitulo.personasistema_fk = personasistema.id) 
+Inner Join carreraregional ON(carreraregional.id = seguimientotitulo.carrera_fk) Inner Join carrera ON(carrera.id = carreraregional.carrera_fk) Inner Join nivelcarrera ON(nivelcarrera.id = carrera.nivel_fk) WHERE seguimientotitulo.nroexpediente is null or seguimientotitulo.nroexpediente = 0 
+ORDER BY nivelcarrera.id, carrera.id, persona.apellido, persona.nombre, persona.id ASC*/
+
 $val = pg_query($consulta);
 $contador = 0;
 
@@ -207,6 +212,14 @@ while($row = pg_fetch_array($val)){
 	$stringAlumno = $row['id_seguimiento'].$sep.$row['apellido_alumno'].$sep.$row['nombre_alumno'].$sep.$row['nombre_carrera'].$sep.$row['nombre_nivel_carrera'].$sep.$row['numerodni_alumno'];
 	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
 }
+
+/*
+while($row = pg_fetch_array($val)){
+	$contador += 1;
+	$stringAlumno = $row['seguimientotitulo.id'].$sep.$row['persona.apellido'].$sep.$row['persona.nombre'].$sep.$row['carrera.nombre'].$sep.$row['nivelcarrera.nombre'].$sep.$row['persona.dni'];
+	echo '<script>cargarAlumno('.$contador.',"'.$stringAlumno.'")</script>';
+}
+*/
 
 ?>
 <body link="#000000" vlink="#000000" alink="#FFFFFF">

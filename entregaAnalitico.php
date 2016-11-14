@@ -222,6 +222,20 @@ $(document).ready(function(){
 $sep = '/--/';
 include_once 'conexion.php';
 $consulta = "SELECT id_alumno,nro_expediente,apellido_alumno,nombre_alumno,nombre_carrera,numerodni_alumno,nombre_nivel_carrera,foto_alumno,id_seguimiento,fecha_solicitud FROM alumno INNER JOIN seguimiento ON(seguimiento.alumno_fk = alumno.id_alumno) INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) INNER JOIN nivel_carrera ON(carrera.nivel_carrera_fk = nivel_carrera.id_nivel_carrera) WHERE fecha_ingreso_analitico IS NOT NULL AND fecha_retiro_analitico IS NULL ORDER BY id_nivel_carrera,id_carrera,apellido_alumno,nombre_alumno,id_alumno ASC";
+
+/*
+SELECT persona.id, seguimientotitulo.nroexpediente, persona.apellido, persona.nombre, carrera.nombre, persona.dni, nivelcarrera.nombre, persona.foto, seguimientotitulo.id, seguimientotitulo.fecha_solicitud
+FROM persona
+Inner Join personasistema ON(personasistema.persona_fk = persona.id)
+Inner Join seguimientotitulo ON(seguimientotitulo.personasistema_fk = personasistema.id)
+Inner Join carreraregional ON(carreraregional.id = seguimientotitulo.carrera_fk)
+Inner Join carrera ON(carrera.id = carreraregional.carrera_fk)
+Inner Join nivelcarrera ON(nivelcarrera.id = carrera.nivel_fk)
+WHERE seguimientotitulo.fecha_ianalitico IS NOT NULL
+AND seguimientotitulo.fecha_ranalitico IS NULL
+ORDER BY nivelcarrera.id, carrera.id, persona.apellido, persona.nombre, persona.id ASC
+*/
+
 $val = pg_query($consulta);
 $contador = 0;
 $controlR = 0;

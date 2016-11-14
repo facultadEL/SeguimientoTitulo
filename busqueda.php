@@ -30,6 +30,44 @@ or UPPER(nombre_carrera)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
 or UPPER(nombre_nivel_carrera) LIKE UPPER('%{$_REQUEST['palabra']}%')
 or UPPER(numerodni_alumno)	   LIKE UPPER('%{$_REQUEST['palabra']}%') ORDER BY id_nivel_carrera,apellido_alumno,nombre_alumno,id_alumno ASC");
 }
+/*
+SELECT persona.id, persona.nombre, persona.apellido, persona.foto, persona.dni, nivelcarrera.nombre, carrera.nombre, nivelcarrera.id
+FROM persona
+
+Inner Join personasistema ON(personasistema.persona_fk = persona.id)
+Inner Join seguimientotitulo ON(seguimientotitulo.personasistema_fk = personasistema.id)
+Inner Join carreraregional ON(carreraregional.id = seguimientotitulo.carrera_fk)
+Inner Join carrera ON(carrera.id = carreraregional.carrera_fk)
+Inner Join nivelcarrera ON(nivelcarrera.id = carrera.nivel_fk)
+
+WHERE persona.carrera_fk = carrera.id
+And UPPER(persona.nombre) LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(persona.apellido)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(carrera.nombre)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(nivelcarrera.nombre) LIKE UPPER('{$_REQUEST['palabra']}')
+OR UPPER(persona.dni)	   LIKE UPPER('%{$_REQUEST['palabra']}%') 
+
+ORDER BY nivelcarrera.id, persona.apellido, persona.nombre, persona.id ASC
+*/
+/*
+SELECT persona.id, persona.nombre, persona.apellido, persona.foto, persona.dni, nivelcarrera.nombre, carrera.nombre, nivelcarrera.id
+FROM persona
+
+Inner Join personasistema ON(personasistema.persona_fk = persona.id)
+Inner Join seguimientotitulo ON(seguimientotitulo.personasistema_fk = personasistema.id)
+Inner Join carreraregional ON(carreraregional.id = seguimientotitulo.carrera_fk)
+Inner Join carrera ON(carrera.id = carreraregional.carrera_fk)
+Inner Join nivelcarrera ON(nivelcarrera.id = carrera.nivel_fk)
+
+WHERE persona.carrera_fk = carrera.id
+And UPPER(persona.nombre) LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(persona.apellido)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(carrera.nombre)	   LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(nivelcarrera.nombre) LIKE UPPER('%{$_REQUEST['palabra']}%')
+OR UPPER(persona.dni)	   LIKE UPPER('%{$_REQUEST['palabra']}%') 
+
+ORDER BY nivelcarrera.id, persona.apellido, persona.nombre, persona.id ASC
+*/
 echo '<table align="center" cellspacing="1" cellpadding="4" border="1" bgcolor=#585858 id="tabla">';
 	echo '<tr bgcolor="#FFFFFF">';
 		echo '<td id="titulo3" colspan="6" align="center"><l1>Listado de Graduados</l1></td>';
