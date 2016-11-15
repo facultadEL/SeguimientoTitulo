@@ -486,55 +486,62 @@ include_once "libreria.php";
 			// $alto_final = $mostrar[30];	
 	}else{
 		if ($id_Alumno != 0) {		
-			$sqlAlumno = pg_query("SELECT alumno.*,seguimiento.carrera_fk FROM alumno INNER JOIN seguimiento ON(alumno.id_alumno = seguimiento.alumno_fk) WHERE id_alumno = $id_Alumno");
+			$sqlAlumno = pg_query("SELECT persona.*,seguimientotitulo.carrera_fk,localidad.nombre,provincia.nombre,telefono.* 
+									FROM persona
+									INNER JOIN 	telefono ON(persona.id = telefono.persona_fk)
+									INNER JOIN localidad ON(localidad.id = persona.localidad_nac_fk )
+									INNER JOIN provincia ON(provincia.id = localidad.provincia_fk)
+									INNER JOIN personasistema ON(personasistema.persona_fk = persona.id) 
+									INNER JOIN seguimientotitulo ON(personasistema.sistema_fk = seguimientotitulo.id) 
+									WHERE persona.id = $id_Alumno"); 
 			$rowAlumno = pg_fetch_array($sqlAlumno);
-				$id_Alumno = $rowAlumno['id_alumno'];
-				$nombre_alumno = $rowAlumno['nombre_alumno'];
-				$apellido_alumno = $rowAlumno['apellido_alumno'];
-				$nro_legajo = $rowAlumno['nro_legajo'];
-				$tipodni_alumno = $rowAlumno['tipodni_alumno'];
-				$numerodni_alumno = $rowAlumno['numerodni_alumno'];
+				$id_Alumno = $rowAlumno['persona.id'];
+				$nombre_alumno = $rowAlumno['persona.nombre'];
+				$apellido_alumno = $rowAlumno['persona.apellido'];
+				$nro_legajo = $rowAlumno['persona.num_legajo'];
+				$tipodni_alumno = $rowAlumno['persona.tipodni_fk'];
+				$numerodni_alumno = $rowAlumno['persona.dni'];
 				// $fechanacimiento_alumno = $rowAlumno['fechanacimiento_alumno'];
 				// 	$mostrar = explode('-',$fechanacimiento_alumno);
 				// 		$anio = $mostrar[0];
 				// 		$mes = $mostrar[1];
 				// 		$dia = $mostrar[2];
 				// $fecha_nacimiento_alumno = $dia.'-'.$mes.'-'.$anio;
-				$fecha_nacimiento_alumno = $rowAlumno['fechanacimiento_alumno'];
-				$localidad_nacimiento_alumno = $rowAlumno['localidad_nacimiento_alumno'];
-				$provincia_viviendo_alumno = $rowAlumno['provincia_viviendo_alumno'];
-				$localidad_viviendo_alumno = $rowAlumno['localidad_viviendo_alumno'];
-				$cp_alumno = $rowAlumno['cp_alumno'];
-				$calle_alumno = $rowAlumno['calle_alumno'];
-				$numerocalle_alumno = $rowAlumno['numerocalle_alumno'];
-				$piso_alumno = $rowAlumno['piso_alumno'];
-				$dpto_alumno = $rowAlumno['dpto_alumno'];
+				$fecha_nacimiento_alumno = $rowAlumno['persona.fecha_nacimiento'];
+				$localidad_nacimiento_alumno = $rowAlumno['persona.localidad_nac_fk'];
+				$provincia_viviendo_alumno = $rowAlumno['provincia.nombre'];
+				$localidad_viviendo_alumno = $rowAlumno['localidad.nombre'];
+				$cp_alumno = $rowAlumno['cp_alumno'];//no aparece en la tabla persona, esta en la tabla localidad(ver cual hay que poner)
+				$calle_alumno = $rowAlumno['persona.calle'];
+				$numerocalle_alumno = $rowAlumno['persona.num_calle'];
+				$piso_alumno = $rowAlumno['persona.piso'];
+				$dpto_alumno = $rowAlumno['persona.depto'];
 				$carrera_alumno = (empty($rowAlumno['carrera_fk'])) ? $_REQUEST['idCarrera'] : $rowAlumno['carrera_fk'];
-				$caracteristicaF_alumno = $rowAlumno['caracteristicaf_alumno'];
-				$telefono_alumno = $rowAlumno['telefono_alumno'];
-				$caracteristicaC_alumno = $rowAlumno['caracteristicac_alumno'];
-				$celular_alumno = $rowAlumno['celular_alumno'];
-				$mail_alumno = $rowAlumno['mail_alumno'];
-				$mail_alumno2 = $rowAlumno['mail_alumno2'];
-				$facebook_alumno = $rowAlumno['facebook_alumno'];
-				$twitter_alumno = $rowAlumno['twitter_alumno'];
-				$password_alumno = $rowAlumno['password_alumno'];
-				$provincia_trabajo_alumno = $rowAlumno['provincia_trabajo_alumno'];
-				$localidad_trabajo_alumno = $rowAlumno['localidad_trabajo_alumno'];
-				$cp_alumno2 = $rowAlumno['cp_alumno2'];
-				$empresa_trabaja_alumno = $rowAlumno['empresa_trabaja_alumno'];
-				$perfil_laboral_alumno = $rowAlumno['perfil_laboral_alumno'];
-				$destinoImagen = $rowAlumno['foto_alumno'];
-				$ancho_final = $rowAlumno['ancho_final'];
-				$alto_final = $rowAlumno['alto_final'];
-				$ultima_materia_alumno = $rowAlumno['ultima_materia_alumno'];
+				$caracteristicaF_alumno = $rowAlumno['caracteristicaf_alumno'];//ver con eze
+				$telefono_alumno = $rowAlumno['telefono_alumno'];//ver con eze
+				$caracteristicaC_alumno = $rowAlumno['caracteristicac_alumno'];//ver con eze
+				$celular_alumno = $rowAlumno['celular_alumno'];// ver con eze
+				$mail_alumno = $rowAlumno['persona.mail'];
+				$mail_alumno2 = $rowAlumno['persona.mail2'];
+				$facebook_alumno = $rowAlumno['persona.facebook'];
+				$twitter_alumno = $rowAlumno['persona.twitter'];
+				$password_alumno = $rowAlumno['persona.pass'];
+				$provincia_trabajo_alumno = $rowAlumno['provincia_trabajo_alumno'];//ver con eze
+				$localidad_trabajo_alumno = $rowAlumno['localidad_trabajo_alumno'];// ver con eze
+				$cp_alumno2 = $rowAlumno['cp_alumno2'];//ver con eze
+				$empresa_trabaja_alumno = $rowAlumno['persona.empresa'];
+				$perfil_laboral_alumno = $rowAlumno['persona.perfil_laboral'];
+				$destinoImagen = $rowAlumno['persona.foto'];
+				$ancho_final = $rowAlumno['persona.ancho'];
+				$alto_final = $rowAlumno['persona.alto'];
+				$ultima_materia_alumno = $rowAlumno['ultima_materia_alumno'];// ver con eze
 				// $fecha_ultimamat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];
 				// $mostrar = explode('-',$fecha_ultimamat_alumno);
 				// 		$anio = $mostrar[0];
 				// 		$mes = $mostrar[1];
 				// 		$dia = $mostrar[2];
 				// $fecha_ultima_mat_alumno = $dia.'-'.$mes.'-'.$anio;
-				$fecha_ultima_mat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];
+				$fecha_ultima_mat_alumno = $rowAlumno['fecha_ultima_mat_alumno'];//ver con eze
 				echo '<script>modificar=true;</script>';
 		}
 	}
@@ -572,12 +579,12 @@ include_once "libreria.php";
 									<option value="0">Seleccione t&iacute;tulo</option>
 										<?php
 											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
-											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
+											$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
-												if($carrera_alumno == $rowCarrera['id_carrera']){						
-													echo '<option value="'.$rowCarrera['id_carrera'].'" selected>'.$rowCarrera['nombre_carrera'].'</option>';
+												if($carrera_alumno == $rowCarrera['id']){						
+													echo '<option value="'.$rowCarrera['id'].'" selected>'.$rowCarrera['nombre'].'</option>';
 												}else{
-													echo '<option value="'.$rowCarrera['id_carrera'].'">'.$rowCarrera['nombre_carrera'].'</option>';
+													echo '<option value="'.$rowCarrera['id'].'">'.$rowCarrera['nombre'].'</option>';
 												}
 											}
 										?>
@@ -588,14 +595,15 @@ include_once "libreria.php";
 												echo '<select id="carrera_alumno" name="carrera_alumno" onchange="pedirFoto();" onblur="validarCarrera();" size="1" autofocus required>';
 												echo '<option value="0">Seleccione t&iacute;tulo</option>';
 														//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
-														$sql = "SELECT * FROM carrera WHERE id_carrera NOT IN(SELECT c.id_carrera FROM carrera c INNER JOIN seguimiento s ON(s.carrera_fk = c.id_carrera) WHERE s.alumno_fk='$id_Alumno') ORDER BY nombre_carrera";
+														$sql = "SELECT * FROM carrera WHERE id NOT IN(SELECT c.id FROM carrera c INNER JOIN seguimientotitulo s ON(s.carrera_fk = c.id) 
+														INNER JOIN personasistema ON(personasistema.sistema_fk=s.id) WHERE personasistema.persona_fk='$id_Alumno') ORDER BY carrera.nombre";
 														//$consultaCarrera=traerSql('*',$condicion, '');
 														$consultaCarrera = pg_query($sql);
 														while($rowCarrera=pg_fetch_array($consultaCarrera)){
-															if($carrera_alumno == $rowCarrera['id_carrera']){						
-																echo '<option value="'.$rowCarrera['id_carrera'].'" selected>'.$rowCarrera['nombre_carrera'].'</option>';
+															if($carrera_alumno == $rowCarrera['carrera.id']){						
+																echo '<option value="'.$rowCarrera['carrera.id'].'" selected>'.$rowCarrera['carrera.nombre'].'</option>';
 															}else{
-																echo '<option value="'.$rowCarrera['id_carrera'].'">'.$rowCarrera['nombre_carrera'].'</option>';
+																echo '<option value="'.$rowCarrera['carrera.id'].'">'.$rowCarrera['carrera.nombre'].'</option>';
 															}
 														}
 												echo '</select>';
@@ -616,13 +624,13 @@ include_once "libreria.php";
 											else
 											{
 											//$consultaCarrera=pg_query("SELECT * FROM carrera ORDER BY nombre_carrera");
-											$sql = "SELECT * FROM carrera WHERE id_carrera = $carrera_alumno ORDER BY nombre_carrera";
+											$sql = "SELECT * FROM carrera WHERE id = $carrera_alumno ORDER BY nombre";
 											//$consultaCarrera=traerSql('*',$condicion, '');
 											$consultaCarrera = pg_query($sql);
 											//$consultaCarrera=traerSql('*', 'carrera ORDER BY nombre_carrera', '');
 											while($rowCarrera=pg_fetch_array($consultaCarrera)){
-												if ($carrera_alumno == $rowCarrera['id_carrera']){
-													echo '<l1>'.$rowCarrera['nombre_carrera'].'</l1>';
+												if ($carrera_alumno == $rowCarrera['id']){
+													echo '<l1>'.$rowCarrera['nombre'].'</l1>';
 												}
 											}
 											echo '<input id="carrera_alumno" name="carrera_alumno" type="hidden" value="'.$carrera_alumno.'"/>';
@@ -675,12 +683,12 @@ include_once "libreria.php";
 								<select id="tipodni_alumno" name="tipodni_alumno" size="1">
 									<?php
 										//$consultaTipoDNI=pg_query("select * FROM tipo_dni");
-										$consultaTipoDNI=traerSql('*', 'tipo_dni', '');
+										$consultaTipoDNI=traerSql('*', 'tipodni', '');
 										while($rowTipoDNI=pg_fetch_array($consultaTipoDNI)){
-										if ($tipo_dni_alumno == $rowTipoDNI['id_tipo_dni']){
-					                        echo "<option value=".$rowTipoDNI['id_tipo_dni']." selected>".$rowTipoDNI['nombre_tipo_dni']."</option>";
+										if ($tipo_dni_alumno == $rowTipoDNI['id']){
+					                        echo "<option value=".$rowTipoDNI['id']." selected>".$rowTipoDNI['nombre']."</option>";
 										}else{
-											echo "<option value=".$rowTipoDNI['id_tipo_dni'].">".$rowTipoDNI['nombre_tipo_dni']."</option>";
+											echo "<option value=".$rowTipoDNI['id'].">".$rowTipoDNI['nombre']."</option>";
 											}
 										}
 									?>

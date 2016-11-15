@@ -17,6 +17,7 @@ $tipodni_alumno = trim($_REQUEST['tipodni_alumno']);
 $numerodni_alumno = trim($_REQUEST['numerodni_alumno']);
 $fechanacimiento_alumno = trim($_REQUEST['fechanacimiento_alumno']);
 $localidad_nacimiento_alumno = ucwords(trim($_REQUEST['localidad_nacimiento_alumno']));
+
 $provincia_viviendo_alumno = ucwords(trim($_REQUEST['provincia_viviendo_alumno']));
 $localidad_viviendo_alumno = ucwords(trim($_REQUEST['localidad_viviendo_alumno']));
 $cp_alumno = trim($_REQUEST['cp_alumno']);
@@ -75,7 +76,12 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 
 		$today = date('Y-m-d');
 
-		$newAlumno="INSERT INTO alumno(id_alumno, nombre_alumno, apellido_alumno, nro_legajo, tipodni_alumno, numerodni_alumno, fechanacimiento_alumno,localidad_nacimiento_alumno, localidad_viviendo_alumno, provincia_viviendo_alumno, cp_alumno, calle_alumno, numerocalle_alumno, piso_alumno, dpto_alumno, foto_alumno, caracteristicaf_alumno, telefono_alumno, caracteristicac_alumno, celular_alumno, mail_alumno, mail_alumno2, facebook_alumno, twitter_alumno, password_alumno, localidad_trabajo_alumno, provincia_trabajo_alumno, cp_alumno2, empresa_trabaja_alumno, perfil_laboral_alumno, ancho_final, alto_final, ultima_materia_alumno, fecha_ultima_mat_alumno,codigo_impresion,fecreg)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$provincia_viviendo_alumno','$cp_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$caracteristicaF_alumno','$telefono_alumno','$caracteristicaC_alumno','$celular_alumno','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$provincia_trabajo_alumno','$cp_alumno2','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$ultima_materia_alumno','$fecha_ultima_mat_alumno','$codigo_impresion','$fecreg');";
+		$newAlumno="INSERT INTO persona(id, nombre, apellido, num_legajo, tipodni_fk, dni, fecha_nacimiento,localidad_nac_fk, localidad_fk, calle, num_calle, piso, depto, foto, mail, mail2, facebook, twitter, pass, localidad_trabajo_fk, empresa, perfil_laboral, ancho, alto, codigo_impresion, fecreg)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$codigo_impresion','$fecreg');";
+		$newAlumno2="INSERT INTO telefono(caracteristica, telefono, tipotel_fk, persona_fk) VALUES($caracteristicaF_alumno,$telefono_alumno,1,$id_Alumno)";
+		$newAlumno3="INSERT INTO telefono(caracteristica, telefono, tipotel_fk, persona_fk) VALUES($caracteristicaC_alumno,$celular_alumno,1,$id_Alumno)";
+		//preguntar fecreg a eze(creo que es la que va en personasistema)
+		//hacer los inserts para cada provincia
+		//primero hacer el insert de persona sistema, despues hacemos el insert de seguimientotitulo
 		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk, fecha_registro) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL,'$today');";
 							 
 		$sql = $newAlumno.$nuevoSeguimiento;
@@ -106,24 +112,29 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 		$ancho_final = $vFoto[1];
 		$alto_final = $vFoto[2];
 		
-		$consultaNivel = pg_query("SELECT nivel_carrera_fk FROM carrera WHERE id_carrera = $carrera_alumno");
+		$consultaNivel = pg_query("SELECT nivel_fk FROM carrera WHERE id = $carrera_alumno");
 		$rowNivCar = pg_fetch_array($consultaNivel);
-		$nivel_carrera_fk = $rowNivCar['nivel_carrera_fk'];
+		$nivel_carrera_fk = $rowNivCar['nivel_fk'];
 
 
-		$sqlMaxId = pg_query("SELECT max(id_seguimiento) FROM seguimiento");
+		$sqlMaxId = pg_query("SELECT max(id) FROM seguimientotitulo");
 		$rowMaxId = pg_fetch_array($sqlMaxId);
 			$maxId = $rowMaxId['max'] + 1;
 
 		
 		$cont = 0;
-		$sqlCarrera = pg_query("SELECT carrera_fk FROM seguimiento WHERE alumno_fk = '$id_Alumno'");
+		$sqlCarrera = pg_query("SELECT seguimientotitulo.carrera_fk FROM personasistema
+								INNER JOIN seguimientotitulo ON(personasistema.sistema_fk=seguimientotitulo.id)
+								INNER JOIN persona ON(persona.id = personasistema.persona_fk) 
+								WHERE persona.id = '$id_Alumno'");
 		while($rowCarrera = pg_fetch_array($sqlCarrera)){
-			if($carrera_alumno == $rowCarrera['carrera_fk']){
+			if($carrera_alumno == $rowCarrera['seguimientotitulo.carrera_fk']){
 				$cont++;
 			}
 		}
-		$modAlumno="UPDATE alumno SET nombre_alumno='$nombre_alumno', apellido_alumno='$apellido_alumno', nro_legajo='$nro_legajo', tipodni_alumno='$tipodni_alumno', numerodni_alumno='$numerodni_alumno', fechanacimiento_alumno='$fechanacimiento_alumno',localidad_nacimiento_alumno='$localidad_nacimiento_alumno', localidad_viviendo_alumno='$localidad_viviendo_alumno', provincia_viviendo_alumno='$provincia_viviendo_alumno', cp_alumno='$cp_alumno', calle_alumno='$calle_alumno', numerocalle_alumno='$numerocalle_alumno', piso_alumno='$piso_alumno', dpto_alumno='$dpto_alumno', foto_alumno='$destinoImagen', caracteristicaf_alumno='$caracteristicaF_alumno', telefono_alumno='$telefono_alumno', caracteristicac_alumno='$caracteristicaC_alumno', celular_alumno='$celular_alumno', mail_alumno='$mail_alumno', mail_alumno2='$mail_alumno2', facebook_alumno='$facebook_alumno', twitter_alumno='$twitter_alumno', password_alumno='$password_alumno', localidad_trabajo_alumno='$localidad_trabajo_alumno', provincia_trabajo_alumno='$provincia_trabajo_alumno', cp_alumno2='$cp_alumno2', empresa_trabaja_alumno='$empresa_trabaja_alumno', perfil_laboral_alumno='$perfil_laboral_alumno', ancho_final='$ancho_final', alto_final='$alto_final', ultima_materia_alumno='$ultima_materia_alumno', fecha_ultima_mat_alumno='$fecha_ultima_mat_alumno' WHERE id_alumno = $id_Alumno;";
+		//$provincia_viviendo= pg_query("SELECT provincia.nombre FROM provincia WHERE provincia.id = '$loca'");
+		$modAlumno="UPDATE persona SET nombre='$nombre_alumno', apellido='$apellido_alumno', num_legajo='$nro_legajo', tipodni_fk='$tipodni_alumno', dni='$numerodni_alumno', fecha_nacimiento='$fechanacimiento_alumno',localidad_nac_fk='$localidad_nacimiento_alumno', localidad_fk='$localidad_viviendo_alumno', cp_alumno='$cp_alumno', calle_alumno='$calle_alumno', numerocalle_alumno='$numerocalle_alumno', piso_alumno='$piso_alumno', dpto_alumno='$dpto_alumno', foto_alumno='$destinoImagen', caracteristicaf_alumno='$caracteristicaF_alumno', telefono_alumno='$telefono_alumno', caracteristicac_alumno='$caracteristicaC_alumno', celular_alumno='$celular_alumno', mail_alumno='$mail_alumno', mail_alumno2='$mail_alumno2', facebook_alumno='$facebook_alumno', twitter_alumno='$twitter_alumno', password_alumno='$password_alumno', localidad_trabajo_alumno='$localidad_trabajo_alumno', provincia_trabajo_alumno='$provincia_trabajo_alumno', cp_alumno2='$cp_alumno2', empresa_trabaja_alumno='$empresa_trabaja_alumno', perfil_laboral_alumno='$perfil_laboral_alumno', ancho_final='$ancho_final', alto_final='$alto_final', ultima_materia_alumno='$ultima_materia_alumno', fecha_ultima_mat_alumno='$fecha_ultima_mat_alumno' WHERE id_alumno = $id_Alumno;";
+		//$modAlumno2="UPDATE telefono SET caracteristica='$caracteristicaF_alumno' WHERE "
 		if($cont == 0){
 			$today = date('Y-m-d');
 			$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk, fecha_registro) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL,'$today');";
@@ -184,7 +195,7 @@ function subirFoto($idAl,$ap,$leg)
 		$destino_Imagen = "web/SeguimientoTitulo/Graduado/fotos/".$nombre_foto;
 		$destinoImagen = "fotos/".$nombre_foto;
 				
-		//conexión
+		//conexiï¿½n
 		$conn_id = ftp_connect($ftp_server); 
 		// logeo
 		$login_result = ftp_login($conn_id, $ftp_user_name, $ftp_user_pass);
@@ -197,7 +208,7 @@ function subirFoto($idAl,$ap,$leg)
 			// archivo a copiar/subir
 				$upload = ftp_put($conn_id, $destino_Imagen, $archivo_foto, FTP_BINARY);
 			}else{
-				echo '<script type="text/javascript">alert("El archivo subido no es válido. Suba algunos de estos formatos: - jpg - jpeg - png");
+				echo '<script type="text/javascript">alert("El archivo subido no es vï¿½lido. Suba algunos de estos formatos: - jpg - jpeg - png");
 													window.location="registrarGraduado.php?volver=1&verDatos='.$datosPasar.'";	
 					  </script>';
 			}
@@ -232,7 +243,7 @@ function subirFoto($idAl,$ap,$leg)
 			$alto_final=$alto;
 			$ancho_final=$ancho_origen*$alto_final/$alto_origen;
 		}
-		// creo la imagen con el tamaño que le pase
+		// creo la imagen con el tamaï¿½o que le pase
 		$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
 
 		imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
