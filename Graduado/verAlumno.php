@@ -260,12 +260,12 @@ include_once "conexion.php";
 									<option value="0">Seleccione un T&iacute;tulo...</option>
 										<?php
 										//$titulo = $_REQUEST['titulo_alumno'];
-											$consultaTitulo=pg_query("SELECT carrera_fk,nombre_carrera FROM seguimiento INNER JOIN carrera ON(seguimiento.carrera_fk = carrera.id_carrera) WHERE alumno_fk = $id_Alumno");
+											$consultaTitulo=pg_query("SELECT carrera_fk,carrera.nombre As carrera FROM seguimientotitulo INNER JOIN carrera ON(seguimientotitulo.carrera_fk = carrera.id) INNER JOIN personasistema ON(personasistema.id = seguimientotitulo.persona_fk) WHERE 				personasistema.persona_fk = $id_Alumno");
 											while($rowTitulo=pg_fetch_array($consultaTitulo)){
 												if ($titulo == $rowTitulo['carrera_fk']){
-							                    	echo "<option value=".$rowTitulo['carrera_fk']." selected>".$rowTitulo['nombre_carrera']."</option>";
+							                    	echo "<option value=".$rowTitulo['carrera_fk']." selected>".$rowTitulo['carrera']."</option>";
 												}else{
-													echo "<option value=".$rowTitulo['carrera_fk'].">".$rowTitulo['nombre_carrera']."</option>";
+													echo "<option value=".$rowTitulo['carrera_fk'].">".$rowTitulo['carrera']."</option>";
 												}
 											}
 										?>	

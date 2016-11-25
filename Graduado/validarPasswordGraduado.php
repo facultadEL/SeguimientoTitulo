@@ -11,7 +11,7 @@ include_once "conexion.php";
 
 $password = $_REQUEST['password'];
 $id_Alumno = $_REQUEST['idAlumno'];
-$consultaPassword = pg_query("SELECT count(id_alumno) AS total FROM alumno WHERE password_alumno = '$password' AND id_alumno = '$id_Alumno'");
+$consultaPassword = pg_query("SELECT count(id) AS total FROM persona WHERE pass = '$password' AND id = '$id_Alumno'");
 $rowConsultaPass = pg_fetch_array($consultaPassword,NULL,PGSQL_ASSOC);
 $cantidad = $rowConsultaPass['total'];
 

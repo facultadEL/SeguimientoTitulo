@@ -57,17 +57,17 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 		$ancho_final = $vFoto[1];
 		$alto_final = $vFoto[2];
 		
-		$consultaNivel = pg_query("SELECT nivel_carrera_fk FROM carrera WHERE id_carrera = $carrera_alumno");
+		$consultaNivel = pg_query("SELECT nivel_fk FROM carrera WHERE id = $carrera_alumno");
 		$rowNivCar = pg_fetch_array($consultaNivel);
-		$nivel_carrera_fk = $rowNivCar['nivel_carrera_fk'];
+		$nivel_carrera_fk = $rowNivCar['nivel_fk'];
 
-		$consultaMax = pg_query("SELECT max(id_alumno) FROM alumno");
+		$consultaMax = pg_query("SELECT max(id) FROM persona");
 		$rowMax = pg_fetch_array($consultaMax);
 		$maximoAlumno = $rowMax['max'];
 		$maximoAlumno = $maximoAlumno + 1;
 		$id_Alumno = $maximoAlumno;
 		
-		$sqlMaxId = pg_query("SELECT max(id_seguimiento) FROM seguimiento");
+		$sqlMaxId = pg_query("SELECT max(id) FROM seguimientotitulo");
 		$rowMaxId = pg_fetch_array($sqlMaxId);
 			$maxId = $rowMaxId['max'] + 1;
 			$fechaSolicitud = date('Y').'-'.date('m').'-'.date('d');
@@ -79,7 +79,6 @@ $fecha_ultima_mat_alumno = trim($_REQUEST['fecha_ultima_mat_alumno']);
 		$newAlumno="INSERT INTO persona(id, nombre, apellido, num_legajo, tipodni_fk, dni, fecha_nacimiento,localidad_nac_fk, localidad_fk, calle, num_calle, piso, depto, foto, mail, mail2, facebook, twitter, pass, localidad_trabajo_fk, empresa, perfil_laboral, ancho, alto, codigo_impresion, fecreg)VALUES('$id_Alumno','$nombre_alumno','$apellido_alumno','$nro_legajo','$tipodni_alumno','$numerodni_alumno','$fechanacimiento_alumno','$localidad_nacimiento_alumno','$localidad_viviendo_alumno','$calle_alumno','$numerocalle_alumno','$piso_alumno','$dpto_alumno','$destinoImagen','$mail_alumno','$mail_alumno2','$facebook_alumno','$twitter_alumno','$password_alumno','$localidad_trabajo_alumno','$empresa_trabaja_alumno','$perfil_laboral_alumno','$ancho_final','$alto_final','$codigo_impresion','$fecreg');";
 		$newAlumno2="INSERT INTO telefono(caracteristica, telefono, tipotel_fk, persona_fk) VALUES($caracteristicaF_alumno,$telefono_alumno,1,$id_Alumno)";
 		$newAlumno3="INSERT INTO telefono(caracteristica, telefono, tipotel_fk, persona_fk) VALUES($caracteristicaC_alumno,$celular_alumno,1,$id_Alumno)";
-		//preguntar fecreg a eze(creo que es la que va en personasistema)
 		//hacer los inserts para cada provincia
 		//primero hacer el insert de persona sistema, despues hacemos el insert de seguimientotitulo
 		$nuevoSeguimiento = "INSERT INTO seguimiento(id_seguimiento, alumno_fk, carrera_fk, num_res_cd_fk, num_nota_fk, num_res_cs_fk, fecha_registro) VALUES('$maxId','$id_Alumno','$carrera_alumno',NULL,NULL,NULL,'$today');";
@@ -170,9 +169,9 @@ function subirFoto($idAl,$ap,$leg)
 	$archivo_foto = $_FILES['fotoAlumno']['tmp_name'];
 
 	if($nombreFoto == NULL && $idAl != 0){
-			$sqlFoto = pg_query("SELECT foto_alumno,ancho_final,alto_final FROM alumno WHERE id_alumno = $idAl");
+			$sqlFoto = pg_query("SELECT foto,ancho,alto FROM persona WHERE id = $idAl");
 			$rowFoto = pg_fetch_array($sqlFoto);
-			$vDatosFotos = array($rowFoto['foto_alumno'], $rowFoto['ancho_final'], $rowFoto['alto_final']);
+			$vDatosFotos = array($rowFoto['foto'], $rowFoto['ancho'], $rowFoto['alto']);
 	}
 	else
 	{

@@ -103,12 +103,12 @@
 <?php
 $id_Alumno = $_REQUEST['idAlumno'];
 include_once "conexion.php";
-$consultaNombre=pg_query("SELECT id_alumno,nombre_alumno,apellido_alumno FROM alumno WHERE id_alumno = '$id_Alumno'");
+$consultaNombre=pg_query("SELECT id,nombre,apellido FROM persona WHERE id = '$id_Alumno'");
 $rowNombre=pg_fetch_array($consultaNombre);
-	$nombre_alumno = $rowNombre['nombre_alumno'];
-	$apellido_alumno = $rowNombre['apellido_alumno'];
+	$nombre_alumno = $rowNombre['nombre'];
+	$apellido_alumno = $rowNombre['apellido'];
 ?>
-<form id="form" name="validarPassword" action="validarPasswordGraduado.php?idAlumno=<?php echo $id_Alumno ?>" method="post">
+<form id="form" name="validarPassword" action="validarPasswordGraduado.php?idAlumno=<?php echo $id ?>" method="post">
 	<fieldset>
 		<legend>Validar contrase&ntilde;a</legend>
 			<table align="center" cellpadding="2" cellspacing="1" width="100%">

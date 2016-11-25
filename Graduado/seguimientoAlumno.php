@@ -95,16 +95,17 @@ include_once "conexion.php";
 			$titulo = $_REQUEST['titulo_alumno'];
 
 				$datosSeguimiento = pg_query("SELECT seguimiento.*, nombre_carrera FROM seguimiento INNER JOIN carrera ON(carrera.id_carrera = seguimiento.carrera_fk) WHERE alumno_fk = '$id_Alumno' AND carrera_fk = '$titulo'");
+				/*$datosSeguimiento = pg_query("SELECT seguimientotitulo.*, carrera.nombre As carrera FROM seguimientotitulo INNER JOIN carrera ON(carrera.id = seguimientotitulo.carrera_fk) INNER JOIN personasistema ON(personasistema.id = seguimientotitulo.personasistema_fk) WHERE personasistema.persona_fk = '$id_Alumno' AND seguimientotitulo.carrera_fk = '$titulo'");*/
 				$row=pg_fetch_array($datosSeguimiento);
-					$nombre_carrera = $row['nombre_carrera'];
+					$nombre_carrera = $row['nombre_carrera'];//$nombre_carrera = $row['carrera'];
 					$fecha_solicitud = ($row['fecha_solicitud'] == null) ? "--/--/----" : $row['fecha_solicitud'];
-					$fecha_rescd = ($row['fecha_rescd'] == null) ? "--/--/----" : $row['fecha_rescd'];
-					$fecha_nota_envio_rec = ($row['fecha_nota_envio_rec'] == null) ? "--/--/----" : $row['fecha_nota_envio_rec'];
-					$fecha_rescs = ($row['fecha_rescs'] == null) ? "--/--/----" : $row['fecha_rescs'];
-					$fecha_ingreso_diploma = ($row['fecha_ingreso_diploma'] == null) ? "--/--/----" : $row['fecha_ingreso_diploma'];
-					$fecha_ingreso_analitico = ($row['fecha_ingreso_analitico'] == null) ? "--/--/----" : $row['fecha_ingreso_analitico'];
-					$fecha_retiro_diploma = ($row['fecha_retiro_diploma'] == null) ? "--/--/----" : $row['fecha_retiro_diploma'];
-					$fecha_retiro_analitico = ($row['fecha_retiro_analitico'] == null) ? "--/--/----" : $row['fecha_retiro_analitico'];
+					$fecha_rescd = ($row['fecha_rescd'] == null) ? "--/--/----" : $row['fecha_rescd'];//??????
+					$fecha_nota_envio_rec = ($row['fecha_nota_envio_rec'] == null) ? "--/--/----" : $row['fecha_nota_envio_rec'];//$fecha_nota_envio_rec = ($row['fecha_notarectorado'] == null) ? "--/--/----" : $row['fecha_notarectorado'];
+					$fecha_rescs = ($row['fecha_rescs'] == null) ? "--/--/----" : $row['fecha_rescs'];//??????
+					$fecha_ingreso_diploma = ($row['fecha_ingreso_diploma'] == null) ? "--/--/----" : $row['fecha_ingreso_diploma'];//$fecha_ingreso_diploma = ($row['fecha_idiploma'] == null) ? "--/--/----" : $row['fecha_idiploma'];
+					$fecha_ingreso_analitico = ($row['fecha_ingreso_analitico'] == null) ? "--/--/----" : $row['fecha_ingreso_analitico'];//$fecha_ingreso_analitico = ($row['fecha_ianalitico'] == null) ? "--/--/----" : $row['fecha_ianalitico'];
+					$fecha_retiro_diploma = ($row['fecha_retiro_diploma'] == null) ? "--/--/----" : $row['fecha_retiro_diploma'];//$fecha_retiro_diploma = ($row['fecha_rdiploma'] == null) ? "--/--/----" : $row['fecha_rdiploma'];
+					$fecha_retiro_analitico = ($row['fecha_retiro_analitico'] == null) ? "--/--/----" : $row['fecha_retiro_analitico'];//$fecha_retiro_analitico = ($row['fecha_ranalitico'] == null) ? "--/--/----" : $row['fecha_ranalitico'];
 			?>
 				<fieldset>
 					<legend>Seguimiento</legend>
